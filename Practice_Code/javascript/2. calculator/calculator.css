@@ -1,0 +1,13 @@
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.first__number, .last__number{
+  width: 100px;
+}
+
+.operator{
+  width: 40px;
+}
