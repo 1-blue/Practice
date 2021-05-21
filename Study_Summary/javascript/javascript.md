@@ -2,7 +2,9 @@
 1. 조금이라도 이해안가는 부분이 있으면 다시 공부하기
 2. 힘들다고 타협해서 대충알고 넘어가지않기
 
+<br />
 <hr />
+<br />
 
 # 자바스크립트
 웹페이지에 생동감을 불어넣기위해 만들어진 프로그래밍 언어
@@ -20,14 +22,18 @@
 7. object
 8. symbal
 
+<br />
 <hr />
+<br />
 
 # 2. 형변환
 1. String()
 2. Number()
 3. Boolean()
 
+<br />
 <hr />
+<br />
 
 # 3. 연산자
 ## 3.1. +
@@ -67,7 +73,9 @@ const v = a ?? b;    // const v = (a !== null && a !== undefined) ? a : b; 같�
 a가 null이아니고 undefined가 아닌경우 a리턴 아니면 b리턴
 ??는 ||, &&와 같이 사용할 수 없음, 단 괄호사용시 같이사용가능   // (1 && 2) ?? 3
 
+<br />
 <hr />
+<br />
 
 # 4. for문
 for(begin; condition; step){
@@ -80,7 +88,9 @@ step : content끝나고 실행   ( 생략가능 )
 begin은 한번만 실행하고 나머지 순서대로 실행함
 생략가능한 부분은 생략해도 되지만 세미콜론은 생략하면 안됨
 
+<br />
 <hr />
+<br />
 
 # 5. symbol
 유일한 식별자를 만드는 데 사용
@@ -111,7 +121,9 @@ id === id2;   // true
 Symbol.keyFor(id);    // id
 없으면 undefined반환
 
+<br />
 <hr />
+<br />
 
 # 6. Number
 ```javascript
@@ -120,7 +132,9 @@ const n = 1e3;      // 1000
 const n = 1e-3;     // 0.001
 ```
 
+<br />
 <hr />
+<br />
 
 # 7. Object
     key와 value로 구성된 property의 집합  
@@ -208,7 +222,9 @@ const user = {
 }
 ```
 
+<br />
 <hr />
+<br />
 
 # 8. string Method
 ## 8.1. charAt()
@@ -234,7 +250,9 @@ str의 start부터 length개 반환
 ## 8.10. str.split(delimiter, [length])
 delimiter를 기준으로 문자열을 잘라서 배열로 만들고 리턴,  length존재시 해당개수만큼만 잘라서 배열만듦
 
+<br />
 <hr />
+<br />
 
 # 9. Array
 배열의 자료형은 Object
@@ -347,7 +365,9 @@ Symbol.iterator가 구현된 객체
 이터러블이나 유사배열을 인수로 받으면 진짜 배열을 만들어서 반환해줌
 mapFn은 Array.map()처럼 작동하며 thisArg는 this를 지정할 수 있음
 
+<br />
 <hr />
+<br />
 
 # 11. 맵
 오브젝트와 유사하지만 차이점은 key에 어떤 자료형이든 넣을 수 있음
@@ -381,7 +401,9 @@ key에 해당하는 value삭제
 ### 11.1.13 Object.fromEntries()
 map을 일반객체로 변환시켜줌
 
+<br />
 <hr />
+<br />
 
 # 12. 셋
 중복을 허용하지 않는 값들은 모아놓은 컬렉션
@@ -398,7 +420,9 @@ map을 일반객체로 변환시켜줌
 ### 11.1.9 map.entries()
 ### 12.1.10 set.forEach((value, valueAgain, set) => { ... })
 
+<br />
 <hr />
+<br />
 
 # 13. 위크맵과 위크셋
 ## 13.1. 위크맵
@@ -412,7 +436,9 @@ map을 일반객체로 변환시켜줌
 2. 키로 사용하는 객체를 접근할 수 없으면 가비지컬렉터에 의해 삭제됨
 3. keys(), values(), entries()등의 반복작업은 지원하지 않음   // get(), set(), delete(), has()만지원
 
+<br />
 <hr />
+<br />
 
 # 14. Object메서드
 ```javascript
@@ -428,7 +454,9 @@ Object.values(object);    // ['John', 30]
 ## 14.3 Object.entries(object)
 Object.entries(object);    // [ ["name","John"], ["age",30] ]
  
+<br />
 <hr />
+<br />
 
 # 15. 구조분해할당
 ```javascript
@@ -444,7 +472,9 @@ let y = 20;
 [x, y] = [y, x];
 ```
 
+<br />
 <hr />
+<br />
 
 # 16. Date객체
 ## 16.1 Date생성자
@@ -485,7 +515,9 @@ Date객체를 만들지 않고 타임스탬프반환
 ## 16.4. Date.parse(str)
 형식에 맞는 str을 사용하면 타임스탬프반환
 
+<br />
 <hr />
+<br />
 
 # 17. JSON과 메서드
 데이터를 네트워크를 통해 주고받을 때 기존형식으로 줄 수 없기 때문에 변환하는 방법을 자바스크립트에서 제공함
@@ -507,7 +539,9 @@ reviver : (key, value) => {
 ## 17.3 toJSON()
 객체에 toJSON()이 구현되어있다면 JSON.stringify()의 값은 구현된 toJSON()의 반환값
 
+<br />
 <hr />
+<br />
 
 # 18. 함수
 ## 18.1 나머지 매개변수 (...)
@@ -559,7 +593,9 @@ Math.max(...arr);   // 5
 외부 변수를 기억하고 이 외부 변수에 접근할 수 있는 함수를 의미
 숨김프로퍼티인 [[Environment]]를 이용해서 클로저를 구현함
 
+<br />
 <hr />
+<br />
 
 # 20. var
 ## 20.1 특징
@@ -591,7 +627,9 @@ let sayHi = function func(who) {
 // 외부에서 func()호출 불가능
 ```
 
+<br />
 <hr />
+<br />
 
 # 23. new Function
 ``` javascript
@@ -600,7 +638,9 @@ let sum = new Function ('a', 'b', 'return a + b;');
 ```
 **단, 위 방법은로 함수를 만들면 전역렉시컬환경을 참조함**
 
+<br />
 <hr />
+<br />
 
 # 24. 
 ## 24.1. 캐싱
@@ -638,7 +678,9 @@ alert( double(4) ); // = mul(2, 4) = 8
 ```
 bind(obj1).bind(obj2);    // 두번적용안됨
 
+<br />
 <hr />
+<br />
 
 # 25. 화살표함수
 ## 특징
@@ -646,7 +688,9 @@ bind(obj1).bind(obj2);    // 두번적용안됨
 2. new 사용 불가능    ( this가 없기때문에 생성자함수가 될 수 없음 )
 3. arguments가 존재하지 않음
 
+<br />
 <hr />
+<br />
 
 # 26. 객체의 프로퍼티와 플래그
 기본적으로 객체는 value와 함깨 3가지의 플래그를 가짐  ( 모두 디폴트값 true )
@@ -707,7 +751,9 @@ let user = {
 4. configurable – 데이터 프로퍼티와 동일함
 **value와 get을 동시에 설정하면 에러발생**
 
+<br />
 <hr />
+<br />
 
 # 27. 프로토타입 상속
 자바스크립트 객체는 [[Prototype]]이라는 숨김 프로퍼티를 가짐
@@ -788,7 +834,9 @@ console.log( obj.join(',') );     // Hello,world!
 Array의 join()메서드를 사용하기위해 obj에서 빌려서 사용
 join()은 실행시 인덱스와 length존재여부만 보고 실행하기 때문에 에러없이 실행
 
+<br />
 <hr />
+<br />
 
 # 28. 클래스
 자바스크립트에서의 클래스는 함수임
@@ -915,7 +963,9 @@ class Animal {
 다시보기
 https://ko.javascript.info/mixins
 
+<br />
 <hr />
+<br />
 
 # 29. 예외처리
 런타임시 발생하는 예외만 잡음
@@ -971,7 +1021,9 @@ class myExcetion extends Error {
 
 
 
+<br />
 <hr />
+<br />
 
 # 30. 콜백, 프라미스, async await
 ## 30.1 에러 우선 콜백
@@ -1061,7 +1113,9 @@ Promise.resolve(1)
 
 ## 30.6 async/await
 
+<br />
 <hr />
+<br />
 
 # 31. 제너레이터
 ## 31.1 제너레이터 함수
@@ -1172,7 +1226,9 @@ async function* generateSequence(start, end) {
 async / await붙이면됨
 단, next()를 직접호출할 때는 await generator.next()형식사용
 
+<br />
 <hr />
+<br />
 
 # 32. 모듈
 export, import는 브라우저 전용인것같음  ( node에서 사용하면 에러남 )
@@ -1219,15 +1275,21 @@ import * as temp from './index.js';
 ```
 추가로 export ~ from ~;   // 가져온후 다시바로 내보낼 때 사용
 
+<br />
 <hr />
+<br />
 
 # 29.
 
+<br />
 <hr />
+<br />
 
 # 29.
 
+<br />
 <hr />
+<br />
 
 # 10. 추가정보
 ## 10.1 toString(진법)
@@ -1559,7 +1621,9 @@ let range = {
 [Symbol.asyncIterator]를 반복하는데 이용함
 
 
+<br />
 <hr />
+<br />
 
 
 
