@@ -1,19 +1,47 @@
 # vue공식문서 읽으면서 정리한것
 https://kr.vuejs.org/v2/guide/index.html
 
-###### 기본개념
+# vue의 사상
+## Reactivity
+``` html
+  <div id="app">
+    <h1></h1>
+  </div>
+
+  <script>
+    const $h1 = document.querySelector("h1");
+    const obj = {};
+
+    // 즉시실행함수
+    (function() {
+      function init(){
+        Object.defineProperty(obj, 'str', {
+          get() {
+            console.log("접근");
+          },
+          set(value) {
+            console.log("수정", value);
+            render(value);
+          }
+        })
+      }
+
+      function render(value){
+        $h1.textContent = value;
+      }
+
+      init();
+    })()
+  </script>
+```
+위 코드를 해석하면 `obj.str`이 변화할 때 마다 log찍어주고 set할 때 화면에 출력해줌        
+즉, `obj.str`이라는 데이터가 변화할 때 마다 화면에 데이터변화를 반영시키는것 이것이 Reactivity임    
+그리고 vue는 data에 Reactivity를 적용한것임   
+vue의 data가 변화하면 자동적으로 화면에 그 변화가 적용됨      
+
+## 기본개념
 MVVM, SPA,
 el태그를 찾음
-
-#### Conponent
-#### Router
-#### Template
-#### Resource
-#### Life Cycle
-#### Render
-#### 2-way Data-binding
-#### computed properties
-#### Event
 
 ## cdn
 ```html
@@ -910,6 +938,5 @@ isActive가 참이면 active클래스 적용
 단, 자식의 루트엘리먼트에 속성값적용을 안하려면 `inheritAttrs: false`를 적용하면 된다.    
 
 ###### 이해안가는것
-#### 1. v-model 커스터마이징
 #### 2. $event?? 특별한변수라는데 애는 뭔지.. (event를 가지기도하고, emit의 변수를 가지기도하고)
 #### 3. 트랜지션 필요할 때 다시공부하기 뛰어넘었음
