@@ -1,0 +1,42 @@
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balls{
+  display: flex;
+}
+
+.ball{
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: 0 10px;
+}
+
+.ball__text{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.ball__yellow{
+  background: yellow;
+  color: black;
+}
+.ball__blue{
+  background: blue;
+}
+.ball__red{
+  background: red;
+}
+.ball__black{
+  background: black;
+}
+.ball__green{
+  background: green;
+}
