@@ -1,6 +1,6 @@
 <template>
   <section id="todo__header">
-    <div>header</div>
+    <h1 class="title">Todo It!</h1>
   </section>
 </template>
 
@@ -14,4 +14,9 @@ export default {
 #todo__header{
 
 }
-</style>>
+.title{
+  color: #2F3B52;
+  font-weight: bold;
+  margin: 2.5rem 0 1.5rem;
+}
+</style>

@@ -1279,13 +1279,11 @@ import * as temp from './index.js';
 <hr />
 <br />
 
-# 29.
+# 33. localStorage
+## 33.1 setItem(key, value)
+`localStorage.setItem("fruit", "apple")`    
+key와 value를 localstorage에 저장함
 
-<br />
-<hr />
-<br />
-
-# 29.
 
 <br />
 <hr />
@@ -1565,8 +1563,6 @@ arr.join(glue);의 작동방식에 대해 적어봄
 [].join.call(유사배열);   // 옆에코드처럼 사용하면 배열의 join문법을 이터러블을 어디서든 사용가능
 여기서 유사배열은 arguments를 사용해보면 실험해볼 수 있음
 
-
-
 ## 10.44 func.bind()에서 인수만 고정시키는 헬퍼함수
 ``` javascript
 function partial(func, ...argsBound) {
@@ -1620,34 +1616,40 @@ let range = {
 비동기반복문을 사용할 때는 
 [Symbol.asyncIterator]를 반복하는데 이용함
 
+## 10.46 클로저
+[클로저](https://developer.mozilla.org/ko/docs/Web/JavaScript/Closures)란 함수와 함수가 선언된 어휘적 환경의 조합을 의미   
+이것이 무슨말이냐하면 간단하게 말하면 함수와 함수 바깥에 있는 변수와의 관계를 의미함 ( 특정데이터와 그 데이터를 조작하는 함수를 연관시켜줌 )
+```javascript
+function makeAdder(x) {
+  var y = 1;
+  return function(z) {
+    y = 100;
+    return x + y + z;
+  };
+}
+
+var add5 = makeAdder(5);
+var add10 = makeAdder(10);
+
+console.log(add5(2));  // 107 (x:5 + y:100 + z:2)
+console.log(add10(2)); // 112 (x:10 + y:100 + z:2)
+```
+위와 같은 함수가 있을 때 상식적으로 생각해보면 변수 `x`는 매개변수지만 `makeAdder`의 지역변수임   
+그 말은 `makeAdder`가 끝나면 삭제될 변수라는것을 의미하고 `var add5 = makeAdder(5);`로 add5에 함수를 넣는 순간 x가 사라져서     
+```javascript
+add5(z){
+  y = 100;        // 정의되지않은 변수에 100을 넣으므로 에러가 난다고 생각하는것이 일반적
+  return undefined + 100 + z
+}
+```
+위처럼 코드가 동작한다고 생각하는 것이 일반적임   
+하지만 클로저라는 관계에 의해서 **맥락적 환경**에 `x`와 `y`를 저장하는 것임   
+그래서 x와 y는 undefined가 이전 환경 즉, `makeAdder`에 존재하던 변수의 값을 가지는 것임   
+또한 **여러개가 생길경우 함수의 본문은 공유하지만, 서로다른맥락적환경을 저장함으로써 각자의 변수값을 가지게됨**
 
 <br />
 <hr />
 <br />
-
-
-
-
-
-
-# 유용한 함수
-#### Object.defineProperty
-객체의 속성을 추가, 수정, 삭제 등의 권한을 상세하게 컨트롤 가능
-
-Object.defineProperty(object, prop, descriptor);
-object: 속성을 정의할 객체
-prop : 새로 정의하거나 수정하려는 속성의 이름 or Symbol
-descriptor : 새로 정의하거나 수정하려는 속성을 기술한 객체
-
-prop의 속성값들
-1. configurable : 객체의 수정 및 삭제 권한부여여부 ( false )
-2. enumerable : 열거에 노출될지 여부  ( false )
-3. value : 속성에 연관된 값 ( undefind )
-4. writable : 속성의 값을 바꿀 수 있는지 여부 ( false )
-5. get() : 속성의 접근자, 반환값이 속성값이 됨
-6. set() : 속성의 설정자, 매개변수에 할당값이 들어옴
-**get과 value/writable같이 있으면 오류**
-
 
 # 이벤트루프정리
 ## 1. 이벤트루프
