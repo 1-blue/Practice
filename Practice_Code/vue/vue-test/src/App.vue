@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <hello-world :fruit="fruit"></hello-world>
+    <hello-world :fruit="fruit" ></hello-world>
   </div>
 </template>
 
