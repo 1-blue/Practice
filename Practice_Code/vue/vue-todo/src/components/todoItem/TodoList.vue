@@ -1,6 +1,6 @@
 <template>
   <section id="todo__list">
-    <ul class="item__container">
+    <transition-group class="item__container" name="list" tag="ul">
       <li
       class="shadow item"
       v-for="(item, index) of todoItems"
@@ -14,33 +14,41 @@
           <i class="fas fa-trash-alt"></i>
         </button>
       </li>
-    </ul>
+    </transition-group>
   </section>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "TodoList",
-  props: {
-    todoItems: {
-      type: Array,
+  computed: {
+    todoItems(){
+      return this.$store.state.todoItems;
     }
   },
   methods: {
-    // 아이템체크관련
-    onToggleCheckItem(item){
-      this.$emit("onToggleCheckItem", item);
-    },
-
-    // 아이템삭제관련
-    onRemoveItem(item){
-      this.$emit("onRemoveItem", item)
-    },
+    ...mapActions({
+      onToggleCheckItem: 'SET_TOGGLE_CHECK_ITEM',
+      onRemoveItem: 'SET_REMOVE_ITEM'
+    }),
   },
 }
 </script>
 
 <style scoped>
+
+.list-enter-active, .list-leave-active{
+  transition: all 1s;
+}
+.list-enter, .list-leave-to{
+  opacity: 0;
+  transform: translateY(15px);
+}
+.list-enter-to, .list-leave{
+  opacity: 1;
+}
 
 .item__container{
   padding: 0;
@@ -56,6 +64,7 @@ export default {
   width: 300px;
   height: 50px;
   padding: 0 10px;
+  margin-bottom: 10px;
   border-radius: 10px;
   font-weight: bold;
 }

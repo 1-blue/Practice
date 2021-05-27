@@ -6,26 +6,51 @@
         <i class="fas fa-plus"></i>
       </button>
     </form>
+
+    <Modal v-show="isInput" @close="close">
+      <h3 slot="header">Warning</h3>
+      <span slot="body">할 일을 입력해주세요!</span>
+    </Modal>
   </section>
 </template>
 
 <script>
+import Modal from '../common/Modal.vue';
+import { mapActions } from 'vuex';
+
 export default {
   name: "TodoInput",
+  components: {
+    Modal
+  },
   data(){
     return{
       newTodoItem: "",
+      isInput: false
     }
   },
   methods: {
+    ...mapActions(['SET_ADD_ITEM']),
     onAddTodoItem(){
-      this.$emit("onAddTodoItem", this.newTodoItem);
+      if(!this.checkInput){
+        this.isInput = true;
+        return;
+      }
+      this.SET_ADD_ITEM(this.newTodoItem);
       this.clearInput();
     },
     clearInput(){
       this.newTodoItem = "";
     },
+    close(){
+      this.isInput = false
+    }
   },
+  computed: {
+    checkInput(){   // 입력했는지 체크
+      return this.newTodoItem.length;
+    }
+  }
 }
 </script>
 

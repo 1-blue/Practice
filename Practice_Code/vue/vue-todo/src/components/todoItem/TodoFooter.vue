@@ -5,12 +5,14 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "TodoFooter",
   methods: {
-    onAllDeleteItem(){
-      this.$emit("onAllDeleteItem");
-    }
+    ...mapActions({
+      onAllDeleteItem: 'SET_ALL_REMOVE_ITEM'
+    }),
   }
 }
 </script>
