@@ -1,24 +1,22 @@
 <template>
   <div id="app">
-    <base-component :fruit="fruit">
-      <h1>안녕하세여</h1>
-      <h3>App에서 작성중 {{ fruit }}</h3>
-    </base-component>
+    {{ this.$store.dispatch("b/child/childAction")}}
   </div>
 </template>
 
 <script>
-import BaseComponent from './components/BaseComponent.vue';
-
 export default {
   name: 'App',
   components: {
-    BaseComponent
+
   },
   data(){
     return{
       fruit: "apple",
     }
+  },
+  created(){
+    console.log(this.$store.dispatch("b/test"));
   }
 }
 </script>
