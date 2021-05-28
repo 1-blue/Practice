@@ -23,3 +23,14 @@
 <hr />
 <br />
 <hr />
+
+# 추가정보
+## 1. eslint끄기
+1. 해당 파일의 `<script>`에 `// eslint-disable-next-line`넣기
+2. 해당 파일의 `<script>`에 `/* eslint-disable */`넣기
+3. `vue.config.js`파일생성
+```javascript
+module.exports = {
+  lintOnSave: false
+}
+```

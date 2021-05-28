@@ -1,6 +1,7 @@
 #
 + CDN `<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>`
 + NPM `npm install vue-router`
++ `Vue.use(VueRouter);`
 
 <hr />
 <br />

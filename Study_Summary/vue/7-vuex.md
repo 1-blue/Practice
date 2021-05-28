@@ -10,7 +10,7 @@
 ```javascript
 Vue.use(Vuex);
 
-const store = Vuex({
+const store = Vuex.Store({
   state: {
     // ...
   },
