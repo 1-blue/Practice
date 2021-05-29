@@ -1,11 +1,17 @@
 export const mutations = {
-  fetchNews(state, data){
+  SET_NEWS_LIST(state, data){
     state.newsList = data;
   },
-  fetchAsk(state, data){
+  SET_ASK_LIST(state, data){
     state.askList = data;
   },
-  fetchjobs(state, data){
+  SET_JOB_LIST(state, data){
     state.jobList = data;
+  },
+  SET_USER_INFO(state, data){
+    state.userInfo = data;
+  },
+  SET_ITEM(state, data){
+    state.item = data;
   }
 }

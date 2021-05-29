@@ -34,8 +34,30 @@ async function fetchJobs() {
   }
 }
 
+// user관련정보
+async function fetchUserInfo(username) {
+  try {
+    const userInfo = await axios.get(`${config.hackerNewBaseUrl}user/${username}.json`);
+    return userInfo.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// ask상세페이지정보
+async function fetchItem(id) {
+  try {
+    const item = await axios.get(`${config.hackerNewBaseUrl}item/${id}.json`);
+    return item.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export {
   fetchNews,
   fetchAsk,
-  fetchJobs
+  fetchJobs,
+  fetchUserInfo,
+  fetchItem
 }

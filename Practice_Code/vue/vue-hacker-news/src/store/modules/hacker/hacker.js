@@ -6,7 +6,9 @@ export const hacker = {
   state: {
     newsList: [],
     askList: [],
-    jobList: []
+    jobList: [],
+    userInfo: {},
+    item: {}
   },
   mutations,
   actions
