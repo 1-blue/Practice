@@ -190,8 +190,8 @@ nodeValue나 data나 별차이없음... 각 태그내의 텍스트노드를 보�
 
 ## 4.3 style.cssText
 ```javascript
-element.style = "color: red; width: 100px";      // 불가능한방법   
-element.style.cssText = "color: red; width: 100px";    // 가능한방법   
+element.style = "color: red; width: 100px";             // 불가능한방법   
+element.style.cssText = "color: red; width: 100px";     // 가능한방법   
 ```
 
 ## 4.4 getComputedStyle()
@@ -353,3 +353,380 @@ const element = document.elementFromPoint(x, y);
 ```
 x, y로 지정한 좌표와 가장 가까운 element를 반환함   
 단, x나 y가 최대범위초과시 null반환
+
+<br />
+<hr />
+<br />
+
+# 8. 이벤트
+## 8.1 이벤트종류
+### 8.1.1 마우스이벤트
+|이벤트|설명|
+|---|------|
+|click|요소위에서 마우스 왼쪽버튼 눌렀을 때 실행|
+|contextmenu|요소위에서 마우스 오른쪽버튼이 눌렀을 때 실행|
+|mouseover|마우스커서가 요소위로 들어올 때 실행|
+|mouseout|마우스커서가 요소밖으로 나갈 때 실행|
+|mousedown|요소위에서 마우스 왼쪽버튼을 누르고 있을 때 실행|
+|mouseup|요소위에서 마우스 버튼을 뗄 때 실행|
+|mousemove|마우스를 움직일 때 실행|
+
+### 8.1.2 폼이벤트
+|이벤트|설명|
+|---|------|
+|submit|form제출시 실행|
+|focus|요소에 포커스 할 때 실행|
+
+### 8.1.3 키보드 이벤트
+|이벤트|설명|
+|---|------|
+|keydown|사용자가 키보드를 누를 때 실행|
+|keyup|사용자가 키보드를 뗄 때 실행|
+
+### 8.1.4 문서이벤트
+|이벤트|설명|
+|---|------|
+|DOMContentLoaded|html이 모두 로드되어 DOM이 생성완료했을 때 실행|
+
+### 8.1.5 css이벤트
+|이벤트|설명|
+|---|------|
+|transitionend|애니메이션 종료되었을 때 실행|
+
+## 8.2 이벤트 핸들러
+이벤트에 반응해서 실행할 함수를 의미
+
+### 8.2.1 이벤트 핸들러 할당 - 1
+HTML태그내부에 `on<event>`속성에 핸들러를 넣으면 이벤트를 붙일 수 있음    
+`this`로 해당 노드에 접근가능
+
+### 8.2.2 이벤트 핸들러 할당 - 2
+DOM의 프로퍼티로 할당하는 방법 `element.onclick = "function(){ alter('클릭') }`    
+단, 이 방법으로는 하나의 이벤트만 장착할 수 있음 ( 기존이벤트를 덮어씌워짐 )    
+제거시 `element.onclick = null`하면 됨
+
+### 8.2.3 이벤트 핸들러 할당 - 3 
+기존 방식에는 복수의 이벤트를 장착할 수 없는 문제가 존재해서 생겨난 방식    
+`element.addEventListener(event, handler, [options])`
++ `DOMContentLoaded`의 경우 addEventListener로만 할당됨
+
+### 8.2.4 이벤트 할당 해제
+이전에 등록한 handler를 함수로 저장해놓지않으면 이벤트를 제거할 수 없음   
+똑같이 생긴함수라더라도 다른 함수로 취급됨
+`element.removeEventListener(event, handler, [options])`
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!-- 1. 태그에 직접 이벤트 달기 -->
+    <div onClick="alter('클릭')">click me</div>
+
+    <!-- 1-1. 정의한 함수를 이용해 태그에 직접 이벤트 달기 -->
+    <div onClick="clickEvent()">click me</div>
+
+    <script>
+      const $div = document.querySelector("div");
+
+      function clickEvent(e){
+        alter("클릭");
+      }
+
+      // 2. DOM요소로 이벤트 달기
+      $div.onClick = function(){ alter('클릭') }
+
+      // 2-1. 정의한 함수를 이용해 DOM요소로 이벤트 달기
+      $div.onClick = clickEvent;
+
+      // 3. addEventListener()사용
+      $div.addEventListener(
+        "click",
+        clickEvent,
+        {
+          once: true,     // 한번 실행하고 이벤트 장착해제
+          capture: true,  // 이후에 설명
+          passive: true   // true이면 preventDefault()를 호출하지 않음
+        }
+      );
+
+      // 4. removeEventListener()사용
+      $div.removeEventListener(
+        "click",
+        clickEvent,
+        {
+          once: true,
+          capture: true,
+          passive: true
+        }
+      );
+
+    </script>
+  </body>
+</html>
+```
+
+## 8.3 이벤트 객체
+```html
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div>click me</div>
+
+    <script>
+      const $div = document.querySelector("div");
+      $div.addEventListener("click", e => {
+        console.log(e.type);            // click
+        console.log(e.currentTarget);   // <div>click me</div>
+        console.log(e.clientX);         // x좌표값
+        console.log(e.clientY);         // y좌표값
+      })
+    </script>
+  </body>
+</html>
+```
+
+## 8.4 버블링
+한 요소의 이벤트가 발생하면 해당 요소에서 핸들러가 동작한후 부모요소의 핸들러가 동작함 ( 제일위까지 올라감 (document까지올라감) )
+```html
+  <!DOCTYPE html>
+  <html lang="ko" onclick="alert('html click')">
+
+  <head>
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    <style>
+      div{
+        width: 200px;
+        height: 200px;
+        background: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      span{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        background: orange;
+      }
+
+      p {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background: blue;
+      }
+    </style>
+  </head>
+
+  <body onclick="alert('body click')">
+    <div onclick="alert('div click')">
+      <span onclick="alert('span click')">
+        <p onclick="alert('p click')"></p>
+      </span>
+    </div>
+  </body>
+  </html>
+```
+`<p>`click이벤트 발생시   
+1. alert('p click');
+2. alert('span click');
+3. alert('div click');
+4. alert('body click');
+5. alert('html click');
+
+위와 같은 순서로 클릭이벤트가 발생함 ( p -> span -> div -> body -> html )      
+<br />
+거의 모든 이벤트는 버블링됨
+
+### 8.4.1 event.stopPropagation()
+이벤트 버블링 중단
+
+### 8.4.2 event.stopImmediatePropagation()
+해당 이벤트 이후로 모든 이벤트의 실행을 막음
+
+## 8.5 캡쳐링
+이벤트 전파단계로 document부터 내려옴   
+거의 사용할 일 없으며 캡쳐링단계에서 이벤트를 실행하려면 `addEventListener("click", handler, { capture: true })`으로 이벤트등록해주면됨   
+
+![capturing-target-bubling](./image/capturing-target-bubling.png)
+
+## 8.6 event.target
+이벤트가 발생한 가장 안쪽요소를 의미    
+즉 이벤트가 발생한 노드를 의미
+
+## 8.7 event.currentTarget
+현재 이벤트가 발생하고 있는 노드를 의미
+
+```html
+<body>
+  <div>
+    <span>
+      <p></p>
+    </span>
+  </div>
+
+  <script>
+    const $div = document.querySelector("div");
+    const $span = document.querySelector("span");
+    const $p = document.querySelector("p");
+
+    $div.addEventListener("click", e => {
+      console.log(e.currentTarget, e.target);
+    });
+    $span.addEventListener("click", e => {
+      console.log(e.currentTarget, e.target);
+    });
+    $p.addEventListener("click", e => {
+      console.log(e.currentTarget, e.target);
+    });
+  </script>
+</body>
+```
+p클릭시 taget => p고정, currentTarget은 이벤트 버블링에 따라서 부모노드로 올라갈 때 마다 해당 부모노드로 변함
+
+## 8.8 이벤트 위임
+### 8.8.1 예시 - 1
+각각의 `<li>`에게 이벤트를 넣을 수 있지만 그렇게하는것보단 부모노드인 `<section>`에다가 이벤트를 넣고 e.target을 이용해서 선택한 노드에 값을 변화시켜주면됨
+```html
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>Document</title>
+    <style>
+      li{
+        width: 50px;
+        height: 50px;
+        background: lightgray;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <ul class="head">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </section>
+
+    <script>
+      const $container = document.querySelector(".container");
+      const $head = document.querySelector(".head");
+      let selectNode = null;
+
+      $container.addEventListener("click", e => {
+        if(e.target.tagName !== "LI") return;
+
+        if(selectNode){
+          selectNode.style.backgroundColor = "lightgray";
+        }
+
+        selectNode = e.target;
+        selectNode.style.backgroundColor = "blue";
+      });
+    </script>
+  </body>
+</html>
+```
+### 8.8.2 예시 - 2
+자식노드에서 `data-*`를 정의해서 자식노드를 구분하는데 사용하고   
+부모노드인 `<div class="container">`에서 click이벤트를 위임받아서 사용함    
+이렇게 함으로서 각 자식버튼에 이벤트를 등록할 필요도 없으며, `data-*`와 class의 메서드만 추가해주면 쉽게 확장할 수
+```html
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <button type="button" data-action="save">저장</button>
+      <button type="button" data-action="load">로드</button>
+      <button type="button" data-action="search">검색</button>
+    </div>
+    
+    <script>
+      class Menu{
+        constructor(element) {
+          this._element = element;
+          element.addEventListener("click", this.onClick.bind(this));
+        }
+
+        onClick(e){
+          const action = e.target.dataset.action;
+          if(action){
+            this[action]();
+          }
+        }
+
+        save(){
+          console.log("save");
+        }
+        load(){
+          console.log("load");
+        }
+        search(){
+          console.log("search");
+        }
+      }
+
+      const $container = document.querySelector(".container");
+
+      new Menu($container);
+
+    </script>
+  </body>
+</html>
+```
+
+여기부터시작
+https://ko.javascript.info/event-delegation
+
+## 8.8 
+## 8.8 
+## 8.8 
+## 8.8 
+## 8.8 
+## 8.8 
+## 8.8 
+## 8.8 
+## 8.8 
+
+
+<br />
+<hr />
+<br />
+
+# 8. 이벤트
+
+
+
+
+
+
+
+
+
+
+
+<br />
+<hr />
+<br />
+
+# 8. 이벤트
