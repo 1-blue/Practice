@@ -8,6 +8,8 @@ export const actions = {
     } catch (error) {
       commit("SET_NEWS_LIST", error);
     }
+
+    return "fetched";
   },
   async FETCH_ASK({ commit }){
     try {
@@ -16,6 +18,8 @@ export const actions = {
     } catch (error) {
       commit("SET_ASK_LIST", error);
     }
+
+    return "fetched";
   },
   async FETCH_JOBS({ commit }){
     try {
@@ -24,6 +28,8 @@ export const actions = {
     } catch (error) {
       commit("SET_JOB_LIST", error);
     }
+
+    return "fetched";
   },
   async FETCH_USER_INFO({ commit }, username){
     try {
@@ -32,6 +38,8 @@ export const actions = {
     } catch (error) {
       commit("SET_USER_INFO", error);
     }
+
+    return "fetched";
   },
   async FETCH_ITEM({ commit }, id){
     try {
@@ -40,5 +48,7 @@ export const actions = {
     } catch (error) {
       commit("SET_ITEM", error);
     }
+
+    return "fetched";
   }
 }

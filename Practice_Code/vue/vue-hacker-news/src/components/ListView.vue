@@ -26,6 +26,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import bus from '../utils/bus.js';
 
 export default {
   name: "ListView",
@@ -47,7 +48,9 @@ export default {
     })
   },
   async created(){
-    this.$store.dispatch(this.fetchData);
+    bus.$emit("start:spinner");
+    await this.$store.dispatch(this.fetchData);
+    bus.$emit("end:spinner");
   }
 }
 </script>

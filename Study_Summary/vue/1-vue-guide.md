@@ -419,10 +419,13 @@ this.$emit('update:myEvent', value);   // 부모의 update:myProp에게 신호�
 const bus = new Vue();
 
 // 출발지
-bus.$emit('id-selected', 1);
+bus.$emit('id:selected', 1);
 
 // 도착지
-bus.$on('id-selected', function (id) { ... });
+bus.$on('id:selected', function (id) { ... });
+
+// 버스사용끝나면 off
+bus.$off("id:selected");
 ```
 복잡한걸 해결할때는 상태관리패턴이용 store, state, ...
 
