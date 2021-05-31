@@ -31,11 +31,7 @@ import bus from '../utils/bus.js';
 export default {
   name: "ListView",
   props: {
-    fetchData: {
-      type: String,
-      require: true
-    },
-    state: {
+    pageName: {
       type: String,
       require: true
     }
@@ -43,13 +39,13 @@ export default {
   computed: {
     ...mapState({
       list(state) {
-        return state.hacker[this.state]
+        return state.hacker['list']
       }
     })
   },
   async created(){
     bus.$emit("start:spinner");
-    await this.$store.dispatch(this.fetchData);
+    await this.$store.dispatch("hacker/FETCH_LIST", this.pageName);
     bus.$emit("end:spinner");
   }
 }

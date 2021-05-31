@@ -31,10 +31,13 @@ javascript - (javascript.info) browser읽는중 (좌표까지읽음)
 vue - vuex공부 및 정리
 vue - hackerNews클론코딩 ( 미완성 )
 
-2021-05-28(토)
+2021-05-29(토)
 javascript - (DOM을 깨우치다) 읽으면서 정리중
 javascript - (javascript.info) browser읽는중 (이벤트위임까지읽음)
 vue - hackerNews -> slot, vuex, 컴포넌트 공유 추가 ( 미완성 )
 
-2021-05-28(일)
+2021-05-30(일)
 vue - hackerNews -> event-bus이용한 spinner구현... spinner-css (https://tobiasahlin.com/spinkit/) 참고
+
+2021-05-31(월)
+vue - hackerNews -> ListView에 mixin이용.. 원래 HOC할려했는데 뭔가 안맞는거 같기도하고, 정확히모르겠어서 mixin적용

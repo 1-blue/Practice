@@ -4,9 +4,7 @@ import { actions } from './actions.js';
 export const hacker = {
   namespaced: true,
   state: {
-    newsList: [],
-    askList: [],
-    jobList: [],
+    list: [],
     userInfo: {},
     item: {}
   },

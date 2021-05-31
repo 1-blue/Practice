@@ -4,31 +4,11 @@ const config = {
   hackerNewBaseUrl: "https://api.hnpwa.com/v0/",
 }
 
-// news관련정보
-async function fetchNews() {
+// news, jobs. ask데이터 받아옴
+async function fetchList(name) {
   try {
-    const { data } = await axios.get(`${config.hackerNewBaseUrl}news/1.json`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-// ask관련정보
-async function fetchAsk() {
-  try {
-    const ask = await axios.get(`${config.hackerNewBaseUrl}ask/1.json`);
-    return ask.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-// jobs관련정보
-async function fetchJobs() {
-  try {
-    const jobs = await axios.get(`${config.hackerNewBaseUrl}jobs/1.json`);
-    return jobs.data;
+    const list = await axios.get(`${config.hackerNewBaseUrl}${name}/1.json`);
+    return list.data;
   } catch (error) {
     throw error;
   }
@@ -55,9 +35,7 @@ async function fetchItem(id) {
 }
 
 export {
-  fetchNews,
-  fetchAsk,
-  fetchJobs,
+  fetchList,
   fetchUserInfo,
   fetchItem
 }

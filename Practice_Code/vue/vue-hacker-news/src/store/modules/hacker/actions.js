@@ -1,32 +1,12 @@
-import { fetchNews, fetchAsk, fetchJobs, fetchUserInfo, fetchItem } from '../../../api/index.js';
+import { fetchList, fetchUserInfo, fetchItem } from '../../../api/index.js';
 
 export const actions = {
-  async FETCH_NEWS({ commit }){
+  async FETCH_LIST({ commit }, name){
     try {
-      const data = await fetchNews();
-      commit("SET_NEWS_LIST", data);
+      const data = await fetchList(name);
+      commit("SET_LIST", data);
     } catch (error) {
-      commit("SET_NEWS_LIST", error);
-    }
-
-    return "fetched";
-  },
-  async FETCH_ASK({ commit }){
-    try {
-      const data = await fetchAsk();
-      commit("SET_ASK_LIST", data);
-    } catch (error) {
-      commit("SET_ASK_LIST", error);
-    }
-
-    return "fetched";
-  },
-  async FETCH_JOBS({ commit }){
-    try {
-      const data = await fetchJobs();
-      commit("SET_JOB_LIST", data);
-    } catch (error) {
-      commit("SET_JOB_LIST", error);
+      commit(`SET_LIST`, error);
     }
 
     return "fetched";

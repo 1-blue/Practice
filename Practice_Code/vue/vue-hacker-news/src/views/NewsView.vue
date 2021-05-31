@@ -1,15 +1,13 @@
 <template>
-  <list-view fetchData="hacker/FETCH_NEWS" state="newsList"></list-view>
+  <list-view :pageName="pageName"></list-view>
 </template>
 
 <script>
-import ListView from "../components/ListView.vue";
+import listMixin from '../mixins/listMixin.js';
 
 export default {
   name: "NewsView",
-  components: {
-    ListView
-  }
+  mixins: [listMixin]
 }
 </script>
 

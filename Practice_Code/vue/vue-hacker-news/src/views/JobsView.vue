@@ -1,15 +1,13 @@
 <template>
-  <list-view fetchData="hacker/FETCH_JOBS" state="jobList"></list-view>
+  <list-view :pageName="pageName"></list-view>
 </template>
 
 <script>
-import ListView from "../components/ListView.vue";
+import listMixin from '../mixins/listMixin.js';
 
 export default {
   name: "JobsView",
-  components: {
-    ListView
-  }
+  mixins: [listMixin]
 }
 </script>
 
