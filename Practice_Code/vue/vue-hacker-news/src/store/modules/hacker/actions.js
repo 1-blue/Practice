@@ -7,9 +7,9 @@ export const actions = {
       commit("SET_LIST", data);
     } catch (error) {
       commit(`SET_LIST`, error);
+    } finally {
+      return "fetched";
     }
-
-    return "fetched";
   },
   async FETCH_USER_INFO({ commit }, username){
     try {
@@ -17,9 +17,9 @@ export const actions = {
       commit("SET_USER_INFO", data);
     } catch (error) {
       commit("SET_USER_INFO", error);
+    } finally {
+      return "fetched";
     }
-
-    return "fetched";
   },
   async FETCH_ITEM({ commit }, id){
     try {
@@ -27,8 +27,8 @@ export const actions = {
       commit("SET_ITEM", data);
     } catch (error) {
       commit("SET_ITEM", error);
+    } finally {
+      return "fetched";
     }
-
-    return "fetched";
   }
 }

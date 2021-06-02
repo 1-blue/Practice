@@ -41,3 +41,6 @@ vue - hackerNews -> event-bus이용한 spinner구현... spinner-css (https://tob
 
 2021-05-31(월)
 vue - hackerNews -> ListView에 mixin이용.. 원래 HOC할려했는데 뭔가 안맞는거 같기도하고, 정확히모르겠어서 mixin적용
+
+2021-06-02(수)
+vue - hackerNews 완성 ( 네비게이션가드추가 )

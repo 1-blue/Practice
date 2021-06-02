@@ -26,27 +26,15 @@
 
 <script>
 import { mapState } from 'vuex';
-import bus from '../utils/bus.js';
 
 export default {
   name: "ListView",
-  props: {
-    pageName: {
-      type: String,
-      require: true
-    }
-  },
   computed: {
     ...mapState({
       list(state) {
         return state.hacker['list']
       }
     })
-  },
-  async created(){
-    bus.$emit("start:spinner");
-    await this.$store.dispatch("hacker/FETCH_LIST", this.pageName);
-    bus.$emit("end:spinner");
   }
 }
 </script>

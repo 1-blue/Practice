@@ -1,5 +1,5 @@
 <template>
-  <list-view :pageName="pageName"></list-view>
+  <list-view></list-view>
 </template>
 
 <script>
