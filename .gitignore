@@ -24,4 +24,5 @@ pnpm-debug.log*
 
 # test
 vue-test
-0. test
+javascript-test
+webpack-test
