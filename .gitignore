@@ -27,3 +27,4 @@ pnpm-debug.log*
 vue-test
 javascript-test
 webpack-test
+node-test
