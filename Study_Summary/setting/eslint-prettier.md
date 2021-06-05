@@ -67,6 +67,7 @@ module.exports = {
 # 4. VSCode
 ## 4.1 setting.json
 ```json
+"eslint.workingDirectories": [ { "mode": "auto" } ],
 "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
 "editor.formatOnType": true,
 "eslint.validate": [

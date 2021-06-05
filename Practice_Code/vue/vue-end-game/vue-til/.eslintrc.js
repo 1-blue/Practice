@@ -11,16 +11,17 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     'prettier/prettier': [
-      'error',
+      "error",
       {
         singleQuote: false,
         semi: true,
         useTabs: false,
         tabWidth: 2,
-        trailingComma: 'all',
-        printWidth: 80,
+        trailingComma: "all",
+        printWidth: 150,
         bracketSpacing: true,
-        arrowParens: 'avoid',
+        arrowParens: "avoid",
+        endOfLine: "auto"
       },
     ],
   },
