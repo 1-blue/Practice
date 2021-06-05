@@ -59,3 +59,4 @@ vue - vue-til기본구조잡음 ( server쪽은 https://github.com/joshua1988/vue
 2021-06-05(토)
 docker - docekr.md추가
 swagger - swagger.md추가
+vue - vue-til 라우팅 및 회원가입구현 (+ 로그인, 회원가입 email-validate구현 )
