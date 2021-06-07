@@ -217,7 +217,7 @@ export default{
   computed: {
     // num(){ return this.$store.state.num }와 같음.. 단 변수가많을경우 더 간단하게 사용할 수 있으므로 효율적
     ...mapState(["num"]),         // this.num 접근
-    // 컴포넌트에서 다른 이름을 사용하고 싶을경우 ...mapState({{ n: "num"})과 같은 형식으로 사용하면됨
+    // 컴포넌트에서 다른 이름을 사용하고 싶을경우 ...mapState({ n: "num"})과 같은 형식으로 사용하면됨
     ...mapGetters(["doubleNum"]), // this.doubleNum
   },
   methods: {

@@ -13,16 +13,13 @@ export default {
   components: {
     AppHeader,
   },
-  created() {
-    const str = "apple";
-    console.log(str);
-  },
 };
 </script>
 
-<style scoped>
+<style>
 body {
   margin: 0;
+  background: #f5f4f8;
 }
 ul {
   margin: 0;
@@ -40,5 +37,12 @@ a:visited {
 }
 a:hover {
   text-decoration: underline;
+}
+input:focus {
+  outline: 1px solid blue;
+}
+
+.shadow {
+  box-shadow: 0px 0px 3px gray;
 }
 </style>

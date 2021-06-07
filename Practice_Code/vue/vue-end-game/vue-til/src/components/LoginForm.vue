@@ -1,22 +1,33 @@
 <template>
-  <section id="login__form">
-    <form @submit.prevent="submitForm">
+  <section id="login__form" class="shadow">
+    <form @submit.prevent="submitForm" class="login__form">
       <div>
         <label for="username">id : </label>
-        <input type="text" id="username" v-model="username" />
+        <input type="text" id="username" v-model="username" class="shadow" />
       </div>
       <div>
         <label for="password">pw : </label>
-        <input type="password" id="password" v-model="password" />
+        <input
+          type="password"
+          id="password"
+          v-model="password"
+          class="shadow"
+        />
       </div>
-      <button type="submit" :disabled="!isValid">로그인</button>
+      <button
+        type="submit"
+        :disabled="!isValid"
+        class="login__btn"
+        :class="{ login__btn__active: isValid }"
+      >
+        로그인
+      </button>
     </form>
     <p>{{ logMessage }}</p>
   </section>
 </template>
 
 <script>
-import { loginUser } from "@/api/index.js";
 import { validateEmail } from "@/utils/validate.js";
 
 export default {
@@ -41,8 +52,9 @@ export default {
       };
 
       try {
-        const { data } = await loginUser(loginData);
-        this.logMessage = `${data.user.nickname}님 로그인에 성공하셨습니다.`;
+        await this.$store.dispatch("SET_LOGIN", loginData);
+
+        this.$router.push("/main");
       } catch (error) {
         switch (error.status) {
           case 401:
@@ -70,5 +82,42 @@ export default {
 
 <style scoped>
 #login__form {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+}
+
+input {
+  width: 225px;
+  height: 25px;
+  border: 1px solid lightblue;
+}
+label {
+  margin-bottom: 5px;
+}
+
+.login__form > div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.login__btn {
+  width: 80px;
+  height: 40px;
+  background: lightgray;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: not-allowed;
+}
+
+.login__btn__active {
+  background: #fe8b17;
+  cursor: pointer;
 }
 </style>

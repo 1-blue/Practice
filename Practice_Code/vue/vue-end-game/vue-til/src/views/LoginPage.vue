@@ -1,6 +1,6 @@
 <template>
   <section id="login__page">
-    <h1>로그인페이지</h1>
+    <h1 class="title">로그인페이지</h1>
     <login-form></login-form>
   </section>
 </template>
@@ -18,5 +18,12 @@ export default {
 
 <style scoped>
 #login__page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 2rem;
 }
 </style>

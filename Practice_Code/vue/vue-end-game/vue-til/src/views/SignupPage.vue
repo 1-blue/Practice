@@ -1,6 +1,6 @@
 <template>
   <section id="signup__page">
-    <h1>회원가입</h1>
+    <h1 class="title">회원가입</h1>
     <signup-form></signup-form>
   </section>
 </template>
@@ -18,5 +18,12 @@ export default {
 
 <style scoped>
 #signup__page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 2rem;
 }
 </style>

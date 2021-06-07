@@ -1,8 +1,15 @@
 import axios from "axios";
+import setInterceptors from "./common/Interceptors.js";
 
-const instance = axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
-});
+// axios초기화
+function createInstance() {
+  const instance = axios.create({
+    baseURL: process.env.VUE_APP_API_URL,
+  });
+  return setInterceptors(instance);
+}
+
+const instance = createInstance();
 
 async function registerUser(userData) {
   try {
@@ -20,4 +27,12 @@ async function loginUser(loginData) {
   }
 }
 
-export { registerUser, loginUser };
+function fetchPosts() {
+  try {
+    return instance.get("posts");
+  } catch (error) {
+    throw error.response;
+  }
+}
+
+export { registerUser, loginUser, fetchPosts };

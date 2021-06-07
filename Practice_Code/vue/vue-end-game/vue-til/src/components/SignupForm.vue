@@ -1,19 +1,31 @@
 <template>
-  <section id="signup__form">
-    <form @submit.prevent="submitForm">
+  <section id="signup__form" class="shadow">
+    <form @submit.prevent="submitForm" class="signup__form">
       <div>
         <label for="username">id : </label>
-        <input type="text" id="username" v-model="username" />
+        <input type="text" id="username" v-model="username" class="shadow" />
       </div>
       <div>
         <label for="password">pw : </label>
-        <input type="password" id="password" v-model="password" />
+        <input
+          type="password"
+          id="password"
+          v-model="password"
+          class="shadow"
+        />
       </div>
       <div>
         <label for="nickname">nickname : </label>
-        <input type="text" id="nickname" v-model="nickname" />
+        <input type="text" id="nickname" v-model="nickname" class="shadow" />
       </div>
-      <button type="submit" :disabled="!isValid">회원가입</button>
+      <button
+        type="submit"
+        :disabled="!isValid"
+        class="signup__btn"
+        :class="{ signup__btn__active: isValid }"
+      >
+        회원가입
+      </button>
     </form>
 
     <p>{{ logMessage }}</p>
@@ -80,5 +92,42 @@ export default {
 
 <style scoped>
 #signup__form {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+}
+
+input {
+  width: 225px;
+  height: 25px;
+  border: 1px solid lightblue;
+}
+label {
+  margin-bottom: 5px;
+}
+
+.signup__form > div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.signup__btn {
+  width: 80px;
+  height: 40px;
+  background: lightgray;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: not-allowed;
+}
+
+.signup__btn__active {
+  background: #fe8b17;
+  cursor: pointer;
 }
 </style>
