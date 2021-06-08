@@ -11,6 +11,7 @@ function createInstance() {
 
 const instance = createInstance();
 
+// 회원가입
 async function registerUser(userData) {
   try {
     return await instance.post("/signup", userData);
@@ -19,6 +20,7 @@ async function registerUser(userData) {
   }
 }
 
+// 로그인
 async function loginUser(loginData) {
   try {
     return await instance.post("/login", loginData);
@@ -27,6 +29,7 @@ async function loginUser(loginData) {
   }
 }
 
+// 로그인한 유저의 포스트기록 가져오기
 function fetchPosts() {
   try {
     return instance.get("posts");
@@ -35,4 +38,13 @@ function fetchPosts() {
   }
 }
 
-export { registerUser, loginUser, fetchPosts };
+// 포스트 생성하기
+function CreatePosts(postData) {
+  try {
+    return instance.post("posts", postData);
+  } catch (error) {
+    throw Error(error);
+  }
+}
+
+export { registerUser, loginUser, fetchPosts, CreatePosts };

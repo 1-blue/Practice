@@ -17,32 +17,6 @@ export default {
 </script>
 
 <style>
-body {
-  margin: 0;
-  background: #f5f4f8;
-}
-ul {
-  margin: 0;
-  padding: 0;
-}
-li {
-  list-style: none;
-}
-a {
-  text-decoration: none;
-  color: black;
-}
-a:visited {
-  color: black;
-}
-a:hover {
-  text-decoration: underline;
-}
-input:focus {
-  outline: 1px solid blue;
-}
-
-.shadow {
-  box-shadow: 0px 0px 3px gray;
-}
+@import "./css/reset.css";
+@import "./css/common.css";
 </style>

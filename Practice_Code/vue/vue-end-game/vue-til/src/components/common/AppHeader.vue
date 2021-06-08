@@ -48,6 +48,7 @@ export default {
   padding: 20px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .title {

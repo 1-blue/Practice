@@ -68,3 +68,6 @@ css공부, mongoDB기초만 공부
 axios공부... ( 요거 이해 잘안가는게 많음, 읽는중 )
 vue - vue-til vuex, cookie적용해서 login/logout구현, spinner추가
 regular expression - regexp.md 추가 ( 공부중, 내일완성예정 )
+
+2021-06-08(화)
+vue - vue-til 중복 css파일처리, 포스트업로드기능구현 및 각종 예외처리 수정

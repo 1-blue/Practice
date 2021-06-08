@@ -190,7 +190,7 @@ computed: {
 
 2. 전역 인지(Global Awareness) (컴포넌트 바깥의 지식을 필요로 하는 옵션)
     + name
-    + prent
+    + parent
 
 3. 컴포넌트 유형(Component Type) (컴포넌트의 유형을 바꾸는 옵션)
     + functional
