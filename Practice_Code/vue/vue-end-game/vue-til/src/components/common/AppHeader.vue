@@ -37,6 +37,7 @@ export default {
     logout() {
       this.clearToken();
       this.clearUsername();
+      this.$router.push("/login");
     },
   },
 };

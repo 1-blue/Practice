@@ -131,7 +131,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 95%;
+  max-width: 800px;
   margin: auto;
   background: white;
 }

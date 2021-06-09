@@ -1,5 +1,5 @@
 <template>
-  <section id="post__add__page" class="shadow">
+  <section id="post__add__page">
     <h1 class="title">Create Post</h1>
     <post-form></post-form>
   </section>
