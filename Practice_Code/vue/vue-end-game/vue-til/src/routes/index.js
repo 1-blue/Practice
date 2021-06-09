@@ -24,7 +24,11 @@ export default new VueRouter({
     },
     {
       path: "/add",
-      component: () => import("@/views/PostAdd.vue"),
+      component: () => import("@/views/PostAddPage.vue"),
+    },
+    {
+      path: "/edit/:id",
+      component: () => import("@/views/PostEditPage.vue"),
     },
     {
       path: "*",

@@ -22,8 +22,4 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
-.title {
-  font-size: 2rem;
-}
 </style>

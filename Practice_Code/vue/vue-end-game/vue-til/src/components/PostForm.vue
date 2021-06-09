@@ -1,11 +1,10 @@
 <template>
-  <section id="post__add" class="shadow">
-    <h1 class="title">Create Post</h1>
+  <section id="post__form" class="shadow">
     <form @submit.prevent="submitForm" class="form">
       <ul class="form__list">
         <li>
           <label for="title">Title : </label>
-          <input type="text" id="title" v-model="title" class="shadow" />
+          <input type="text" id="title" v-model.trim="title" class="shadow" />
         </li>
         <li>
           <label for="contents">Contents : </label>
@@ -13,7 +12,7 @@
             type="text"
             rows="5"
             id="contents"
-            v-model="contents"
+            v-model.trim="contents"
             class="shadow"
             :class="{ warning__box: isContentsValidate }"
           />
@@ -40,18 +39,24 @@
 </template>
 
 <script>
-import { CreatePosts } from "@/api/index.js";
+import { fetchPost, createPosts, editPost } from "@/api/posts.js";
 
 export default {
-  name: "PostAdd",
+  name: "PostForm",
   data() {
     return {
+      // 2
       title: "",
       contents: "",
+      //
+
       warningText: "최대 200자까지 입력가능합니다.",
     };
   },
   computed: {
+    id() {
+      return this.$route.params.id;
+    },
     isSubmitValidate() {
       return this.title && this.contents && !this.isContentsValidate;
     },
@@ -62,22 +67,55 @@ export default {
       return `${this.contents.length} / 200`;
     },
   },
+  async created() {
+    if (!this.id) return;
+
+    try {
+      const { data } = await fetchPost(this.id);
+      this.title = data.title;
+      this.contents = data.contents;
+    } catch (error) {
+      switch (error.response.status) {
+        case 401:
+          alert("인증 토큰이 유효하지 않습니다.");
+          break;
+        case 500:
+          alert("서버 측 에러입니다. 잠시후에 다시 시도해주세요");
+          break;
+
+        default:
+          alert("알 수 없는 에러입니다.");
+          break;
+      }
+    }
+  },
   methods: {
     async submitForm() {
       try {
-        await CreatePosts({
-          title: this.title.trim(),
-          contents: this.contents.trim(),
-        });
+        if (this.id) {
+          await editPost(this.id, {
+            title: this.title,
+            contents: this.contents,
+          });
+        } else {
+          await createPosts({
+            title: this.title,
+            contents: this.contents,
+          });
+        }
+
+        this.$router.push("/main");
       } catch (error) {
         switch (error.response.status) {
           case 400:
             alert("이미 게시글이 존재합니다.");
             break;
+          case 404:
+            alert("게시글을 찾을 수 없습니다.");
+            break;
           case 500:
             alert("서버 측 에러입니다. 잠시 후 다시 시도해 주세요");
             break;
-
           default:
             alert("알 수 없는 에러입니다. 잠시 후 다시 시도해 주세요");
             break;
@@ -89,7 +127,7 @@ export default {
 </script>
 
 <style scoped>
-#post__add {
+#post__form {
   display: flex;
   flex-direction: column;
   align-items: center;

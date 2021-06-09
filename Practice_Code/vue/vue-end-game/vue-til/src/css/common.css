@@ -2,12 +2,18 @@
   box-shadow: 0px 0px 3px gray;
 }
 
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* form관련 */
 .form {
   position: relative;
   width: 100%;
   height: 100%;
 }
-
 .form__list{
   width: 100%;
   height: 100%;
@@ -15,24 +21,20 @@
   flex-direction: column;
   align-items: center;
 }
-
 .form__list > li {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
   width: 80%;
 }
-
 .form__list > li > label {
   margin-bottom: 5px;
 }
-
 .form__list > li > input {
   width: 100%;
   height: 25px;
   border: 1px solid lightblue;
 }
-
 .form__list > li > textarea {
   width: 100%;
   border: 1px solid lightblue;
@@ -40,6 +42,7 @@
   resize: none;
 }
 
+/* 버튼관련 */
 .btn {
   width: 80px;
   height: 40px;
@@ -52,15 +55,29 @@
   cursor: not-allowed;
   margin: 20px 0 10px;
 }
-
 .btn__active {
   background: #fe8b17;
   cursor: pointer;
 }
 
+/* 경고문구 */
 .warning__text{
   position: absolute;
   top: 80%;
   left: 60%;
+  color: red;
+}
+
+/* 아이콘 관련 */
+.icon__delete,
+.icon__modify {
+  cursor: pointer;
+}
+.icon__delete:hover,
+.icon__modify:hover {
+  color: #3fb6b7;
+}
+.icon__delete:active,
+.icon__modify:active {
   color: red;
 }

@@ -6,7 +6,7 @@ import {
   clearToken,
   clearNickname,
 } from "@/utils/cookie.js";
-import { loginUser } from "@/api/index.js";
+import { loginUser } from "@/api/auth.js";
 import { setToken, setUserNickname } from "@/utils/cookie.js";
 
 Vue.use(Vuex);

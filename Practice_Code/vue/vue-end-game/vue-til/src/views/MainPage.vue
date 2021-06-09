@@ -1,9 +1,10 @@
 <template>
   <section id="main__page">
-    <h1>Today I Learn</h1>
+    <h1 class="title">Today I Learn</h1>
     <loading-spinner v-if="isLoading">로딩중...</loading-spinner>
     <ul v-else>
       <post-list-item
+        @refresh="fetchData"
         v-for="postItem in postItems"
         :key="postItem._id"
         :postItem="postItem"
@@ -17,10 +18,10 @@
 </template>
 
 <script>
-import { fetchPosts } from "@/api/index.js";
-import PostListItem from "@/components/PostListItem.vue";
-import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import { mapGetters } from "vuex";
+import { fetchPosts } from "@/api/posts.js";
+import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
+import PostListItem from "@/components/PostListItem.vue";
 
 export default {
   name: "MainPage",
@@ -73,15 +74,12 @@ export default {
 
 <style scoped>
 #main__page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .link__add {
-  position: absolute;
+  position: fixed;
   top: 85%;
-  left: 85%;
+  left: 90%;
   width: 46.5px;
   height: 46.5px;
   background: #f38416;

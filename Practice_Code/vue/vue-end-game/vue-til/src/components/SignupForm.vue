@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { registerUser } from "@/api/index.js";
+import { registerUser } from "@/api/auth.js";
 import { validateEmail } from "@/utils/validate.js";
 
 export default {
