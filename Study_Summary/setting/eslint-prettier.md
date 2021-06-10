@@ -58,6 +58,7 @@ module.exports = {
         printWidth: 80,       // 줄바꿈 폭길이지정
         bracketSpacing: true, // 객체 리터럴에서 괄호에 공백 삽입 여부
         arrowParens: 'avoid', // 화살표 함수 괄호 사용 방식
+        endOfLine: "auto",
       },
     ],
   },
