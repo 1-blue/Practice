@@ -1,7 +1,11 @@
 .DS_Store
 node_modules
 /dist
+/config
+.env
 
+# 리액트 연습용
+/react-app
 
 # local env files
 .env
