@@ -5,7 +5,7 @@ node_modules
 .env
 
 # 리액트 연습용
-/react-app
+Practice_Code/React/react-app
 
 # local env files
 .env
