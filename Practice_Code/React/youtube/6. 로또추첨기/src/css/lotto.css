@@ -1,0 +1,37 @@
+li, ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.balls {
+  display: flex;
+}
+
+.ball{
+  width: 60px;
+  height: 60px;
+  border: 1px solid black;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 58px;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin: 0.2rem;
+}
+
+.yellow{
+  background-color: yellow;
+}
+.red{
+  background-color: red;
+}
+.blue{
+  background-color: blue;
+}
+.purple{
+  background-color: purple;
+}
+.green{
+  background-color: green;
+}
