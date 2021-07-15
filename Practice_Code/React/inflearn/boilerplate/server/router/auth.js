@@ -18,6 +18,7 @@ router.post("/register", (req, res) => {
     return res.json({ message: "success", doc });
   });
 });
+
 // 로그인 ( 이메일과 비밀번호이용 )
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -47,6 +48,7 @@ router.post("/login", async (req, res) => {
     });
   });
 });
+
 // 로그아웃
 router.get("/logout", auth, async (req, res) => {
   const { _id } = req.user;
