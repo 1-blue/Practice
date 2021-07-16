@@ -18,6 +18,9 @@ module.exports = {
     "consistent-return": "off", // 이상한값 반환 경고 무시
     "func-names": "off", // 이상한값 반환 경고 무시
     "no-underscore-dangle": "off", // _시작변수 경고 무시
+    "no-alert": "off", // alert사용 가능하게
+    "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }], // .js에서도 컴포넌트 사용가능하도록
+    "react/prop-types": "off",
     "prettier/prettier": [
       // eslint에 prettier추가
       "error",

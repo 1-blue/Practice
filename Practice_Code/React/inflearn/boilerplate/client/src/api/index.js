@@ -6,44 +6,28 @@ const instance = axios.create({
   withCredentials: true, // 이거없으면 passport의 deserializeUser()를 호출안해서 서버측에서 로그인유지가 안됨
 });
 
-// // 인터셉터설정
-// instance.interceptors.request.use(
-//   config => {
-//     // 스피너 on
-//     console.log("on");
-//     store.dispatch("spinner/SPINNER_ON");
-//     return config;
-//   },
-//   error => {
-//     // 스피너 off
-//     store.dispatch("spinner/SPINNER_OFF");
-//     return Promise.reject(error);
-//   },
-// );
-// // 스피너 OFF
-// instance.interceptors.response.use(
-//   function (response) {
-//     // 스피너 off
-//     console.log("off");
-//     store.dispatch("spinner/SPINNER_OFF");
-//     return response;
-//   },
-//   function (error) {
-//     // 스피너 off
-//     store.dispatch("spinner/SPINNER_OFF");
-//     return Promise.reject(error);
-//   },
-// );
+// 회원가입
+async function apiRegister(body) {
+  const { data } = await instance.post("/auth/register", body);
+  return data;
+}
 
 // 로그인
-async function apiTest() {
-  const { data } = await instance.post("/test");
+async function apiLogin(body) {
+  const { data } = await instance.post("/auth/login", body);
   return data;
 }
 
-async function apiTest2() {
-  const { data } = await instance.post("/auth/login");
+// 로그아웃
+async function apiLogout() {
+  const { data } = await instance.get("/auth/logout");
   return data;
 }
 
-export { apiTest, apiTest2 };
+// 인증처리
+async function apiAuth() {
+  const { data } = await instance.get("/user");
+  return data;
+}
+
+export { apiRegister, apiLogin, apiLogout, apiAuth };

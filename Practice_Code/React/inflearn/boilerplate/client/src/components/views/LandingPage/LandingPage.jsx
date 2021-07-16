@@ -1,14 +1,28 @@
 import React from "react";
+import { withRouter } from "react-router";
 
-import { apiTest } from "../../../api/index";
+import { apiLogout } from "../../../api/index";
 
-// eslint-disable-next-line no-unused-vars
-export default function LandingPage(props) {
-  React.useEffect(async () => {
-    const data = await apiTest();
+function LandingPage(props) {
+  const onClickLogout = async () => {
+    const response = await apiLogout();
 
-    console.log(data);
-  }, []);
+    alert(response.message);
 
-  return <h1>랜딩페이지</h1>;
+    if (response.result) {
+      // eslint-disable-next-line react/prop-types
+      props.history.push("/login");
+    }
+  };
+
+  return (
+    <>
+      <h1>랜딩페이지</h1>
+      <button type="button" onClick={onClickLogout}>
+        로그아웃
+      </button>
+    </>
+  );
 }
+
+export default withRouter(LandingPage);
