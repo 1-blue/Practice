@@ -1,0 +1,46 @@
+/* 네비게이션바 */
+.navigation__bar{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  box-shadow: 0 0 5px gray;
+  background-color: white;
+}
+
+/* 네비게이션바 우측영역 */
+.nav__left__section{
+  display: flex;
+  align-items: baseline;
+}
+
+/* 우측 첫 번째 링크 ( 로고 ) */
+.nav__left__section > li:first-child > a{
+  color: blue;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* 링크끼리의 간격 */
+.nav__left__section > li > a {
+  padding: 1.2rem;
+}
+
+/* 네비게이션바 좌측영역 */
+.nav__right__section{
+  display: flex;
+}
+
+/* 링크끼리의 간격 */
+.nav__right__section > li > a{
+  display: inline-block;
+  padding: 1.2rem;
+}
+
+/* 링크 hover */
+.navigation__bar li a:hover{
+  background-color: gray;
+}
+.navigation__bar li:hover a{
+  color: white;
+}

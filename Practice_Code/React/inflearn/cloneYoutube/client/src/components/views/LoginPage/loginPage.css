@@ -1,0 +1,61 @@
+/* 로그인 페이지  */
+.login__page{
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 로그인페이지 제목 */
+.title {
+  margin-bottom: 1rem;
+}
+
+/* 로그인페이지 form */
+.login__form {
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 폼 내부 요소들 간격지정 */
+.login__form > * {
+  margin-bottom: 1rem;
+}
+
+/* 폼 내부 인풋창 넓이 지정 */
+.login__form > input[type=text] {
+  padding: 0.4rem;
+}
+.login__form > input[type=password] {
+  padding: 0.4rem;
+}
+
+/* 폼 내부 로그인 버튼 디자인 */
+.login__form > button[type=submit] {
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  background-color: var(--blue-color);
+  color: white;
+}
+/* 로그인옵션섹션 */
+.login__option{
+  display: flex;
+  justify-content: space-between;
+}
+/* 로그인유지 라벨 */
+.remember__label{
+  display: flex;
+  font-size: 0.8rem;
+}
+/* 비밀번호찾기버튼 */
+.find__password__btn{
+  color: var(--blue-color);
+}
+
+/* 회원가입이동 버튼 */
+.register__btn{
+  align-self: flex-start;
+  color: var(--blue-color);
+}
