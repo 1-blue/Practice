@@ -8,6 +8,12 @@ export default function RightMenu({ visible, onClickLogout }) {
   if (visible) {
     return (
       <section className="nav__right__section">
+        {/* 비디오 업로드 */}
+        <li>
+          <Link to="/video/upload">video</Link>
+        </li>
+
+        {/* 로그아웃 */}
         <li>
           <Link to="/login" onClick={onClickLogout}>
             logout
@@ -20,9 +26,12 @@ export default function RightMenu({ visible, onClickLogout }) {
   // 비로그인시
   return (
     <section className="nav__right__section">
+      {/* 로그인 */}
       <li>
         <Link to="/login">login</Link>
       </li>
+
+      {/* 회원가입 */}
       <li>
         <Link to="/register">register</Link>
       </li>

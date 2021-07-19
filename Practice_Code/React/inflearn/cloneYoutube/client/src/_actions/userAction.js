@@ -11,6 +11,7 @@ export async function loginUser(body) {
   };
 }
 
+// 로그아웃
 export async function logoutUser() {
   const data = await apiLogout();
 

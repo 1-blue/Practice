@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "@/_actions/userAction";
 
 // component
-import LeftMenu from "./LeftMenu";
-import RightMenu from "./RightMenu";
+import LeftMenu from "./Menu/LeftMenu";
+import RightMenu from "./Menu/RightMenu";
 
 // css
 import "@/css/navbar.css";

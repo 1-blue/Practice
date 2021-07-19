@@ -18,17 +18,17 @@ export default function (SpecificComponent, option, adminRoute = null) {
     useEffect(async () => {
       const response = await dispatch(await authUser());
 
-      // 비로그인상태 && 로그인시 입장가능 페이지
+      // 비로그인상태 => 로그인시 입장가능 페이지
       if (!response.payload.result && option) {
         return history.push("/login");
       }
 
-      // 로그인상태 && 관리자만 입장가능 페이지
+      // 로그인상태 => 관리자만 입장가능 페이지
       if (response.payload.result && adminRoute) {
         return history.push("/");
       }
 
-      // 로그인상태 && 비로그인시 입장가능 페이지
+      // 로그인상태 => 비로그인시 입장가능 페이지
       if (response.payload.result && option === false) {
         return history.push("/");
       }

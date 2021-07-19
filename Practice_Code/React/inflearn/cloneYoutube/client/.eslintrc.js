@@ -22,6 +22,7 @@ module.exports = {
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }], // .js에서도 컴포넌트 사용가능하도록
     "react/prop-types": "off",
     "import/no-unresolved": "off", // import경로체크해제
+    "no-use-before-define": "off", // 후선언후 사용 에러 무시
     "prettier/prettier": [
       // eslint에 prettier추가
       "error",
