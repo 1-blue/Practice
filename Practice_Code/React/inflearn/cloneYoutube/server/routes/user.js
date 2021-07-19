@@ -8,6 +8,7 @@ router.get("/", auth, (req, res) => {
   const { _id, role, name, email, password, lastname, image, token, tokenExp } = req.user;
 
   res.json({
+    result: true,
     _id,
     isAdmin: !role,
     name,

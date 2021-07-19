@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const { multerConfig } = require("./multer");
 
 const app = express();
 
@@ -31,21 +32,17 @@ mongoose
   .then(() => console.log("몽고디비 연결 성공 by clone-youtube"))
   .catch(error => console.error("몽고디비 연결 실패 >> ", error));
 
+// multer폴더생성
+multerConfig();
+
 // 라우터
-const authRouter = require("./router/auth");
-const userRouter = require("./router/user");
+const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user");
+const videoRouter = require("./routes/video");
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
-
-// 임시라우터
-app.get("/", (req, res) => {
-  res.send("로그인해봐");
-});
-// 테스트라우터
-app.post("/test", (req, res) => {
-  res.json({ message: "success test" });
-});
+app.use("/video", videoRouter);
 
 app.listen(3000, () => {
   console.log("3000번 대기중");
