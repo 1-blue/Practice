@@ -1,10 +1,14 @@
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { multerConfig } = require("./multer");
 
 const app = express();
+
+// public폴더 설정
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // 바디파서 ( req.body )
 app.use(express.json()); // application/json분석

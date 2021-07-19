@@ -15,6 +15,7 @@ module.exports = {
     "consistent-return": "off", // 이상한값 반환 경고 무시
     "func-names": "off", // 이상한값 반환 경고 무시
     "no-underscore-dangle": "off", // _시작변수 경고 무시
+    "prefer-destructuring": "off", // 구조분해선호무시
     "prettier/prettier": [
       // eslint에 prettier추가
       "error",

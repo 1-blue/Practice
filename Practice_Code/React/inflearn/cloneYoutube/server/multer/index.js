@@ -10,7 +10,8 @@ const makeFolder = dir => {
 };
 const multerConfig = () => {
   makeFolder("./uploads");
-  makeFolder("./uploads/video");
+  makeFolder("./uploads/videos");
+  makeFolder("./uploads/thumbnails");
 };
 
 // video multer설정
@@ -18,7 +19,7 @@ const videoUpload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
       // 파일을 저장할공간 지정
-      cb(null, "uploads/video/");
+      cb(null, "uploads/videos/");
     },
     filename(req, file, cb) {
       // 저장할 파일명 결정 ( 파일명_현재시간.확장자 )

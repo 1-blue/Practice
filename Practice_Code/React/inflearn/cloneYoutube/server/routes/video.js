@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const ffmpeg = require("fluent-ffmpeg");
 const { videoUpload } = require("../multer");
 const Video = require("../models/Video");
 
@@ -26,6 +27,47 @@ router.post("/", async (req, res) => {
 
     return res.json({ result: true, message: "영상저장 성공! 메인페이지로 이동합니다.", doc });
   });
+});
+
+// 썸네일 생성
+router.post("/thumbnail", async (req, res) => {
+  // 비디오 경로
+  const videoPath = `uploads/videos/${req.body.videoName}`;
+
+  let thumbnailName = "";
+  let videoDuration = "";
+
+  // 비디오 플레이타임기록
+  ffmpeg.ffprobe(videoPath, (err, metadata) => {
+    // metadata에 영상에 대한 많은 정보들이 들어있음
+    videoDuration = metadata.format.duration;
+    videoDuration = Math.round(videoDuration * 10) / 10;
+  });
+
+  // 썸네일 생성
+  ffmpeg(videoPath)
+    .on("filenames", filenames => {
+      // 썸네일 이름 저장 ( 기존 비디오명과 같고 확장자만 다름 )
+      thumbnailName = filenames[0];
+    })
+    .on("end", () =>
+      res.json({
+        success: true,
+        thumbnailName,
+        videoDuration,
+      }),
+    )
+    .on("error", err => {
+      console.error(err);
+      return res.json({ success: false, err });
+    })
+    .screenshots({
+      count: 1,
+      folder: "uploads/thumbnails",
+      size: "320x200",
+      // %b input basename ( filename w/o extension )
+      filename: "%b.png",
+    });
 });
 
 module.exports = router;
