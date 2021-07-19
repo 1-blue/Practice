@@ -5,7 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 
 // 영상만 업로드
-import { apiUploadVideo } from "@/api";
+import { apiUploadVideo, apiCreateThumbnail } from "@/api";
 
 // 영상과 관련정보 제출
 import { submitVideo } from "@/_actions/videoAction";
@@ -26,8 +26,19 @@ const Category = [
 ];
 
 function VideoUploadPage(props) {
+  const [videoName, setVideoName] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [privacy, setPrivacy] = useState("Private");
+  const [category, setCategory] = useState("Film & Animation");
+  const [thumbnailName, setThumbnailName] = useState("");
+  const [duration, setDuration] = useState();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.userReducer.userData);
+
   // 영상 드랍다운
   const onDrop = useCallback(async acceptedFiles => {
+    // 영상만 서버에 미리 저장후 저장한 이름 가져오기
     const data = await apiUploadVideo(acceptedFiles);
 
     // 영상 저장 실패
@@ -35,16 +46,16 @@ function VideoUploadPage(props) {
 
     // 영상 저장 성공시 영상이름 따로저장
     setVideoName(data.videoName);
+
+    // 썸네일 생성
+    const response = await apiCreateThumbnail(data.videoName);
+
+    setThumbnailName(response.thumbnailName);
+    setDuration(response.videoDuration);
   }, []);
 
+  // 드랍존 관련
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  const [videoName, setVideoName] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [privacy, setPrivacy] = useState("Private");
-  const [category, setCategory] = useState("Film & Animation");
-  const dispatch = useDispatch();
-  const user = useSelector(state => state.userReducer.userData);
 
   // 비디오 업로드
   const onUploadVideo = async e => {
@@ -60,8 +71,8 @@ function VideoUploadPage(props) {
         videoName,
         privacy,
         category,
-        duration: "",
-        thumnail: "",
+        duration,
+        thumbnailName,
       }),
     );
 
@@ -108,10 +119,18 @@ function VideoUploadPage(props) {
       <h1 className="title">👉 Upload Video 👈</h1>
 
       <form className="video__form" onSubmit={onUploadVideo}>
-        {/* 드랍존 */}
-        <section className="video__dropzone" {...getRootProps()}>
-          <input className="video__input" {...getInputProps()} />
-          {isDragActive ? <span>파일을 여기에다 놓으세요</span> : <span>+</span>}
+        {/* 드랍존과 썸네일 */}
+        <section className="video__section">
+          {/* 드랍존 */}
+          <section className="video__dropzone" {...getRootProps()}>
+            <input className="video__input" {...getInputProps()} />
+            {isDragActive ? <span>파일을 여기에다 놓으세요</span> : <span style={{ fontSize: "4rem" }}>+</span>}
+          </section>
+
+          {/* 썸네일 */}
+          <section className="video__thumbnail">
+            {thumbnailName && <img src={`http://localhost:3000/uploads/thumbnails/${thumbnailName}`} alt="썸네일" />}
+          </section>
         </section>
 
         {/* 영상 제목 */}

@@ -52,4 +52,10 @@ async function apiSubmitVideo(body) {
   return data;
 }
 
-export { apiRegister, apiLogin, apiLogout, apiAuth, apiUploadVideo, apiSubmitVideo };
+// 썸네일생성
+async function apiCreateThumbnail(videoName) {
+  const { data } = await instance.post("/video/thumbnail", { videoName });
+  return data;
+}
+
+export { apiRegister, apiLogin, apiLogout, apiAuth, apiUploadVideo, apiSubmitVideo, apiCreateThumbnail };

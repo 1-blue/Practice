@@ -26,6 +26,10 @@
   padding: 0.2rem;
   margin-bottom: 1rem;
 }
+.video__section{
+  display: flex;
+  justify-content: space-between;
+}
 .video__dropzone{
   width: 45%;
   height: 200px;
@@ -38,11 +42,15 @@
   cursor: pointer;
 }
 .video__dropzone > span {
-  font-size: 4rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 .video__dropzone:hover > span{
   color: gray;
+}
+.video__thumbnail{
+  width: 45%;
+  height: 200px;
 }
 .select{
   display: flex;
