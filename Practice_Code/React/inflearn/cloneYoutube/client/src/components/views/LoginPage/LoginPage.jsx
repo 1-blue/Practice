@@ -12,41 +12,47 @@ function LoginPage(props) {
   const dispatch = useDispatch();
 
   // input 변경이벤트처리
-  const onChange = useCallback(e => {
-    switch (e.target.name) {
-      case "email":
-        setEmail(e.target.value);
-        break;
+  const onChange = useCallback(
+    e => {
+      switch (e.target.name) {
+        case "email":
+          setEmail(e.target.value);
+          break;
 
-      case "password":
-        setPassword(e.target.value);
-        break;
+        case "password":
+          setPassword(e.target.value);
+          break;
 
-      default:
-        break;
-    }
-  }, []);
+        default:
+          break;
+      }
+    },
+    [email, password],
+  );
 
   // 로그인이벤트
-  const onLogin = useCallback(async e => {
-    e.preventDefault();
+  const onLogin = useCallback(
+    async e => {
+      e.preventDefault();
 
-    // 리덕스에 로그인 정보 전달
-    const response = await dispatch(loginUser({ email, password }));
+      // 리덕스에 로그인 정보 전달
+      const response = await dispatch(loginUser({ email, password }));
 
-    // 로그인 성공 or 실패 메시지 전송
-    alert(response.payload.message);
+      // 로그인 성공 or 실패 메시지 전송
+      alert(response.payload.message);
 
-    // 성공시 기본페이지로 이동
-    if (response.payload.result) {
-      props.history.push("/");
-    }
-  }, []);
+      // 성공시 기본페이지로 이동
+      if (response.payload.result) {
+        props.history.push("/");
+      }
+    },
+    [email, password],
+  );
 
   // 회원가입페이지로 이동
   const moveRegisterPage = useCallback(() => {
     props.history.push("/register");
-  }, []);
+  }, [email, password]);
 
   return (
     <section className="login__page">
