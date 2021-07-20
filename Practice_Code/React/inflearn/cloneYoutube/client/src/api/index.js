@@ -58,4 +58,26 @@ async function apiCreateThumbnail(videoName) {
   return data;
 }
 
-export { apiRegister, apiLogin, apiLogout, apiAuth, apiUploadVideo, apiSubmitVideo, apiCreateThumbnail };
+// 모든 영상들 가져오기
+async function apiFetchAllVideo() {
+  const { data } = await instance.get("/video");
+  return data;
+}
+
+// 특정 영상정보 가져오기
+async function apiFetchVideo(videoId) {
+  const { data } = await instance.get(`/video/${videoId}`);
+  return data;
+}
+
+export {
+  apiRegister,
+  apiLogin,
+  apiLogout,
+  apiAuth,
+  apiUploadVideo,
+  apiSubmitVideo,
+  apiCreateThumbnail,
+  apiFetchAllVideo,
+  apiFetchVideo,
+};
