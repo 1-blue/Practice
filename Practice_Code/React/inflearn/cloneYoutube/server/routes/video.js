@@ -70,4 +70,18 @@ router.post("/thumbnail", async (req, res) => {
     });
 });
 
+// 특정 영상정보 가져오기
+router.get("/:videoId", async (req, res) => {
+  const { videoId } = req.params;
+
+  const response = await Video.findOne({ _id: videoId }).populate("writer").exec();
+
+  res.send(response);
+});
+
+// 모든 영상 정보 가져오기
+router.get("/", async (req, res) => {
+  res.send(await Video.find().populate("writer").exec());
+});
+
 module.exports = router;
