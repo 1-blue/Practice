@@ -3,17 +3,33 @@ import { Link } from "react-router-dom";
 
 import "@/css/navbar.css";
 
-export default function LeftMenu() {
+export default function LeftMenu({ isShowMenu, onClickMenu, isShowNav }) {
   return (
     <section className="nav__left__section">
+      {/* 로고 */}
+      <Link to="/" className="logo">
+        <i className="fab fa-youtube" />
+      </Link>
+
+      {/* 햄버그메뉴 */}
+      {isShowMenu && (
+        <button type="button" className="hamburger__menu" onClick={onClickMenu}>
+          <i className="fas fa-bars" />
+        </button>
+      )}
+
+      {/* 홈페이지 링크 */}
       <li>
-        <Link to="/">Logo</Link>
+        <Link to="/" className={isShowNav ? null : "unshow"}>
+          Home
+        </Link>
       </li>
+
+      {/* 블로그페이지 링크 */}
       <li>
-        <Link to="/">Home</Link>
-      </li>
-      <li>
-        <Link to="/blogs">Blogs</Link>
+        <Link to="/blogs" className={isShowNav ? null : "unshow"}>
+          Blogs
+        </Link>
       </li>
     </section>
   );

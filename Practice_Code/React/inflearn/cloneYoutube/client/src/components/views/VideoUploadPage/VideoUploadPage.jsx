@@ -116,7 +116,9 @@ function VideoUploadPage(props) {
 
   return (
     <section className="video__upload">
-      <h1 className="title">👉 Upload Video 👈</h1>
+      <h1 className="title" style={{ marginBottom: "1rem" }}>
+        👉 Upload Video 👈
+      </h1>
 
       <form className="video__form" onSubmit={onUploadVideo}>
         {/* 드랍존과 썸네일 */}

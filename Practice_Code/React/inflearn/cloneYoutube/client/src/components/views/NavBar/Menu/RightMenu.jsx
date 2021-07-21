@@ -3,18 +3,18 @@ import { Link } from "react-router-dom";
 
 import "@/css/navbar.css";
 
-export default function RightMenu({ visible, onClickLogout }) {
+export default function RightMenu({ visible, onClickLogout, isShowNav }) {
   // 로그인시
   if (visible) {
     return (
       <section className="nav__right__section">
         {/* 비디오 업로드 */}
-        <li>
+        <li className={isShowNav ? null : "unshow"}>
           <Link to="/video/upload">video</Link>
         </li>
 
         {/* 로그아웃 */}
-        <li>
+        <li className={isShowNav ? null : "unshow"}>
           <Link to="/login" onClick={onClickLogout}>
             logout
           </Link>
@@ -27,12 +27,12 @@ export default function RightMenu({ visible, onClickLogout }) {
   return (
     <section className="nav__right__section">
       {/* 로그인 */}
-      <li>
+      <li className={isShowNav ? null : "unshow"}>
         <Link to="/login">login</Link>
       </li>
 
       {/* 회원가입 */}
-      <li>
+      <li className={isShowNav ? null : "unshow"}>
         <Link to="/register">register</Link>
       </li>
     </section>

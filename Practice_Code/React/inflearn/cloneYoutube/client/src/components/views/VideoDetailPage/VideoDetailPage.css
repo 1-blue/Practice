@@ -5,13 +5,6 @@
   align-items: center;
 }
 
-.title{
-  width: 80%;
-  padding-top: 10vh;
-  border-bottom: 1px solid black;
-  text-align: center;
-}
-
 .video{
   width: 80%;
 }

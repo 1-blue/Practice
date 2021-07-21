@@ -6,10 +6,6 @@
   align-items: center;
 }
 
-.title{
-  margin-bottom: 3rem;
-}
-
 /* 비디오 폼관련 */
 .video__form{
   min-width: 40%;
