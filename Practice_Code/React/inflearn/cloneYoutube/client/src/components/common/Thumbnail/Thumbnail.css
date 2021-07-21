@@ -33,17 +33,3 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.7);
 }
-.video__title{
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 0.4rem;
-}
-.video__writer{
-  font-size: 0.9rem;
-  color: gray;
-  margin-bottom: 0.2rem;
-}
-.video__data{
-  font-size: 0.9rem;
-  color: gray;
-}

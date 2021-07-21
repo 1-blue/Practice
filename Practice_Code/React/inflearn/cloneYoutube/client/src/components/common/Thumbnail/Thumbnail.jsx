@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { timeFormat, timeConverter } from "@/utils/filter";
+import { timeConverter } from "@/utils/filter";
 
 import "./Thumbnail.css";
 
-function Thumbnail({ video }) {
+function Thumbnail({ video, width }) {
   const [isHover, setIsHover] = useState(false);
 
   const onMouseEnter = () => {
@@ -15,8 +15,10 @@ function Thumbnail({ video }) {
     setIsHover(false);
   };
 
+  const widthSize = () => (width ? `${width}px` : "100%");
+
   return (
-    <li>
+    <>
       {/* 영상링크 */}
       <a href={`/video/${video._id}`}>
         <section className="thumbnail__container" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -25,6 +27,7 @@ function Thumbnail({ video }) {
             src={`http://localhost:3000/uploads/thumbnails/${video.thumbnailName}`}
             alt="썸네일"
             className="thumbnail"
+            style={{ width: widthSize() }}
           />
 
           {/* 영상 재생시간 */}
@@ -37,16 +40,7 @@ function Thumbnail({ video }) {
           {isHover && <div className="thumbnail__shadow" />}
         </section>
       </a>
-
-      {/* 영상 제목 */}
-      <span className="video__title">{video.title}</span>
-
-      {/* 영상 작성자 */}
-      <span className="video__writer">{video.writer.name}</span>
-
-      {/* 조회수 and 업로드시간 */}
-      <span className="video__data">조회수: 0 • {timeFormat(video.updatedAt)}</span>
-    </li>
+    </>
   );
 }
 

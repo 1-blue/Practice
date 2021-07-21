@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 
 import { apiFetchAllVideo } from "@/api";
 
-import Thumbnail from "@/components/common/Thumbnail";
+import HomeThumbnail from "./HomeThumbnail/HomeThumbnail";
 
 import "./homePage.css";
 
@@ -22,7 +22,9 @@ function HomePage() {
       <h1 className="title" style={{ paddingBottom: "2rem", borderBottom: "4px solid black" }}>
         CloneYube
       </h1>
-      <ul className="video__container">{videos && videos.map(video => <Thumbnail key={video._id} video={video} />)}</ul>
+      <ul className="video__container">
+        {videos && videos.map(video => <HomeThumbnail key={video._id} video={video} />)}
+      </ul>
     </section>
   );
 }
