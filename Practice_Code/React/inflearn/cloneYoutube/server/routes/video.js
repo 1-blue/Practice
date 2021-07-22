@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
   });
 });
 
-// 썸네일 생성
+// 썸네일 생성 및 재생시간 가져오기
 router.post("/thumbnail", async (req, res) => {
   // 비디오 경로
   const videoPath = `uploads/videos/${req.body.videoName}`;
@@ -41,7 +41,7 @@ router.post("/thumbnail", async (req, res) => {
   ffmpeg.ffprobe(videoPath, (err, metadata) => {
     // metadata에 영상에 대한 많은 정보들이 들어있음
     videoDuration = metadata.format.duration;
-    videoDuration = Math.round(videoDuration * 10) / 10;
+    videoDuration = Math.round(videoDuration);
   });
 
   // 썸네일 생성
