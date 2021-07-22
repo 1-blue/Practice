@@ -82,6 +82,12 @@ async function apiFetchSubscribeNumber(writerId) {
   return data;
 }
 
+// 조회수++
+async function apiAppendViews(videoId) {
+  const { data } = await instance.post("/views", { videoId });
+  return data;
+}
+
 export {
   apiRegister,
   apiLogin,
@@ -94,4 +100,5 @@ export {
   apiFetchVideo,
   apiAppendSubscribe,
   apiFetchSubscribeNumber,
+  apiAppendViews,
 };

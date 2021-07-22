@@ -14,7 +14,9 @@ function VideoInfo({ video }) {
       <span className="video__writer">{video.writer.name}</span>
 
       {/* 조회수 and 업로드시간 */}
-      <span className="video__data">조회수: 0 • {timeFormat(video.updatedAt)}</span>
+      <span className="video__data">
+        조회수: {video.views} • {timeFormat(video.updatedAt)}
+      </span>
     </>
   );
 }

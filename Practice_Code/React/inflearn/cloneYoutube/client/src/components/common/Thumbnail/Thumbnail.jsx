@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { apiAppendViews } from "@/api";
+
 import { timeConverter } from "@/utils/filter";
 
 import "./Thumbnail.css";
@@ -15,12 +17,17 @@ function Thumbnail({ video, width }) {
     setIsHover(false);
   };
 
+  // 조회수++
+  const onClickThumbnail = async () => {
+    await apiAppendViews(video._id);
+  };
+
   const widthSize = () => (width ? `${width}px` : "100%");
 
   return (
     <>
       {/* 영상링크 */}
-      <a href={`/video/${video._id}`}>
+      <a href={`/video/${video._id}`} onClick={onClickThumbnail}>
         <section className="thumbnail__container" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           {/* 썸네일 */}
           <img
