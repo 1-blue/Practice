@@ -70,6 +70,18 @@ async function apiFetchVideo(videoId) {
   return data;
 }
 
+// 구독
+async function apiAppendSubscribe(body) {
+  const { data } = await instance.post("/subscribe", body);
+  return data;
+}
+
+// 구독자 수 구하기
+async function apiFetchSubscribeNumber(writerId) {
+  const { data } = await instance.get(`/subscribe/${writerId}`);
+  return data;
+}
+
 export {
   apiRegister,
   apiLogin,
@@ -80,4 +92,6 @@ export {
   apiCreateThumbnail,
   apiFetchAllVideo,
   apiFetchVideo,
+  apiAppendSubscribe,
+  apiFetchSubscribeNumber,
 };

@@ -16,6 +16,13 @@
   align-self: flex-start;
 }
 
+.video__detail__info{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 사이드비디오 */
 .side__video__container{
   display: flex;
   flex-direction: column;
@@ -41,6 +48,18 @@
 .side__video__data{
   font-size: 0.7rem;
   color: gray;
+}
+
+/* 구독 */
+.subscribe__btn{
+  position: absolute;
+  top: 5%;
+  right: 0;
+  width: 100px;
+  height: 40px;
+  background-color: var(--subscribe-color);
+  color: white;
+  border-radius: 0.4rem;
 }
 
 @media screen and (max-width: 768px) {
