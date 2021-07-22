@@ -82,9 +82,21 @@ async function apiFetchSubscribeNumber(writerId) {
   return data;
 }
 
+// 조회수 찾기
+async function apiFetchViews(videoId) {
+  const { data } = await instance.get(`/views/${videoId}`);
+  return data;
+}
+
+// 조회수 생성
+async function apiCreateViews(videoId) {
+  const { data } = await instance.post("/views", { videoId });
+  return data;
+}
+
 // 조회수++
 async function apiAppendViews(videoId) {
-  const { data } = await instance.post("/views", { videoId });
+  const { data } = await instance.put("/views", { videoId });
   return data;
 }
 
@@ -100,5 +112,7 @@ export {
   apiFetchVideo,
   apiAppendSubscribe,
   apiFetchSubscribeNumber,
+  apiFetchViews,
+  apiCreateViews,
   apiAppendViews,
 };

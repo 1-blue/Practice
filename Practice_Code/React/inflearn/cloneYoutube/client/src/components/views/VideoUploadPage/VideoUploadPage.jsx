@@ -5,7 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 
 // 영상만 업로드
-import { apiUploadVideo, apiCreateThumbnail } from "@/api";
+import { apiUploadVideo, apiCreateThumbnail, apiCreateViews } from "@/api";
 
 // 영상과 관련정보 제출
 import { submitVideo } from "@/_actions/videoAction";
@@ -75,6 +75,8 @@ function VideoUploadPage(props) {
         thumbnailName,
       }),
     );
+
+    await apiCreateViews(response.payload.doc._id);
 
     // 로그인 성공 or 실패 메시지 전송
     alert(response.payload.message);
