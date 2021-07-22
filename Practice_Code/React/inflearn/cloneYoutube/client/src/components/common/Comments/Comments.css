@@ -1,0 +1,46 @@
+.comments__container{
+  margin-bottom: 10vh;
+}
+
+/* 댓글입력 form */
+.comments__form{
+  display: flex;
+  justify-content: space-between;
+}
+.comments__textarea{
+  width: 88%;
+  padding: .4rem;
+  border-radius: .4rem;
+}
+.comments__btn{
+  width: 10%;
+  background-color: var(--blue-color);
+  color: white;
+  border-radius: .4rem;
+  font-size: 1rem;
+}
+
+/* 실제 댓글 내용 */
+.comments__wrapper{
+  display: flex;
+  padding: 1rem;
+}
+.comments__data{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.comments__writer{
+  color: gray;
+  font-size: 0.8rem;
+}
+
+.recomments__toggle__btn{
+  text-align: start;
+}
+
+
+/* 댓글옵션 ( 좋아요, 싫어요, 답글달기 ) */
+.comments__option{
+
+}

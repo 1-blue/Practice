@@ -6,6 +6,7 @@ import { withRouter } from "react-router";
 import { apiFetchVideo, apiFetchAllVideo, apiAppendSubscribe, apiFetchSubscribeNumber } from "@/api";
 
 import VideoInfo from "@/components/common/VideoInfo/VideoInfo";
+import Comments from "@/components/common/Comments/Comments";
 import Video from "./Video/Video";
 import SideVideo from "./SideVideo/SideVideo";
 import Subscribe from "./Subscribe/Subscribe";
@@ -77,7 +78,9 @@ function VideoDetailPage({ match }) {
             <VideoInfo video={video} />
 
             {/* 영상 내용 */}
-            <p>{video.description}</p>
+            <pre>{video.description}</pre>
+
+            <hr />
 
             {/* 구독버튼 */}
             {user && videoWriter && (
@@ -88,9 +91,10 @@ function VideoDetailPage({ match }) {
               />
             )}
 
-            {/* 좋아요 */}
-
             {/* 댓글 */}
+            <Comments videoId={video._id} />
+
+            {/* 좋아요 */}
           </section>
         </section>
       )}

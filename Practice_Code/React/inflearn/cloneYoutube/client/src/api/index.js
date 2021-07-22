@@ -100,6 +100,18 @@ async function apiAppendViews(videoId) {
   return data;
 }
 
+// 해당 전체 영상댓글 가져오기
+async function apiFetchComments(videoId) {
+  const { data } = await instance.get(`/comments/${videoId}`);
+  return data;
+}
+
+// 댓글추가
+async function apiAppendComments(body) {
+  const { data } = await instance.post("/comments", body);
+  return data;
+}
+
 export {
   apiRegister,
   apiLogin,
@@ -115,4 +127,6 @@ export {
   apiFetchViews,
   apiCreateViews,
   apiAppendViews,
+  apiFetchComments,
+  apiAppendComments,
 };

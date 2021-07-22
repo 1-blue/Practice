@@ -76,6 +76,7 @@ function VideoUploadPage(props) {
       }),
     );
 
+    // 조회수 생성
     await apiCreateViews(response.payload.doc._id);
 
     // 로그인 성공 or 실패 메시지 전송
