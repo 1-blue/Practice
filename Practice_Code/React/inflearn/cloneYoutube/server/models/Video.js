@@ -12,24 +12,12 @@ const videoSchema = mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    description: {
-      type: String,
-    },
-    videoName: {
-      type: String,
-    },
-    privacy: {
-      type: String,
-    },
-    category: {
-      type: String,
-    },
+    description: String,
+    videoName: String,
+    privacy: String,
+    category: String,
     duration: String,
     thumbnailName: String,
-    views: {
-      type: Number,
-      default: 0,
-    },
   },
   { timestamps: true },
 );
