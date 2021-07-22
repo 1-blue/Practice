@@ -44,11 +44,13 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const videoRouter = require("./routes/video");
 const subscribeRouter = require("./routes/subscribe");
+const viewsRouter = require("./routes/views");
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/video", videoRouter);
 app.use("/subscribe", subscribeRouter);
+app.use("/views", viewsRouter);
 
 app.listen(3000, () => {
   console.log("3000번 대기중");
