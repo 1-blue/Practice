@@ -60,7 +60,7 @@ function timeFormat(value) {
 // 플레이 시간 변환기
 function timeConverter(duration) {
   if (+duration >= 60) {
-    return `${duration / 60} : ${duration % 60}`;
+    return `${Math.floor(duration / 60)} : ${duration % 60}`;
   }
   return `0:${duration % 60}`;
 }

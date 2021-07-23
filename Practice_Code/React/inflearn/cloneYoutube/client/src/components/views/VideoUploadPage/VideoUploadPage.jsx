@@ -10,6 +10,8 @@ import { apiUploadVideo, apiCreateThumbnail, apiCreateViews } from "@/api";
 // 영상과 관련정보 제출
 import { submitVideo } from "@/_actions/videoAction";
 
+import Spinner from "@/components/common/Spinnner/Spinner";
+
 // css
 import "./videoUpload.css";
 
@@ -33,11 +35,15 @@ function VideoUploadPage(props) {
   const [category, setCategory] = useState("Film & Animation");
   const [thumbnailName, setThumbnailName] = useState("");
   const [duration, setDuration] = useState();
+  const [isSpinner, setIsSpinner] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector(state => state.userReducer.userData);
 
   // 영상 드랍다운
   const onDrop = useCallback(async acceptedFiles => {
+    // 스피너 on
+    setIsSpinner(true);
+
     // 영상만 서버에 미리 저장후 저장한 이름 가져오기
     const data = await apiUploadVideo(acceptedFiles);
 
@@ -52,6 +58,9 @@ function VideoUploadPage(props) {
 
     setThumbnailName(response.thumbnailName);
     setDuration(response.videoDuration);
+
+    // 스피너 off
+    setIsSpinner(false);
   }, []);
 
   // 드랍존 관련
@@ -61,6 +70,7 @@ function VideoUploadPage(props) {
   const onUploadVideo = async e => {
     e.preventDefault();
 
+    if (isSpinner === true) return alert("영상이 업로드된 이후에 시도해주세요");
     if (!videoName) return alert("업로드할 영상을 선택해주세요");
 
     const response = await dispatch(
@@ -136,6 +146,9 @@ function VideoUploadPage(props) {
           <section className="video__thumbnail">
             {thumbnailName && <img src={`http://localhost:3000/uploads/thumbnails/${thumbnailName}`} alt="썸네일" />}
           </section>
+
+          {/* 스피너 */}
+          <div className="video__upload__spinner">{isSpinner && <Spinner />}</div>
         </section>
 
         {/* 영상 제목 */}

@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { timeFormat } from "@/utils/filter";
 
+import { apiClickLike, apiClickDislike, apiFetchCommentsLike, apiFetchCommentsDislike } from "@/api";
+
 import CommentsOption from "./CommentsOption";
 
-function CommentsReply({ commentsList, comments, onSubmitAppendComments, onChangeComments }) {
+function CommentsReply({ user, commentsList, comments, onSubmitAppendComments, onChangeComments }) {
   const [isShowRecomments, setIsShowRecomments] = useState(false);
+  const [like, setLike] = useState(0);
+  const [dislike, setDislike] = useState(0);
 
   // 대댓글 개수 ( 출력할 댓글의 아이디를 참조하는 댓글의 개수 구하기 )
   const commentsNumber = () => commentsList.filter(vComments => vComments.commentsId === comments._id).length;
@@ -24,6 +28,7 @@ function CommentsReply({ commentsList, comments, onSubmitAppendComments, onChang
     return recomments.map(vComments => (
       <CommentsReply
         key={vComments._id}
+        user={user}
         commentsList={commentsList}
         comments={vComments}
         onSubmitAppendComments={onSubmitAppendComments}
@@ -35,6 +40,33 @@ function CommentsReply({ commentsList, comments, onSubmitAppendComments, onChang
   // 답글보기 toggle
   const onClickToggleRecomments = () => {
     setIsShowRecomments(!isShowRecomments);
+  };
+
+  // 좋아요 관련
+  useEffect(async () => {
+    await fetchLike();
+  }, []);
+
+  // 좋아요, 싫어요 패치
+  const fetchLike = async () => {
+    setLike(await apiFetchCommentsLike(comments._id));
+    setDislike(await apiFetchCommentsDislike(comments._id));
+  };
+
+  // 좋아요 or 싫어요
+  const onClickLike = async e => {
+    switch (e.target.name) {
+      case "like":
+        await apiClickLike({ commentsId: comments._id, userId: user._id });
+        break;
+      case "dislike":
+        await apiClickDislike({ commentsId: comments._id, userId: user._id });
+        break;
+
+      default:
+        break;
+    }
+    await fetchLike();
   };
 
   return (
@@ -57,6 +89,9 @@ function CommentsReply({ commentsList, comments, onSubmitAppendComments, onChang
           onSubmitAppendComments={onSubmitAppendComments}
           onChangeComments={onChangeComments}
           commentsId={comments._id}
+          like={like}
+          dislike={dislike}
+          onClickLike={onClickLike}
         />
 
         {/* 답글더보기 버튼 */}

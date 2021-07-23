@@ -112,6 +112,42 @@ async function apiAppendComments(body) {
   return data;
 }
 
+// 좋아요 클릭
+async function apiClickLike(body) {
+  const { data } = await instance.post("/like/like", body);
+  return data;
+}
+
+// 싫어요 클릭
+async function apiClickDislike(body) {
+  const { data } = await instance.post("/like/dislike", body);
+  return data;
+}
+
+// 영상의 좋아요 개수
+async function apiFetchVideoLike(videoId) {
+  const { data } = await instance.get(`/like/video/like/${videoId}`);
+  return data;
+}
+
+// 영상의 싫어요 개수
+async function apiFetchVideoDislike(videoId) {
+  const { data } = await instance.get(`/like/video/dislike/${videoId}`);
+  return data;
+}
+
+// 댓글의 좋아요 개수
+async function apiFetchCommentsLike(commentsId) {
+  const { data } = await instance.get(`/like/comments/like/${commentsId}`);
+  return data;
+}
+
+// 댓글의 싫어요 개수
+async function apiFetchCommentsDislike(commentsId) {
+  const { data } = await instance.get(`/like/comments/dislike/${commentsId}`);
+  return data;
+}
+
 export {
   apiRegister,
   apiLogin,
@@ -129,4 +165,10 @@ export {
   apiAppendViews,
   apiFetchComments,
   apiAppendComments,
+  apiClickLike,
+  apiClickDislike,
+  apiFetchVideoLike,
+  apiFetchVideoDislike,
+  apiFetchCommentsLike,
+  apiFetchCommentsDislike,
 };

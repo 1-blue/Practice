@@ -3,10 +3,20 @@ import { useSelector } from "react-redux";
 
 import { withRouter } from "react-router";
 
-import { apiFetchVideo, apiFetchAllVideo, apiAppendSubscribe, apiFetchSubscribeNumber } from "@/api";
+import {
+  apiFetchVideo,
+  apiFetchAllVideo,
+  apiAppendSubscribe,
+  apiFetchSubscribeNumber,
+  apiClickLike,
+  apiClickDislike,
+  apiFetchVideoLike,
+  apiFetchVideoDislike,
+} from "@/api";
 
 import VideoInfo from "@/components/common/VideoInfo/VideoInfo";
 import Comments from "@/components/common/Comments/Comments";
+import Like from "@/components/common/Like/Like";
 import Video from "./Video/Video";
 import SideVideo from "./SideVideo/SideVideo";
 import Subscribe from "./Subscribe/Subscribe";
@@ -19,6 +29,8 @@ function VideoDetailPage({ match }) {
   const [videoWriter, setVideoWriter] = useState("");
   const [SubscribeNumber, setSubscribeNumber] = useState(0);
   const [isSubscribe, setIsSubscribe] = useState(false);
+  const [like, setLike] = useState(0);
+  const [dislike, setDislike] = useState(0);
   const user = useSelector(state => state.userReducer.userData);
 
   // 영상정보가져오기
@@ -48,6 +60,19 @@ function VideoDetailPage({ match }) {
     setIsSubscribe(subscribes.some(subscribe => subscribe.userTo === user._id));
   }, [video, user]);
 
+  // 좋아요 관련
+  useEffect(async () => {
+    await fetchLike();
+  }, [video]);
+
+  // 좋아요, 싫어요 패치
+  const fetchLike = async () => {
+    if (!video) return;
+
+    setLike(await apiFetchVideoLike(video._id));
+    setDislike(await apiFetchVideoDislike(video._id));
+  };
+
   // 구독버튼클릭
   const onClickSubscribe = async () => {
     const response = await apiAppendSubscribe({ writerId: videoWriter, userId: user._id });
@@ -63,6 +88,22 @@ function VideoDetailPage({ match }) {
       // 내가 구독했는지 여부
       setIsSubscribe(subscribes.some(subscribe => subscribe.userTo === user._id));
     }
+  };
+
+  // 좋아요 or 싫어요
+  const onClickLike = async e => {
+    switch (e.target.name) {
+      case "like":
+        await apiClickLike({ videoId: video._id, userId: user._id });
+        break;
+      case "dislike":
+        await apiClickDislike({ videoId: video._id, userId: user._id });
+        break;
+
+      default:
+        break;
+    }
+    await fetchLike();
   };
 
   return (
@@ -82,6 +123,9 @@ function VideoDetailPage({ match }) {
 
             <hr />
 
+            {/* 댓글 */}
+            <Comments videoId={video._id} />
+
             {/* 구독버튼 */}
             {user && videoWriter && (
               <Subscribe
@@ -91,10 +135,10 @@ function VideoDetailPage({ match }) {
               />
             )}
 
-            {/* 댓글 */}
-            <Comments videoId={video._id} />
-
             {/* 좋아요 */}
+            <div className="video__like__container">
+              <Like onClickLike={onClickLike} like={like} dislike={dislike} />
+            </div>
           </section>
         </section>
       )}

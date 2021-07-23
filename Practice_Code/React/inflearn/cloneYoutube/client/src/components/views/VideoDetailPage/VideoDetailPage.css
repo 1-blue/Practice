@@ -53,13 +53,20 @@
 /* 구독 */
 .subscribe__btn{
   position: absolute;
-  top: 5%;
+  top: 1%;
   right: 0;
   width: 100px;
   height: 40px;
   background-color: var(--subscribe-color);
   color: white;
   border-radius: 0.4rem;
+}
+
+/* 좋아요 */
+.video__like__container{
+  position: absolute;
+  top: 8%;
+  right: 2.5%;
 }
 
 @media screen and (max-width: 768px) {

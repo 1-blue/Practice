@@ -19,6 +19,11 @@ function Comments({ videoId }) {
   const onSubmitAppendComments = async (e, commentsId) => {
     e.preventDefault();
 
+    // 비로그인시
+    if (!user.result) {
+      return alert("로그인후에 댓글을 작성해주세요");
+    }
+
     await apiAppendComments({ videoId, commentsId, userId: user._id, contents });
     onFetchData();
   };

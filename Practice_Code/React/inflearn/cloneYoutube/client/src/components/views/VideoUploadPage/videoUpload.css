@@ -23,6 +23,7 @@
   margin-bottom: 1rem;
 }
 .video__section{
+  position: relative;
   display: flex;
   justify-content: space-between;
 }
@@ -47,6 +48,11 @@
 .video__thumbnail{
   width: 45%;
   height: 200px;
+}
+.video__upload__spinner{
+  position: absolute;
+  top: 35%;
+  right: 20%;
 }
 .select{
   display: flex;

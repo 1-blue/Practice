@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
+import Like from "@/components/common/Like/Like";
 import CommentsForm from "./CommentsForm";
 
-function CommentsOption({ onSubmitAppendComments, onChangeComments, commentsId }) {
+function CommentsOption({ onSubmitAppendComments, onChangeComments, commentsId, like, dislike, onClickLike }) {
   const [isShowForm, setIsShowComments] = useState(false);
 
   const onClickShowForm = () => {
@@ -11,8 +12,9 @@ function CommentsOption({ onSubmitAppendComments, onChangeComments, commentsId }
 
   return (
     <section className="comments__option">
-      <button type="button">👍0</button>
-      <button type="button">👎0</button>
+      <div className="comments__like__container">
+        <Like like={like} dislike={dislike} onClickLike={onClickLike} />
+      </div>
       <button type="button" onClick={onClickShowForm}>
         답글달기
       </button>
