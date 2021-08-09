@@ -1,0 +1,32 @@
+{
+  "name": "moive-site-server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "dev": "concurrently \"npm start dev\" \"cd ../client && npm start\""
+  },
+  "author": "1-blue",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2"
+  },
+  "keywords": [],
+  "description": ""
+}
