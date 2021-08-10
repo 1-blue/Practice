@@ -1,4 +1,6 @@
-.title__main{
-  font-size: 2rem;
-  font-weight: bold;
+.main__page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10vh;
 }

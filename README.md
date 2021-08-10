@@ -94,5 +94,8 @@ react - boiler-plate구현
 + 2021-07-17(토)		
 react - react-router공부		
 
-+ 2021-07-19(월) ~ 
++ 2021-07-19(월) ~ 2021-07-26(월)
 react - clone-youtube구현 		
+
++ 2021-08-10(월)
+react - movie-site구현
