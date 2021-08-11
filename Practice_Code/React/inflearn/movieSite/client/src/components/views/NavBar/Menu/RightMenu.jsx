@@ -10,7 +10,7 @@ export default function RightMenu({ visible, onClickLogout, isShowNav }) {
       <section className="nav__right__section">
         {/* 테스트페이지 */}
         <li className={isShowNav ? null : "unshow"}>
-          <Link to="/test">test</Link>
+          <Link to="/favorite">favorite</Link>
         </li>
 
         {/* 로그아웃 */}

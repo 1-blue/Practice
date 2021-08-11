@@ -57,4 +57,47 @@ async function fetchMovieActors(movieId, language = "ko") {
   return data;
 }
 
-export { apiRegister, apiLogin, apiLogout, apiAuth, fetchMovieList, fetchMovieInfo, fetchMovieActors };
+// 특정 영화의 좋아요클릭
+async function clickFavoriteMovie(body) {
+  const { data } = await instance.post("/favorite", body);
+  return data;
+}
+
+// 특정 영화의 좋아요개수
+async function fetchMovieFavoriteCount(movieId) {
+  const { data } = await instance.get(`/favorite/count/${movieId}`);
+  return data;
+}
+
+// 내가 좋아요 눌렀는지 체크
+async function checkFavoriteMovie(body) {
+  const { data } = await instance.post("/favorite/check", body);
+  return data;
+}
+
+// 로그인한 유저가 좋아요 누른 영화리스트
+async function fetchFavoriteMovieList(userId) {
+  const { data } = await instance.get(`/favorite/${userId}`);
+  return data;
+}
+
+// 특정영화 좋아요 삭제
+async function deleteFavoriteMovie(userId, movieId) {
+  const { data } = await instance.delete(`/favorite`, { data: { userId, movieId } });
+  return data;
+}
+
+export {
+  apiRegister,
+  apiLogin,
+  apiLogout,
+  apiAuth,
+  fetchMovieList,
+  fetchMovieInfo,
+  fetchMovieActors,
+  clickFavoriteMovie,
+  fetchMovieFavoriteCount,
+  checkFavoriteMovie,
+  fetchFavoriteMovieList,
+  deleteFavoriteMovie,
+};

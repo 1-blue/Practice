@@ -1,6 +1,7 @@
 .movie__detail__page__container{
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
 
 .actor__toggle__btn{

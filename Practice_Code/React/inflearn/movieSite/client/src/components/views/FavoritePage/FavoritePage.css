@@ -1,0 +1,32 @@
+.favorite__page__container{
+  width: 80%;
+  margin: auto;
+  margin-top: 5vh;
+}
+
+.favorite__movie__list__container{
+  margin-top: 3vh;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.favorite__movie:first-child{
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.favorite__movie{
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 150px 150px;
+  border: 1px solid gray;
+}
+
+.favorite__movie > span{
+  border: 1px solid gray;
+  padding: .5rem;
+}
+.favorite__movie > button{
+  border: 1px solid gray;
+  padding: .5rem;
+}
