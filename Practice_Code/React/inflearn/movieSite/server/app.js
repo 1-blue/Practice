@@ -36,11 +36,9 @@ mongoose
   .catch(error => console.error("몽고디비 연결 실패 >> ", error));
 
 // 라우터
-const authRouter = require("./routes/auth");
-const userRouter = require("./routes/user");
-
-app.use("/auth", authRouter);
-app.use("/user", userRouter);
+app.use("/auth", require("./routes/auth"));
+app.use("/user", require("./routes/user"));
+app.use("/favorite", require("./routes/favorite"));
 
 app.listen(3000, () => {
   console.log("3000번 대기중");
