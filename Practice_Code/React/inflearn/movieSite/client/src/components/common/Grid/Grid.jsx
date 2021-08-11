@@ -7,11 +7,11 @@ import "./Grid.css";
 // component
 import GridCard from "./GridCard/GridCard";
 
-function Grid({ movies }) {
+function Grid({ items, kinds }) {
   return (
     <section className="grid">
-      {movies.map(movie => (
-        <GridCard key={movie.id} movie={movie} />
+      {items.map(item => (
+        <GridCard key={item.id} item={item} kinds={kinds} />
       ))}
     </section>
   );

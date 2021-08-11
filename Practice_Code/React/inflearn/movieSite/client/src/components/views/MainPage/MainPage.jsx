@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
 
 // api
-import { apiMovie } from "@/api";
+import { fetchMovieList } from "@/api";
 
 // css
 import "./MainPage.css";
 
 // component
 import Grid from "@/components/common/Grid/Grid";
-import MainImage from "./MainImage/MainImage";
+import MainImage from "@/components/common/MainImage/MainImage";
 import FetchMovieBtn from "./FetchMovieBtn/FetchMovieBtn";
 
 let timerId = null;
@@ -24,7 +24,7 @@ function MainPage() {
   // 영화 패치
   const fetchMovies = async () => {
     // movie정보들의 임시저장소
-    const tempMovieArray = await apiMovie(language, pageNumber);
+    const tempMovieArray = await fetchMovieList(language, pageNumber);
 
     // 패치한 movie들 저장
     setMovies(prev => [...prev, ...tempMovieArray.results]);
@@ -81,11 +81,8 @@ function MainPage() {
         />
       )}
 
-      <br />
-      <br />
-
       {/* 영화 그리드 */}
-      {movies && <Grid movies={movies} />}
+      {movies && <Grid items={movies} kinds="main" />}
 
       {/* 영화 추가로 패치버튼 */}
       {movies && <FetchMovieBtn fetchMovies={fetchMovies}>more</FetchMovieBtn>}

@@ -33,12 +33,28 @@ async function apiAuth() {
   return data;
 }
 
-// 영화 api호출
-async function apiMovie(language, pageNumber) {
+// 인기영화정보들 가져오기
+async function fetchMovieList(language = "ko-korean", pageNumber = 1) {
   const { data } = await apiMovieInstance.get(
     `movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=${language}&page=${pageNumber}`,
   );
   return data;
 }
 
-export { apiRegister, apiLogin, apiLogout, apiAuth, apiMovie };
+// 특정 영화의 정보 가져오기
+async function fetchMovieInfo(movieId, language = "ko") {
+  const { data } = await apiMovieInstance.get(
+    `movie/${movieId}?api_key=${process.env.REACT_APP_API_KEY}&language=${language}`,
+  );
+  return data;
+}
+
+// 특정 영화의 배우정보 가져오기
+async function fetchMovieActors(movieId, language = "ko") {
+  const { data } = await apiMovieInstance.get(
+    `movie/${movieId}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=${language}`,
+  );
+  return data;
+}
+
+export { apiRegister, apiLogin, apiLogout, apiAuth, fetchMovieList, fetchMovieInfo, fetchMovieActors };

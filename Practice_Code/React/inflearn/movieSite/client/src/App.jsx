@@ -6,6 +6,7 @@ import NavBar from "@/components/views/NavBar/NavBar";
 import MainPage from "@/components/views/MainPage/MainPage";
 import LoginPage from "@/components/views/LoginPage/LoginPage";
 import RegisterPage from "@/components/views/RegisterPage/RegisterPage";
+import MovieDetailPage from "@/components/views/MovieDetailPage/MovieDetailPage";
 
 // 테스트용
 import TestPage from "@/components/views/TestPage/TestPage";
@@ -22,6 +23,7 @@ export default function App() {
         <Route exact path="/" component={Auth(MainPage, false)} />
         <Route exact path="/login" component={Auth(LoginPage, false)} />
         <Route exact path="/register" component={Auth(RegisterPage, false)} />
+        <Route exact path="/movie/:movieId" component={Auth(MovieDetailPage, false)} />
         <Route exact path="/test" component={Auth(TestPage, true)} />
       </Switch>
     </BrowserRouter>

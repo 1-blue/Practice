@@ -1,0 +1,15 @@
+.movie__detail__page__container{
+  display: flex;
+  flex-direction: column;
+}
+
+.actor__toggle__btn{
+  margin-top: 5vh;
+  background: black;
+  color: white;
+  width: 20%;
+  height: 3rem;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  align-self: center;
+}
