@@ -2,6 +2,8 @@
 1. [여기](https://velopert.com/3417) 참고
 2. [여기](https://velog.io/@pkbird/React-Router-1) 참고
 
+## 0. `<BrowserRouter>`와 `<HashRouter>`
+
 ## 1. `<Route>`
 1. `path`경로에 해당하는 컴포넌트만 랜더링해줌
 2. `exact`를 사용하면 `path`에 정확하게 일치하는 라우터만 랜더링함 ( 사용안하면 일부만 일치해도 랜더링해줌 )
@@ -41,7 +43,7 @@ import { Home, About } from 'pages';
 
 ```javascript
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "@/css/link.css";
 
 function Menu() {
@@ -65,3 +67,5 @@ function Menu() {
   );
 }
 ```
+
+## useParams()

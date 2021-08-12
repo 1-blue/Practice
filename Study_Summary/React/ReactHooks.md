@@ -1,5 +1,6 @@
 # React-Hooks정리
-[리액트공식홈페이지](https://ko.reactjs.org/docs/hooks-intro.html) 읽고 정리한거
+[리액트공식홈페이지](https://ko.reactjs.org/docs/hooks-intro.html) 읽고 정리한거    
+버전 16.8.0이상부터 안정적으로 사용가능   
 
 ## 1. Hook
 함수안에서 `state`등 다른 기능들을 사용할 수 있게 해줌
@@ -92,3 +93,21 @@ function FriendStatus(props) {
 ```
 
 ### 1.4 useContext
+
+
+### 1.5 useReducer
+### 1.6 useCallback
+### 1.7 useMemo
+### 1.8 useRef
++ `const refInput = React.useRef(초기값)`   
++ `React.useRef()`로 생성된 값은 컴포넌트의 전 생애주기에 값이 유지됨   
++ 순수한 자바스크립트 객체를 생성함
++ `React.useRef()`가 변한다고 해서 랜더링되지 않음    
+
+### 1.9 useImperativeHandle
+
+
+### 1.10 useLayoutEffect
+
+
+### 1.11 useDebugValue

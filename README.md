@@ -16,20 +16,20 @@ vue-cli, vue-style-guide정리 및 테스트 프로젝트 생성
 + 2021-05-23(일)		
 JavaScript - 로또추첨기
 
-+ 2021-05-24(월)    
++ 2021-05-24(월)    	
 vue - TodoList
 
-+ 2021-05-25(화)    
++ 2021-05-25(화)    	
 vue - vue-api문서읽고 공부중
 
-+ 2021-05-26(수)    
++ 2021-05-26(수)    	
 JavaScript - 가위바위보		
 vue - vue-api공부하다가 부족함을 깨닫고 vue공식문서 처음부터 정독할 예정 + 인프런 vue(캡틴판교)강의 다시듣는중
 
-+ 2021-05-27(목)    
++ 2021-05-27(목)    	
 vue - todoList완성		
 
-+ 2021-05-28(금)    
++ 2021-05-28(금)		
 javascript - (javascript.info) browser읽는중 (좌표까지읽음)		
 vue - vuex공부 및 정리					
 vue - hackerNews클론코딩 ( 미완성 )		
@@ -92,10 +92,13 @@ react - 공식문서, 인프런 보면서 공부중 ( 가위바위보 )
 react - boiler-plate구현		
 
 + 2021-07-17(토)		
-react - react-router공부		
+react - react-router공부			
 
-+ 2021-07-19(월) ~ 2021-07-26(월)
++ 2021-07-19(월) ~ 2021-07-26(월)		
 react - clone-youtube구현 		
 
-+ 2021-08-10(월)
++ 2021-08-10(월) ~ 2021-08-12(목)		
 react - movie-site구현
+
++ 2021-08-12(목)		
+docker - node와 docker연계해서 공부중
