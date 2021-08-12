@@ -102,3 +102,6 @@ react - movie-site구현
 
 + 2021-08-12(목)		
 docker - node와 docker연계해서 공부중
+
++ 2021-08-13(금)		
+react - chat-bot구현 ( google-dialogflow이용 )
