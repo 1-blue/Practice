@@ -87,6 +87,42 @@ async function deleteFavoriteMovie(userId, movieId) {
   return data;
 }
 
+// 해당 전체 영상댓글 가져오기
+async function apiFetchComments(movieId) {
+  const { data } = await instance.get(`/comments/${movieId}`);
+  return data;
+}
+
+// 댓글추가
+async function apiAppendComments(body) {
+  const { data } = await instance.post("/comments", body);
+  return data;
+}
+
+// 좋아요 클릭
+async function apiClickLike(body) {
+  const { data } = await instance.post("/like/like", body);
+  return data;
+}
+
+// 싫어요 클릭
+async function apiClickDislike(body) {
+  const { data } = await instance.post("/like/dislike", body);
+  return data;
+}
+
+// 댓글의 좋아요 개수
+async function apiFetchCommentsLike(commentsId) {
+  const { data } = await instance.get(`/like/comments/like/${commentsId}`);
+  return data;
+}
+
+// 댓글의 싫어요 개수
+async function apiFetchCommentsDislike(commentsId) {
+  const { data } = await instance.get(`/like/comments/dislike/${commentsId}`);
+  return data;
+}
+
 export {
   apiRegister,
   apiLogin,
@@ -100,4 +136,10 @@ export {
   checkFavoriteMovie,
   fetchFavoriteMovieList,
   deleteFavoriteMovie,
+  apiFetchComments,
+  apiAppendComments,
+  apiClickLike,
+  apiClickDislike,
+  apiFetchCommentsLike,
+  apiFetchCommentsDislike,
 };

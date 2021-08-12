@@ -15,6 +15,7 @@ import "./MovieDetailPage.css";
 
 import MainImage from "@/components/common/MainImage/MainImage";
 import Grid from "@/components/common/Grid/Grid";
+import Comments from "@/components/common/Comments/Comments";
 import MovieInfo from "./MovieInfo/MovieInfo";
 import MovieFavoriteBtn from "./MovieFavoriteBtn/MovieFavoriteBtn";
 
@@ -92,6 +93,9 @@ function MovieDetailPage(props) {
 
       {/* 현재 영화 출연배우들 */}
       {toggleActor && movieActors && <Grid items={movieActors} kinds="detail" />}
+
+      {/* 댓글 */}
+      <Comments movieId={movieId} />
     </section>
   );
 }
