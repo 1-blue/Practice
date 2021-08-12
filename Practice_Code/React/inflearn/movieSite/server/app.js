@@ -39,6 +39,8 @@ mongoose
 app.use("/auth", require("./routes/auth"));
 app.use("/user", require("./routes/user"));
 app.use("/favorite", require("./routes/favorite"));
+app.use("/comments", require("./routes/comments"));
+app.use("/like", require("./routes/like"));
 
 app.listen(3000, () => {
   console.log("3000번 대기중");
