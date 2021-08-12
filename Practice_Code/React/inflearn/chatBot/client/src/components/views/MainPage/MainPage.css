@@ -1,0 +1,10 @@
+.main__page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__page__title{
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+}

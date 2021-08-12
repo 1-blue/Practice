@@ -1,0 +1,18 @@
+.chat__form{
+  width: 70%;
+  margin-top: 1vh;
+}
+
+.chat__input{
+  width: 90%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.chat__button{
+  width: 9%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: lightgray;
+  margin-left: 1%;
+}
