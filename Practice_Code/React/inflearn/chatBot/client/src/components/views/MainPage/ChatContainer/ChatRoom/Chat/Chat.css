@@ -1,14 +1,16 @@
 .chat{
-  background-color: gray;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  color: white;
 }
 
 .my__chat{
   align-self: flex-end;
+  background-color: #a5d175;
+  color: white;
 }
 
 .robot__chat{
   align-self: flex-start;
+  background-color: lightgray;
+  color: black;
 }

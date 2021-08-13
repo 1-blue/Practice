@@ -1,4 +1,3 @@
-export const LOGIN_USER = "login_user";
-export const LOGOUT_USER = "logout_user";
-export const REGISTER_USER = "register_user";
-export const AUTH_USER = "auth_user";
+export const DIALOGFLOW_EVENT = "dialogflow_event";
+export const DIALOGFLOW_TEXT = "dialogflow_text";
+export const MY_TEXT = "my_text";

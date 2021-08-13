@@ -1,7 +1,5 @@
 const express = require('express');
 const dialogflow = require('dialogflow');
-const structjson = require('./structjson.js');
-
 const router = express.Router();
 
 const { googleProjectID: projectId, dialogFlowSessionID: sessionId, dialogFlowSessionLanguageCode: languageCode } = require("../config/dev");

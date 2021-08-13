@@ -6,4 +6,5 @@
   border-radius: 1rem;
   width: 80vw;
   height: 70vh;
+  overflow: auto;
 }
