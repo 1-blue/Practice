@@ -4,12 +4,12 @@ node_modules
 /config
 .env
 
-# 테스트용
-/test
-
 # 리액트 연습용
 Practice_Code/React/react-test-app
 uploads
+
+# next
+.next
 
 # local env files
 .env
@@ -36,3 +36,4 @@ vue-test
 javascript-test
 webpack-test
 node-test
+/test

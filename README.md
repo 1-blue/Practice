@@ -103,5 +103,11 @@ react - movie-site구현
 + 2021-08-12(목)		
 docker - node와 docker연계해서 공부중
 
-+ 2021-08-13(금)		
++ 2021-08-13(금) ~ 2021-08-14(토)		
 react - chat-bot구현 ( google-dialogflow이용 )
+
++ 2021-08-14(토)		
+redis - redis.md추가
+
++ 2021-08-15(일) ~			
+react - node-bird구현

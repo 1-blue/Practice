@@ -1,0 +1,37 @@
+{
+  "name": "node-bird-front",
+  "version": "1.0.0",
+  "description": "clone-twittwer-front",
+  "main": "app.js",
+  "scripts": {
+    "dev": "next"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1-blue/Practice.git"
+  },
+  "author": "1-blue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1-blue/Practice/issues"
+  },
+  "homepage": "https://github.com/1-blue/Practice#readme",
+  "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "antd": "^4.16.11",
+    "babel-plugin-styled-components": "^1.13.2",
+    "next": "^11.1.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.2"
+  }
+}
