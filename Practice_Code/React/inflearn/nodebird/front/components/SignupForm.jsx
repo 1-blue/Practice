@@ -18,7 +18,7 @@ function SignupForm() {
   const [passwordError, setPasswordError] = useState(false);
   const [termAgree, setTermAgree] = useState(false);
 
-  // 로그인
+  // 회원가입
   const onSubmitSignup = useCallback(() => {
     console.log("========== 테스트 ==========");
     console.log("nickname >> ", nickname);

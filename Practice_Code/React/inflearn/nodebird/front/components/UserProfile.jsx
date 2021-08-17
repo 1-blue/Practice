@@ -1,10 +1,14 @@
 import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { Card, Avatar, Button } from "antd";
-import PropTypes from "prop-types";
 
-function UserProfile({ setIsLoginIn }) {
+import { userLogout } from "../store/actions";
+
+function UserProfile() {
+  const dispatch = useDispatch();
+
   const onLogout = useCallback(() => {
-    setIsLoginIn(false);
+    dispatch(userLogout());
   });
 
   // 유저프로필 보여줄 카드 ( 트윗, 팔로잉, 팔로워, 유저이미지, 로그아웃 )
@@ -33,9 +37,5 @@ function UserProfile({ setIsLoginIn }) {
     </Card>
   );
 }
-
-UserProfile.propTypes = {
-  setIsLoginIn: PropTypes.func.isRequired,
-};
 
 export default UserProfile;

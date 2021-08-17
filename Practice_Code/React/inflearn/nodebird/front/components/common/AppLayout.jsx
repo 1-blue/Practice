@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Col, Row } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
+
+import { useSelector } from "react-redux";
 
 // components
 import NavigationBar from "../NavigationBar";
@@ -9,8 +11,7 @@ import LoginForm from "../LoginForm";
 import UserProfile from "../UserProfile";
 
 const AppLayout = ({ children }) => {
-  // 로그인 여부 판단해줄 변수
-  const [isLoginIn, setIsLoginIn] = useState(false);
+  const { user } = useSelector(state => state.userReducer);
 
   return (
     <>
@@ -21,7 +22,7 @@ const AppLayout = ({ children }) => {
       <Row gutter={4}>
         {/* 로그인폼 or 유저프로필 */}
         <Col xs={24} md={6}>
-          {isLoginIn ? <UserProfile setIsLoginIn={setIsLoginIn} /> : <LoginForm setIsLoginIn={setIsLoginIn} />}
+          {user.isLoggedIn ? <UserProfile /> : <LoginForm />}
         </Col>
 
         {/* 실질적으로 화면에 보여줄 컴포넌트 */}
