@@ -1,0 +1,14 @@
+{
+  "name": "nodejs-docker-app",
+  "version": "1.0.0",
+  "description": "nodejs와 docker를 이용한 테스트앱",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "1-blue",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

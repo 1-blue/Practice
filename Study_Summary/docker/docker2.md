@@ -53,7 +53,7 @@ docker run alpine ls
 + run : 컨테이너 생성 및 실행   
 + 이미지명 : 컨테이너를 위한 이미지   
 + ls : ls의 의미말고 현재 자리에 특정 명령어를 사용하면 기존에 이미지가 가지는 실행시 명령어를 무시하고 현재 위치에 적은 명령어를 실행함
-+ `-p` : 포트맵핑 ( 상대에서접근할포트:내가열어줄포트 )
++ `-p` : 포트맵핑 ( 내컴퓨터에서접근할포트:컨테이너에서열어줄포트 )
 + `-d` : 컨테이너 실행후 바로 밖으로 나옴 ( node실행시 대기하는데 `-d`넣어주면 바로나옴 )
 + `--name` : 생성할 컨테이너의 이름지정 ( 초기값은 랜덤문자열 )
 + `--rm` : 컨테이너 실행종료시 삭제
@@ -123,13 +123,13 @@ docker exec -it {아이디 or 이름} 명령어
 3. 생성한 임시컨테이너를 이용해서 이미지를 생성함   
 4. 임시컨테이너 삭제함    
 
-### 3.2 나만의 이미지생성
+### 3.3 나만의 이미지생성
 `Dockerfile`라는 파일이 존재하는 디렉토리를 가리키면됨
 `docker build -t 도커아이디/저장소이름:버전 ./`
 `docker build -t ghksaud55/testpj:latest ./`
 + `-t`: 생성될 이미지의 이름지정 ( 관습적으로 `아이디/저장소이름:버전` 형태로 작성함 )
 
-```
+```python
 # 파일명: Dockerfile
 
 # 베이스 이미지 ( 기반이 되는 이미지 레이어 )
@@ -137,32 +137,51 @@ docker exec -it {아이디 or 이름} 명령어
 # FROM baseImage
 FROM node:10
 
-# 생성하고 파일을 넣을 디렉토리
+# 컨테이너에서 파일저장경로
 WORKDIR /user/src/app
+
+# 종속성만 미리 복사
+COPY package*.json ./
 
 # 추가적으로 필요한 파일 다운
 # RUN command
 RUN npm install
 
+# 이외에 모든 파일 복사
+COPY ./ ./
+
 # 컨테이너 시작시 실행할 명령어
 # CMD [ "executable" ]
 CMD [ "node", "app" ]
 ```
+1. `FROM`: 기본 바탕이 되는 이미지레이어 설정
+2. `RUN`: 도커이미지가 생성되기전에 수행할 쉘명령어
+3. `CMD`: 컨테이너가 실행되었을 때 실행할 파일 or 쉘명령어
+4. `COPY`: 생성할 이미지에 넣을 파일들 지정
+5. `WORKDIR`: 컨테이너에서 파일을 저장할 경로 지정
 
-## 3. 각종 컨테이너 사용법
-### 3.1 mysql설치
+### 3.4 Volume
+파일들을 복사하지않고 참조하도록 설정하는것   
++ `-v 내컴퓨터경로:컨테이너경로`    
+
+```
+docker run -d -p 7777:8080 --name my-node -v /user/src/app/node_modules -v %cd%:/user/src/app ghksaud55/node
+```
+
+## xxx. 각종 컨테이너 사용법
+### xxx.1 mysql설치
 ```
 docker run --name my-mysql -d -e MYSQL_ROOT_PASSWORD="초기비밀번호" -p 3306:3306 mysql
 docker exec -it my-mysql bash
 ```
 
-### 3.2 mongodb설치
+### xx.2 mongodb설치
 ```
 docker run --name my-mongodb -d -p 27017:27017 mongo
 docker exec -it my-mongodb bash
 ```
 
-### 3.3 redis
+### xxx.3 redis설치
 ```
 docker run --name my-redis -d -p 6379:6379 redis
 ```
