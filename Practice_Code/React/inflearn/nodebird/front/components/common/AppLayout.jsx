@@ -11,7 +11,7 @@ import LoginForm from "../LoginForm";
 import UserProfile from "../UserProfile";
 
 const AppLayout = ({ children }) => {
-  const { user } = useSelector(state => state.userReducer);
+  const { me } = useSelector(state => state.userReducer);
 
   return (
     <>
@@ -22,7 +22,7 @@ const AppLayout = ({ children }) => {
       <Row gutter={4}>
         {/* 로그인폼 or 유저프로필 */}
         <Col xs={24} md={6}>
-          {user.isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {me.isLoggedIn ? <UserProfile /> : <LoginForm />}
         </Col>
 
         {/* 실질적으로 화면에 보여줄 컴포넌트 */}

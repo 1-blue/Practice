@@ -1,7 +1,7 @@
 import { USER_LOGIN, USER_LOGOUT } from "../types";
 
 const initState = {
-  user: {
+  me: {
     isLoggedIn: false,
     data: null,
   },
@@ -12,7 +12,7 @@ function userReducer(prevState = initState, { type, data }) {
     case USER_LOGIN:
       return {
         ...prevState,
-        user: {
+        me: {
           isLoggedIn: true,
           data,
         },
@@ -20,7 +20,7 @@ function userReducer(prevState = initState, { type, data }) {
     case USER_LOGOUT:
       return {
         ...prevState,
-        user: {
+        me: {
           isLoggedIn: false,
           data,
         },

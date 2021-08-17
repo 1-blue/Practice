@@ -5,7 +5,7 @@ export function userLogin(data) {
 
   return {
     type: USER_LOGIN,
-    data: data,
+    data,
   };
 }
 
