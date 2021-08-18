@@ -1,20 +1,39 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { Col, Row } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
-
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import { createGlobalStyle } from "styled-components";
 
 // components
 import NavigationBar from "../NavigationBar";
 import LoginForm from "../LoginForm";
 import UserProfile from "../UserProfile";
 
+// antd사용시 생기는 margin, padding문제 해결하는데 사용
+const Global = createGlobalStyle`
+  .ant-row {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .ant-col:first-child {
+    padding-left: 0 !important;
+  }
+
+  .ant-col:last-child {
+    padding-right: 0 !important;
+  }
+`;
+
 const AppLayout = ({ children }) => {
   const { me } = useSelector(state => state.userReducer);
 
   return (
     <>
+      {/* antd사용시 생기는 margin, padding문제 해결 */}
+      <Global />
+
       {/* 네비게이션바 */}
       <NavigationBar />
 

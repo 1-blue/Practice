@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { Card, Avatar, Popover, Button } from "antd";
 import {
@@ -11,28 +11,14 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
-function PostCard({ post }) {
+import PostImagePreview from "./PostImagePreview";
+
+function PostContainer({ user, images, content, commentsToggle, setCommentsToggle }) {
   // 로그인한 유저닉네임
   const { nickname } = useSelector(state => state.userReducer.me);
-  // 게시글작성한 유저정보
-  const [user, setUser] = useState(null);
-  // 게시글의 댓글정보
-  const [comments, setComments] = useState(null);
-  // 게시글 이미지
-  const [images, setImages] = useState(null);
-  // 좋아요, 댓글 토글
+
+  // 좋아요 토글
   const [likeToggle, setLikeToggle] = useState(false);
-  const [commentsToggle, setCommentsToggle] = useState(false);
-
-  // 사용할 변수들 구조분해할당
-  useEffect(() => {
-    // console.log("post >> ", post);
-
-    const { User, Comments, Images } = post;
-    setUser(User);
-    setComments(Comments);
-    setImages(Images);
-  }, []);
 
   // 팝오버할 버튼들
   const getPopoverBtns = useCallback(() => {
@@ -96,32 +82,24 @@ function PostCard({ post }) {
 
   return (
     <>
-      {/* 게시글 */}
-      {user && (
-        <Card style={{ marginTop: 10 }} actions={getCardBtns()}>
-          <Card.Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-            title={user.nickname}
-            description={post.content}
-          />
-        </Card>
-      )}
+      {/* 하나의 게시글 */}
+      <Card style={{ marginTop: 10 }} actions={getCardBtns()}>
+        {/* 게시글작성자, 내용 */}
+        <Card.Meta avatar={<Avatar>{user.nickname[0]}</Avatar>} title={user.nickname} description={content} />
 
-      {/* 댓글 */}
-
-      {/* 더보기 */}
+        {/* 게시글에 올린 이미지 */}
+        {images && <PostImagePreview images={images} />}
+      </Card>
     </>
   );
 }
 
-PostCard.propTypes = {
-  post: PropTypes.shape({
-    id: PropTypes.number,
-    User: PropTypes.object,
-    content: PropTypes.string,
-    Images: PropTypes.arrayOf(PropTypes.object),
-    Comments: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
+PostContainer.prototype = {
+  user: PropTypes.object.isRequired,
+  images: PropTypes.arrayOf(PropTypes.object),
+  content: PropTypes.string,
+  commentsToggle: PropTypes.bool.isRequired,
+  setCommentsToggle: PropTypes.func.isRequired,
 };
 
-export default PostCard;
+export default PostContainer;

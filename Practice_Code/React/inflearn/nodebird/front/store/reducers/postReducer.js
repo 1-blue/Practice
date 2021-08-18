@@ -6,7 +6,7 @@ const initState = {
       id: 1,
       User: {
         id: 1,
-        nickname: "Test-User",
+        nickname: "admin-user",
       },
       content: "Test-Post",
       Images: [
@@ -19,13 +19,25 @@ const initState = {
         {
           src: "https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2FMjAxOTA0MTVfMTg1%2FMDAxNTU1MzM5NjIwMzY2.NozLtri_lneW8Esb6YgsSYX1Ifyobiszdz063GvGBDEg.fhtR4cnlz8WiXrpUOG91jmiXUfag69Ocw2iw6Zyv_QUg.JPEG.hdgd4344%2F2015020508581147405-540x385.jpg&type=sc960_832",
         },
+        {
+          src: "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fcdn4.vectorstock.com%2Fi%2F1000x1000%2F95%2F53%2Fhomeschooling-vector-35529553.jpg&type=sc960_832",
+        },
+        {
+          src: "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F52%2F26%2F78%2F5226783a6fa4820fc2d3721ff39a38c1.jpg&type=a340",
+        },
       ],
       Comments: [
         {
           User: {
-            nickname: "Test-User-2",
+            nickname: "a-user",
           },
-          content: "Test-Comment",
+          content: "a-user의 댓글",
+        },
+        {
+          User: {
+            nickname: "b-user",
+          },
+          content: "b-user의 댓글",
         },
       ],
     },
@@ -36,10 +48,10 @@ const initState = {
 
 const dummyPost = {
   id: 2,
-  content: "임시포스트",
+  content: "admin-user의 포스트 내용!",
   User: {
     id: 1,
-    nickname: "Test-User",
+    nickname: "admin-user",
   },
   Images: [],
   Comment: [],

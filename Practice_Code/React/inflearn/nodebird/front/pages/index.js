@@ -5,7 +5,7 @@ import Head from "next/head";
 // component
 import AppLayout from "../components/common/AppLayout";
 import PostForm from "../components/PostForm";
-import PostCard from "../components/PostCard";
+import PostCard from "../components/Post/PostCard";
 
 const Home = () => {
   const { isLoggedIn } = useSelector(state => state.userReducer.me);

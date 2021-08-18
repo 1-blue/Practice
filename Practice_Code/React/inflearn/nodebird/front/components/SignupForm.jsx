@@ -81,31 +81,31 @@ function SignupForm() {
   return (
     <Form onFinish={onSubmitSignup}>
       {/* 닉네임 */}
-      <section>
+      <Form.Item>
         <label htmlFor="signup__nickname">닉네임</label>
         <br />
         <Input type="text" name="nickname" id="signup__nickname" onChange={onChangeInput} />
         <br />
-      </section>
+      </Form.Item>
 
       {/* 아이디 */}
-      <section>
+      <Form.Item>
         <label htmlFor="signup__id">아이디</label>
         <br />
         <Input type="text" name="id" id="signup__id" onChange={onChangeInput} />
         <br />
-      </section>
+      </Form.Item>
 
       {/* 비밀번호 */}
-      <section>
+      <Form.Item>
         <label htmlFor="signup__password">비밀번호</label>
         <br />
         <Input type="password" autoComplete="false" name="password" id="signup__password" onChange={onChangeInput} />
         <br />
-      </section>
+      </Form.Item>
 
       {/* 비밀번호체크 */}
-      <section>
+      <Form.Item>
         <label htmlFor="signup__password__check">비밀번호체크</label>
         <br />
         <Input
@@ -115,7 +115,7 @@ function SignupForm() {
           id="signup__password__check"
           onChange={onChangeInput}
         />
-      </section>
+      </Form.Item>
 
       {/* 비밀번호 불일치 경고문구 */}
       {passwordError && <PasswordErrorTextWrapper>비밀번호 불일치</PasswordErrorTextWrapper>}
