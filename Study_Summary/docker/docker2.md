@@ -1,5 +1,8 @@
- # 인프런강의
-[여기](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%A9%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EB%8F%84%EC%BB%A4-ci/dashboard)
+ # 인프런강의, 참고
+1. [인프런강의](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%A9%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EB%8F%84%EC%BB%A4-ci/dashboard)        
+2. [전체적으로참고](https://docs.microsoft.com/ko-kr/visualstudio/docker/tutorials/docker-tutorial)      
+3. [volume참고사이트](https://www.daleseo.com/docker-volumes-bind-mounts/)
+4. [docker이미지생성후테스트](https://labs.play-with-docker.com/)
 
 ## 공부할 키워드
 1. 하이퍼바이저
@@ -160,13 +163,49 @@ CMD [ "node", "app" ]
 4. `COPY`: 생성할 이미지에 넣을 파일들 지정
 5. `WORKDIR`: 컨테이너에서 파일을 저장할 경로 지정
 
-### 3.4 Volume
-파일들을 복사하지않고 참조하도록 설정하는것   
-+ `-v 내컴퓨터경로:컨테이너경로`    
+## 4. Volume
+파일들을 컨테이너로 복사하지않고 참조하도록 설정하는것   
+docker는 기본적으로 컨테이너를 삭제하면 데이터가 삭제되고, 또는 여러 컨테이너간에 데이터를 공유해서 사용하고 싶을때 적용하면됨    
+Volume을 사용하는 방식은 두가지가 있음 ( 알고보니 Volume이 두가지방식은 아님 )
+
+### 4.1 Volume방식
+실행하는 컴퓨터의 특정 공간에 공유할 폴더를 생성하는 방식임   
+#### 4.1.1 Volume생성
+`docker volume create <volume-name>`
+#### 4.1.2 Volume조회
+`docker volume ls`
+#### 4.1.3 특정 Volume상세조회
+`docker volume inspect <volume-name>`
++ `Mountpoint`에 적힌 경로가 현재 volume값이 저장된 경로가 적혀있음 ( ubuntu 20.04 기준으로 숨김파일이라 직접쳐야들어가짐 )    
+#### 4.1.4 Volume사용
++ `docker run --name my-node -d -p 8080:8080 -v <volume-name>:<container-route> node:10`    
++ `docker run --name my-node -d -p 8080:8080 -v my-volume:/app/src node:10`   
+위 처럼 사용하면 my-volume이라는 폴더에 존재하는 파일들이 컨테이너의 `/app/src`에 공유됨    
+컨테이너를 몇개를 사용하든 동일한 파일이 공유되며 하나가 수정되면 전체가 바뀜   
+#### 4.1.5 `Dockerfile`과 `volume`사용시 주의
+`Dockerfile`과 `volume`을 같이 사용할 경우 조심해야할게 `Dockerfile`로 복사한 파일이 존재하는 폴더에다가 `volume`을 지정해버리면
+기존값들이 사라지고 volume의 값만 남게됨    
+#### 4.1.6 Volume제거
++ 특정삭제: `docker volume rm <volume-name>`    
++ 전체삭제: `docker volume prune`   
+
+### 4.2 bind-mount방식
+특정 volume을 생성하지않고 호스트의 특정 경로의 폴더를 공유하는것   
+#### 4.2.1 사용
++ `docker run --name my-node -d -p 8080:8080 -v <host-route>:<container-route> node:10`    
++ `docker run --name my-node -d -p 8080:8080 -v $(pwd):/app/src node:10`   
+ubuntu 20.04 terminal 기준 현재경로는 `$(pwd)`    
+window 10 cmd 기준 현재경로는 `%cd%`    
 
 ```
 docker run -d -p 7777:8080 --name my-node -v /user/src/app/node_modules -v %cd%:/user/src/app ghksaud55/node
 ```
+
+## 5. pull image
+[docker-hub](https://hub.docker.com/) 에 이미지 올리는법        
+1. `docker login -u <user-name>`
+2. `docker tag <tag-name> <user-name>/<image-name>`
+3. `docker push <username>/<image-name>`
 
 ## xxx. 각종 컨테이너 사용법
 ### xxx.1 mysql설치
