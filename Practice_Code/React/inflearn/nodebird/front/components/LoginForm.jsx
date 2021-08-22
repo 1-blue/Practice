@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Input } from "antd";
 import styled from "styled-components";
 
@@ -18,6 +18,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const { isLogging } = useSelector(state => state.userReducer.me);
 
   // 로그인
   const onSubmitLogin = useCallback(() => {
@@ -58,7 +59,7 @@ function LoginForm() {
       </section>
 
       {/* 로그인버튼 */}
-      <LoginBtnWrapper type="primary" htmlType="submit" size="large">
+      <LoginBtnWrapper type="primary" htmlType="submit" size="large" loading={isLogging}>
         로그인
       </LoginBtnWrapper>
 

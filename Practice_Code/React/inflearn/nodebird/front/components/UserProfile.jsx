@@ -1,11 +1,12 @@
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Card, Avatar, Button } from "antd";
 
 import { userLogout } from "../store/actions";
 
 function UserProfile() {
   const dispatch = useDispatch();
+  const { isLogging } = useSelector(state => state.userReducer.me);
 
   const onLogout = useCallback(() => {
     dispatch(userLogout());
@@ -33,7 +34,9 @@ function UserProfile() {
       ]}
     >
       <Card.Meta title="USER" avatar={<Avatar>US</Avatar>} />
-      <Button onClick={onLogout}>로그아웃</Button>
+      <Button onClick={onLogout} loading={isLogging}>
+        로그아웃
+      </Button>
     </Card>
   );
 }

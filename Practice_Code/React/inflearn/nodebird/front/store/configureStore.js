@@ -1,12 +1,16 @@
 import { createWrapper } from "next-redux-wrapper";
 import { createStore, applyMiddleware, compose } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import createSagaMiddleware from "redux-saga";
 
 import reducer from "./reducers";
+import rootSaga from "./sagas";
 
 const configureStore = () => {
+  const sagaMiddleware = createSagaMiddleware();
+
   // middleware ( 배포용 : 개발용 )
-  const middleware = [];
+  const middleware = [sagaMiddleware];
   const enhancer =
     process.env.NODE_ENV === "production"
       ? compose(applyMiddleware(...middleware))
@@ -14,6 +18,9 @@ const configureStore = () => {
 
   // store생성
   const store = createStore(reducer, enhancer);
+
+  // saga실행(?)
+  store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
 
