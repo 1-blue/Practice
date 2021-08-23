@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Card, Avatar, Popover, Button } from "antd";
 import {
   RetweetOutlined,
@@ -14,39 +14,30 @@ import PropTypes from "prop-types";
 import PostImagePreview from "./PostImagePreview";
 import CommentContainer from "../Comment/CommentContainer";
 
-function PostContainer({ post }) {
-  // 게시글작성한 유저정보
-  const [user, setUser] = useState(null);
-  // 게시글의 댓글정보
-  const [comments, setComments] = useState(null);
-  // 게시글 이미지
-  const [images, setImages] = useState(null);
+import { removePostRequest } from "../../store/actions";
 
-  // 사용할 변수들 구조분해할당
-  useEffect(() => {
-    const { User, Comments, Images } = post;
-    setUser(User);
-    setComments(Comments);
-    setImages(Images);
-  }, [post.Comments]);
+function PostContainer({ post }) {
+  const dispatch = useDispatch();
 
   // 로그인한 유저닉네임
   const me = useSelector(state => state.userReducer.me);
-
+  // 삭제버튼로딩
+  const { isRemovePostLoading } = useSelector(state => state.postReducer);
   // 좋아요 토글
   const [likeToggle, setLikeToggle] = useState(false);
-
   // 댓글 토글 ( 원래는 PostContainer에서 사용하는데 토글값이 부모컴포넌트인 PostCard에서 필요해서 부모컴포넌트에 선언후 props로 내려줌 )
   const [commentsToggle, setCommentsToggle] = useState(false);
 
   // 팝오버할 버튼들
   const getPopoverBtns = useCallback(() => {
     // 본인게시글이면
-    if (me && user && user.nickname === me.nickname) {
+    if (me && post && post.User.nickname === me.nickname) {
       return (
         <>
           <Button>수정</Button>
-          <Button>삭제</Button>
+          <Button type="primary" danger onClick={onClickPostRemoveBtn} loading={isRemovePostLoading}>
+            삭제
+          </Button>
         </>
       );
     }
@@ -57,7 +48,7 @@ function PostContainer({ post }) {
         <Button>신고</Button>
       </>
     );
-  }, [user, me]);
+  }, [me, isRemovePostLoading]);
 
   // 카드의 버튼들
   const getCardBtns = useCallback(() => {
@@ -69,7 +60,7 @@ function PostContainer({ post }) {
         <EllipsisOutlined />
       </Popover>,
     ];
-  }, [likeToggle, commentsToggle]);
+  }, [likeToggle, commentsToggle, isRemovePostLoading]);
 
   // 좋아요버튼 상태에 따른 컴포넌트반환
   const getLikeBtn = useCallback(() => {
@@ -97,23 +88,32 @@ function PostContainer({ post }) {
   const onClickCommentBtn = useCallback(() => {
     // 서버로 비동기처리할 부분
     setCommentsToggle(prev => !prev);
-  });
+  }, []);
+
+  // 게시글 삭제 클릭
+  const onClickPostRemoveBtn = useCallback(() => {
+    dispatch(removePostRequest({ postId: post.id }));
+  }, []);
 
   return (
     <>
       {/* 하나의 게시글 */}
       <Card style={{ marginTop: 10 }} actions={getCardBtns()}>
         {/* 게시글작성자, 내용 */}
-        {user && (
-          <Card.Meta avatar={<Avatar>{user.nickname[0]}</Avatar>} title={user.nickname} description={post.content} />
+        {post.User && (
+          <Card.Meta
+            avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+            title={post.User.nickname}
+            description={post.content}
+          />
         )}
 
         {/* 게시글에 올린 이미지 */}
-        {images && <PostImagePreview images={images} />}
-
-        {/* 게시글의 댓글 */}
-        {commentsToggle && <CommentContainer postId={post.id} comments={comments} />}
+        {post.Images && <PostImagePreview images={post.Images} />}
       </Card>
+
+      {/* 게시글의 댓글 */}
+      {commentsToggle && <CommentContainer postId={post.id} comments={post.Comments} />}
     </>
   );
 }

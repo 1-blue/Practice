@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Head from "next/head";
 
 // component
@@ -6,11 +7,9 @@ import AppLayout from "../components/common/AppLayout";
 import NicknameChageForm from "../components/NicknameChageForm";
 import FollowList from "../components/common/FollowList";
 
-// 임시데이터
-const followerList = [{ nickname: "apple" }, { nickname: "blue" }, { nickname: "color" }, { nickname: "delete" }];
-const followingList = [{ nickname: "egg" }, { nickname: "fox" }, { nickname: "gray" }, { nickname: "delete" }];
-
 const Profile = () => {
+  const { Followers, Followings } = useSelector(state => state.userReducer.me);
+
   return (
     <AppLayout>
       {/* title수정 */}
@@ -22,10 +21,10 @@ const Profile = () => {
       <NicknameChageForm>Hello, Profile</NicknameChageForm>
 
       {/* 팔로워리스트 */}
-      <FollowList data={followerList} header="팔로워리스트" />
+      <FollowList data={Followers} header="팔로워리스트" />
 
       {/* 팔로잉리스트 */}
-      <FollowList data={followingList} header="팔로잉리스트" />
+      <FollowList data={Followings} header="팔로잉리스트" />
     </AppLayout>
   );
 };

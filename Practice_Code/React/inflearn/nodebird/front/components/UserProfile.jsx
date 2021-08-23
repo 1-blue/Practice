@@ -6,7 +6,7 @@ import { userLogout } from "../store/actions";
 
 function UserProfile() {
   const dispatch = useDispatch();
-  const { nickname } = useSelector(state => state.userReducer.me);
+  const { nickname, Posts, Followings, Followers } = useSelector(state => state.userReducer.me);
   const { isLogoutLoading } = useSelector(state => state.userReducer);
 
   const onLogout = useCallback(() => {
@@ -20,17 +20,17 @@ function UserProfile() {
         <button type="button" key="twit">
           <span>트윗</span>
           <br />
-          <span>0</span>
+          <span>{Posts.length}</span>
         </button>,
         <button type="button" key="following">
           <span>팔로잉</span>
           <br />
-          <span>0</span>
+          <span>{Followings.length}</span>
         </button>,
         <button type="button" key="follower">
           <span>팔로워</span>
           <br />
-          <span>0</span>
+          <span>{Followers.length}</span>
         </button>,
       ]}
     >

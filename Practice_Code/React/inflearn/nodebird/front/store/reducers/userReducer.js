@@ -8,6 +8,8 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
+  ADD_POST_TO_ME,
+  REMOVE_POST_OF_ME,
 } from "../types";
 
 const initState = {
@@ -25,8 +27,8 @@ const dummyUser = data => ({
   nickname: "임시유저",
   id: 9999,
   Posts: [],
-  Followings: [],
-  Followers: [],
+  Followings: [{ nickname: "apple" }, { nickname: "blue" }, { nickname: "color" }, { nickname: "delete" }],
+  Followers: [{ nickname: "egg" }, { nickname: "fox" }, { nickname: "gray" }, { nickname: "delete" }],
 });
 
 function userReducer(prevState = initState, { type, data }) {
@@ -88,6 +90,23 @@ function userReducer(prevState = initState, { type, data }) {
         isSignupLoading: false,
       };
 
+    // 유저와 게시글 관련
+    case ADD_POST_TO_ME:
+      return {
+        ...prevState,
+        me: {
+          ...prevState.me,
+          Posts: [...prevState.me.Posts, { id: data.postId }],
+        },
+      };
+    case REMOVE_POST_OF_ME:
+      return {
+        ...prevState,
+        me: {
+          ...prevState.me,
+          Posts: prevState.me.Posts.filter(post => post.id !== data.postId),
+        },
+      };
     default:
       return prevState;
   }

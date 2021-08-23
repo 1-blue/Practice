@@ -2,6 +2,11 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
+  ADD_POST_TO_ME,
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_FAILURE,
+  REMOVE_POST_OF_ME,
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
@@ -50,9 +55,13 @@ const initState = {
     },
   ],
   imagePaths: [],
-  // 게시글
+  // 게시글 추가
   isAddPostLoading: false,
   isAddPostDone: false,
+
+  // 게시글 삭제
+  isRemovePostLoading: false,
+  isRemovePostDone: false,
 
   // 댓글
   isAddCommentLoading: false,
@@ -60,9 +69,8 @@ const initState = {
 };
 
 // 게시글 임시데이터 크리에이터
-import shortId from "shortid";
-const dummyPost = ({ userId, content }) => ({
-  id: shortId.generate(),
+const dummyPost = ({ postId, userId, content }) => ({
+  id: postId,
   content,
   User: {
     id: userId,
@@ -72,17 +80,20 @@ const dummyPost = ({ userId, content }) => ({
   Comments: [],
 });
 
+import shortId from "shortid";
 // 댓글 임시데이터 크리에이터
 const dummyComment = data => ({
   id: shortId.generate(),
   content: data.content,
   User: {
     id: data.userId,
-    nickname: "테스트유저",
+    nickname: "임시유저",
   },
   Images: [],
   Comments: [],
 });
+
+let mainPosts = null;
 
 function postReducer(prevState = initState, { type, data }) {
   switch (type) {
@@ -107,6 +118,31 @@ function postReducer(prevState = initState, { type, data }) {
         isAddPostDone: true,
       };
 
+    // 게시글 삭제
+    case REMOVE_POST_REQUEST:
+      return {
+        ...prevState,
+        isRemovePostLoading: true,
+        isRemovePostDone: false,
+      };
+    case REMOVE_POST_SUCCESS:
+      // 지금은 임시로 여기서 게시글 삭제
+      mainPosts = [...prevState.mainPosts];
+      const tempPosts = mainPosts.filter(post => post.id !== data.postId);
+
+      return {
+        ...prevState,
+        mainPosts: [...tempPosts],
+        isRemovePostLoading: false,
+        isRemovePostDone: true,
+      };
+    case REMOVE_POST_FAILURE:
+      return {
+        ...prevState,
+        isRemovePostLoading: false,
+        isRemovePostDone: true,
+      };
+
     // 댓글추가
     case ADD_COMMENT_REQUEST:
       return {
@@ -116,7 +152,7 @@ function postReducer(prevState = initState, { type, data }) {
       };
     case ADD_COMMENT_SUCCESS:
       // 메인게시글리스트 복사
-      const mainPosts = [...prevState.mainPosts];
+      mainPosts = [...prevState.mainPosts];
       // 변경할 게시글의 index찾고
       const targetPostIndex = prevState.mainPosts.findIndex(post => post.id === data.postId);
       // 댓글을 등록할 게시글 찾고
