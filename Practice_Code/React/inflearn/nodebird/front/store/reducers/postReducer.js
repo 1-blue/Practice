@@ -1,14 +1,21 @@
-import { ADD_POST } from "../types";
+import {
+  ADD_POST_REQUEST,
+  ADD_POST_SUCCESS,
+  ADD_POST_FAILURE,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
+  ADD_COMMENT_FAILURE,
+} from "../types";
 
 const initState = {
   mainPosts: [
     {
       id: 1,
+      content: "테스트유저의 테스트 게시글의 테스트내용",
       User: {
         id: 1,
-        nickname: "admin-user",
+        nickname: "테스트유저",
       },
-      content: "Test-Post",
       Images: [
         {
           src: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20120615_9%2Fvibedih_13397492628311VnCT_JPEG%2F03-1.jpg&type=sc960_832",
@@ -43,27 +50,93 @@ const initState = {
     },
   ],
   imagePaths: [],
-  postAdded: false,
+  // 게시글
+  isAddPostLoading: false,
+  isAddPostDone: false,
+
+  // 댓글
+  isAddCommentLoading: false,
+  isAddCommentDone: false,
 };
 
-const dummyPost = {
-  id: 2,
-  content: "admin-user의 포스트 내용!",
+// 게시글 임시데이터 크리에이터
+import shortId from "shortid";
+const dummyPost = ({ userId, content }) => ({
+  id: shortId.generate(),
+  content,
   User: {
-    id: 1,
-    nickname: "admin-user",
+    id: userId,
+    nickname: "임시유저",
   },
   Images: [],
-  Comment: [],
-};
+  Comments: [],
+});
+
+// 댓글 임시데이터 크리에이터
+const dummyComment = data => ({
+  id: shortId.generate(),
+  content: data.content,
+  User: {
+    id: data.userId,
+    nickname: "테스트유저",
+  },
+  Images: [],
+  Comments: [],
+});
 
 function postReducer(prevState = initState, { type, data }) {
   switch (type) {
-    case ADD_POST:
+    // 게시글추가
+    case ADD_POST_REQUEST:
       return {
         ...prevState,
-        mainPosts: [dummyPost, ...prevState.mainPosts],
-        postAdded: true,
+        isAddPostLoading: true,
+        isAddPostDone: false,
+      };
+    case ADD_POST_SUCCESS:
+      return {
+        ...prevState,
+        mainPosts: [dummyPost(data), ...prevState.mainPosts],
+        isAddPostLoading: false,
+        isAddPostDone: true,
+      };
+    case ADD_POST_FAILURE:
+      return {
+        ...prevState,
+        isAddPostLoading: false,
+        isAddPostDone: true,
+      };
+
+    // 댓글추가
+    case ADD_COMMENT_REQUEST:
+      return {
+        ...prevState,
+        isAddCommentLoading: true,
+        isAddCommentDone: false,
+      };
+    case ADD_COMMENT_SUCCESS:
+      // 메인게시글리스트 복사
+      const mainPosts = [...prevState.mainPosts];
+      // 변경할 게시글의 index찾고
+      const targetPostIndex = prevState.mainPosts.findIndex(post => post.id === data.postId);
+      // 댓글을 등록할 게시글 찾고
+      const targetPost = prevState.mainPosts[targetPostIndex];
+      // 해당 게시글에 유저정보, 댓글내용을 넣음
+      targetPost.Comments = [dummyComment(data), ...targetPost.Comments];
+      // 해당 게시글을 게시글리스트에 넣음
+      mainPosts[targetPostIndex] = targetPost;
+
+      return {
+        ...prevState,
+        mainPosts,
+        isAddCommentLoading: false,
+        isAddCommentDone: true,
+      };
+    case ADD_COMMENT_FAILURE:
+      return {
+        ...prevState,
+        isAddCommentLoading: false,
+        isAddCommentDone: true,
       };
 
     default:

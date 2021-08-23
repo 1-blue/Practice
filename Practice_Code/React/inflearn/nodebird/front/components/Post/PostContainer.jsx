@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Card, Avatar, Popover, Button } from "antd";
 import {
@@ -12,18 +12,37 @@ import {
 import PropTypes from "prop-types";
 
 import PostImagePreview from "./PostImagePreview";
+import CommentContainer from "../Comment/CommentContainer";
 
-function PostContainer({ user, images, content, commentsToggle, setCommentsToggle }) {
+function PostContainer({ post }) {
+  // 게시글작성한 유저정보
+  const [user, setUser] = useState(null);
+  // 게시글의 댓글정보
+  const [comments, setComments] = useState(null);
+  // 게시글 이미지
+  const [images, setImages] = useState(null);
+
+  // 사용할 변수들 구조분해할당
+  useEffect(() => {
+    const { User, Comments, Images } = post;
+    setUser(User);
+    setComments(Comments);
+    setImages(Images);
+  }, [post.Comments]);
+
   // 로그인한 유저닉네임
-  const { nickname } = useSelector(state => state.userReducer.me);
+  const me = useSelector(state => state.userReducer.me);
 
   // 좋아요 토글
   const [likeToggle, setLikeToggle] = useState(false);
 
+  // 댓글 토글 ( 원래는 PostContainer에서 사용하는데 토글값이 부모컴포넌트인 PostCard에서 필요해서 부모컴포넌트에 선언후 props로 내려줌 )
+  const [commentsToggle, setCommentsToggle] = useState(false);
+
   // 팝오버할 버튼들
   const getPopoverBtns = useCallback(() => {
     // 본인게시글이면
-    if (user && user.nickname === nickname) {
+    if (me && user && user.nickname === me.nickname) {
       return (
         <>
           <Button>수정</Button>
@@ -38,7 +57,7 @@ function PostContainer({ user, images, content, commentsToggle, setCommentsToggl
         <Button>신고</Button>
       </>
     );
-  }, [user, nickname]);
+  }, [user, me]);
 
   // 카드의 버튼들
   const getCardBtns = useCallback(() => {
@@ -85,21 +104,22 @@ function PostContainer({ user, images, content, commentsToggle, setCommentsToggl
       {/* 하나의 게시글 */}
       <Card style={{ marginTop: 10 }} actions={getCardBtns()}>
         {/* 게시글작성자, 내용 */}
-        <Card.Meta avatar={<Avatar>{user.nickname[0]}</Avatar>} title={user.nickname} description={content} />
+        {user && (
+          <Card.Meta avatar={<Avatar>{user.nickname[0]}</Avatar>} title={user.nickname} description={post.content} />
+        )}
 
         {/* 게시글에 올린 이미지 */}
         {images && <PostImagePreview images={images} />}
+
+        {/* 게시글의 댓글 */}
+        {commentsToggle && <CommentContainer postId={post.id} comments={comments} />}
       </Card>
     </>
   );
 }
 
 PostContainer.prototype = {
-  user: PropTypes.object.isRequired,
-  images: PropTypes.arrayOf(PropTypes.object),
-  content: PropTypes.string,
-  commentsToggle: PropTypes.bool.isRequired,
-  setCommentsToggle: PropTypes.func.isRequired,
+  post: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PostContainer;

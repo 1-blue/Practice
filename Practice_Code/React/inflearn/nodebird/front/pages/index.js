@@ -8,7 +8,7 @@ import PostForm from "../components/PostForm";
 import PostCard from "../components/Post/PostCard";
 
 const Home = () => {
-  const { isLoggedIn } = useSelector(state => state.userReducer.me);
+  const { isLoggedIn } = useSelector(state => state.userReducer);
   const { mainPosts } = useSelector(state => state.postReducer);
 
   return (

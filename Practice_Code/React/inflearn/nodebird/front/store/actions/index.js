@@ -1,3 +1,3 @@
-export { userLogin, userLogout } from "./userAction";
+export { userLogin, userLogout, userSignup } from "./userAction";
 
-export { addPost } from "./postAction";
+export { addPostRequest, addCommentRequest } from "./postAction";

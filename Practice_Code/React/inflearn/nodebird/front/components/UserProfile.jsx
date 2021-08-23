@@ -6,7 +6,8 @@ import { userLogout } from "../store/actions";
 
 function UserProfile() {
   const dispatch = useDispatch();
-  const { isLogging } = useSelector(state => state.userReducer.me);
+  const { nickname } = useSelector(state => state.userReducer.me);
+  const { isLogoutLoading } = useSelector(state => state.userReducer);
 
   const onLogout = useCallback(() => {
     dispatch(userLogout());
@@ -33,8 +34,8 @@ function UserProfile() {
         </button>,
       ]}
     >
-      <Card.Meta title="USER" avatar={<Avatar>US</Avatar>} />
-      <Button onClick={onLogout} loading={isLogging}>
+      <Card.Meta title={nickname} avatar={<Avatar>{nickname[0]}</Avatar>} />
+      <Button onClick={onLogout} loading={isLogoutLoading}>
         로그아웃
       </Button>
     </Card>

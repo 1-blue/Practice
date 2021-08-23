@@ -1,7 +1,7 @@
-import React, { useRef, useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import React, { useRef, useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button } from "antd";
-import { addPost } from "../store/actions";
+import { addPostRequest } from "../store/actions";
 import styled from "styled-components";
 
 const UploadBtnWrapper = styled(Button)`
@@ -10,12 +10,21 @@ const UploadBtnWrapper = styled(Button)`
 
 function PostForm() {
   const dispatch = useDispatch();
+  const { id: userId } = useSelector(state => state.userReducer.me);
+  const { isAddPostLoading, isAddPostDone } = useSelector(state => state.postReducer);
   const imageInput = useRef(null);
-  const [text, setText] = useState("");
+  const [content, setContent] = useState("");
+
+  // 게시글 생성완료시 내용 비우기
+  useEffect(() => {
+    if (isAddPostDone) {
+      setContent("");
+    }
+  }, [isAddPostDone]);
 
   // 텍스트수정
-  const onChangeText = useCallback(e => {
-    setText(e.target.value);
+  const onChangeContent = useCallback(e => {
+    setContent(e.target.value);
   }, []);
 
   // 이미지 업로드
@@ -26,10 +35,9 @@ function PostForm() {
   // 게시글 업로드
   const onClickPostUploadBtn = useCallback(() => {
     // 전달할것: 이미지들, 게시글내용
-    console.log(imageInput.current); //임시
-    console.log(text); // 임시
-    dispatch(addPost());
-  }, [imageInput.current, text]);
+    // console.log(imageInput.current); //임시
+    dispatch(addPostRequest({ userId, content }));
+  }, [imageInput.current, content]);
 
   return (
     <Form encType="multipart/form-data" onFinish={onClickPostUploadBtn}>
@@ -37,7 +45,8 @@ function PostForm() {
       <Input.TextArea
         autoSize={{ minRows: 4, maxRows: 8 }}
         placeholder="무슨일이 있었는지 기록해주세요!"
-        onChange={onChangeText}
+        onChange={onChangeContent}
+        value={content}
       ></Input.TextArea>
 
       {/* 게시글 이미지 업로드 input */}
@@ -47,7 +56,7 @@ function PostForm() {
       <Button onClick={onClickImageUploadBtn}>이미지업로드</Button>
 
       {/* 게시글 업로드 버튼 */}
-      <UploadBtnWrapper type="primary" htmlType="submit">
+      <UploadBtnWrapper type="primary" htmlType="submit" loading={isAddPostLoading}>
         업로드
       </UploadBtnWrapper>
     </Form>

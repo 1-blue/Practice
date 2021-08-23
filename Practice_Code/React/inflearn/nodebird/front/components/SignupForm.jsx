@@ -1,6 +1,9 @@
 import React, { useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button, Checkbox } from "antd";
 import styled from "styled-components";
+
+import { userSignup } from "../store/actions";
 
 const PasswordErrorTextWrapper = styled.div`
   color: red;
@@ -10,6 +13,9 @@ const SignupBtnWrapper = styled(Button)`
 `;
 
 function SignupForm() {
+  const dispatch = useDispatch();
+  const { isSignupLoading } = useSelector(state => state.userReducer);
+
   // 닉네임, 아이디, 비밀번호, 비밀번호체크, 약관동의
   const [nickname, setNickname] = useState("");
   const [id, setId] = useState("");
@@ -20,13 +26,6 @@ function SignupForm() {
 
   // 회원가입
   const onSubmitSignup = useCallback(() => {
-    console.log("========== 테스트 ==========");
-    console.log("nickname >> ", nickname);
-    console.log("id >> ", id);
-    console.log("password >> ", password);
-    console.log("passwordCheck >> ", passwordCheck);
-    console.log("termAgree >> ", termAgree);
-
     // 닉네임체크
     if (nickname.length < 2) return alert("닉네임을 두자리이상 입력해야합니다.");
 
@@ -43,6 +42,7 @@ function SignupForm() {
     if (termAgree === false) return alert("약관에 동의하셔야 회원가입을 할 수 있습니다.");
 
     // trim붙여서 서버로 전송
+    dispatch(userSignup({ nickname, id, password }));
   }, [nickname, id, password, passwordCheck, termAgree]);
 
   // input변경이벤트
@@ -129,7 +129,7 @@ function SignupForm() {
       <br />
 
       {/* 회원가입버튼 */}
-      <SignupBtnWrapper type="primary" htmlType="submit">
+      <SignupBtnWrapper type="primary" htmlType="submit" loading={isSignupLoading}>
         회원가입
       </SignupBtnWrapper>
     </Form>

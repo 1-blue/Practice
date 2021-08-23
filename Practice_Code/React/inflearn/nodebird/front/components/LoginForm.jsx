@@ -18,7 +18,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const { isLogging } = useSelector(state => state.userReducer.me);
+  const { isLogginLoading } = useSelector(state => state.userReducer);
 
   // 로그인
   const onSubmitLogin = useCallback(() => {
@@ -59,7 +59,7 @@ function LoginForm() {
       </section>
 
       {/* 로그인버튼 */}
-      <LoginBtnWrapper type="primary" htmlType="submit" size="large" loading={isLogging}>
+      <LoginBtnWrapper type="primary" htmlType="submit" size="large" loading={isLogginLoading}>
         로그인
       </LoginBtnWrapper>
 

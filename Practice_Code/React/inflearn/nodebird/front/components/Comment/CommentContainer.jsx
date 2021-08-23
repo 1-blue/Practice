@@ -5,17 +5,17 @@ import PropTypes from "prop-types";
 
 import CommentForm from "./CommentForm";
 
-function CommentContainer({ comments }) {
-  const { isLoggedIn } = useSelector(state => state.userReducer.me);
+function CommentContainer({ postId, comments }) {
+  const { isLoggedIn } = useSelector(state => state.userReducer);
 
   return (
     <>
       {/* 댓글입력폼 */}
-      {isLoggedIn && <CommentForm />}
+      {isLoggedIn && <CommentForm postId={postId} />}
 
       {/* 댓글리스트 */}
       <List
-        header={`${comments.length}개의 댓글`}
+        header={`${comments ? comments.length : 0}개의 댓글`}
         itemLayout="horizontal"
         dataSource={comments}
         renderItem={item => (
@@ -33,6 +33,7 @@ function CommentContainer({ comments }) {
 }
 
 CommentContainer.prototype = {
+  postId: PropTypes.number.isRequired,
   comments: PropTypes.object.isRequired,
 };
 

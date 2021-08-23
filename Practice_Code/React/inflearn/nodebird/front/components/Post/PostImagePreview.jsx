@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Image } from "antd";
-import PropsType from "prop-types";
+import PropTypes from "prop-types";
 
 function PostImagePreview({ images }) {
   // 조건처리
@@ -91,7 +91,7 @@ function PostImagePreview({ images }) {
 }
 
 PostImagePreview.prototype = {
-  images: PropsType.arrayOf(PropsType.object).isRequired,
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PostImagePreview;
