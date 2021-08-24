@@ -35,9 +35,9 @@ function PostImagePreview({ images }) {
       case 4:
         return (
           <Image.PreviewGroup>
-            {images.map(image => (
+            {images.map((image, index) => (
               <Image
-                key={image.src}
+                key={image.src + index}
                 height={"100%"}
                 src={image.src}
                 alt="작성자가 올린 이미지"
@@ -54,7 +54,13 @@ function PostImagePreview({ images }) {
               // 최초 4개 제외하고 display: none;
               if (index >= 4) {
                 return (
-                  <Image key={image.src} height={"200px"} src={image.src} alt="작성자가 올린 이미지" hidden></Image>
+                  <Image
+                    key={image.src + index}
+                    height={"200px"}
+                    src={image.src}
+                    alt="작성자가 올린 이미지"
+                    hidden
+                  ></Image>
                 );
               }
 
@@ -62,7 +68,7 @@ function PostImagePreview({ images }) {
               if (images.length >= 4 && index === 3) {
                 return (
                   <Image
-                    key={image.src}
+                    key={image.src + index}
                     height={"100%"}
                     src={image.src}
                     alt="작성자가 올린 이미지"
@@ -74,7 +80,7 @@ function PostImagePreview({ images }) {
               // 그 외에 이미지
               return (
                 <Image
-                  key={image.src}
+                  key={image.src + index}
                   height={"100%"}
                   src={image.src}
                   alt="작성자가 올린 이미지"

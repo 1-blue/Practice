@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Head from "next/head";
 
 // component
@@ -8,8 +8,36 @@ import PostForm from "../components/PostForm";
 import PostCard from "../components/Post/PostCard";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { isLoadPostLoading, isHasMorePost } = useSelector(state => state.postReducer);
   const { isLoggedIn } = useSelector(state => state.userReducer);
   const { mainPosts } = useSelector(state => state.postReducer);
+
+  // 최초 게시글 로드
+  useEffect(() => {
+    dispatch({ type: "LOAD_POSTS_REQUEST" });
+  }, []);
+
+  // 무한 스크롤링처리
+  useEffect(() => {
+    // 스크롤이벤트에 등록할 함수
+    function scrollToLoad() {
+      // console.log(window.scrollY, document.documentElement.clientHeight, document.documentElement.scrollHeight);
+      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
+        if (isLoadPostLoading) return;
+        if (!isHasMorePost) return;
+        dispatch({ type: "LOAD_POSTS_REQUEST" });
+      }
+    }
+
+    // 스크롤이벤트 등록
+    document.addEventListener("scroll", scrollToLoad);
+
+    // 스크롤이벤트 등록해제
+    return () => {
+      document.removeEventListener("scroll", scrollToLoad);
+    };
+  }, [isLoadPostLoading]);
 
   return (
     <>

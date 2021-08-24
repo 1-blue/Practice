@@ -1,15 +1,18 @@
+import shortId from "shortid";
+
 import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
-  ADD_POST_TO_ME,
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
   REMOVE_POST_FAILURE,
-  REMOVE_POST_OF_ME,
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
 } from "../types";
 
 const initState = {
@@ -55,6 +58,13 @@ const initState = {
     },
   ],
   imagePaths: [],
+  // 게시글 로드
+  isLoadPostLoading: false,
+  isLoadPostDone: false,
+
+  // 게시글 로드 개수제한
+  isHasMorePost: true,
+
   // 게시글 추가
   isAddPostLoading: false,
   isAddPostDone: false,
@@ -80,7 +90,6 @@ const dummyPost = ({ postId, userId, content }) => ({
   Comments: [],
 });
 
-import shortId from "shortid";
 // 댓글 임시데이터 크리에이터
 const dummyComment = data => ({
   id: shortId.generate(),
@@ -93,10 +102,36 @@ const dummyComment = data => ({
   Comments: [],
 });
 
-let mainPosts = null;
+// 불변성 유지를 위해 임시로 게시글들의 정보를 넣을 변수
+let tempMainPosts = null;
 
 function postReducer(prevState = initState, { type, data }) {
   switch (type) {
+    // 게시글로드
+    case LOAD_POSTS_REQUEST:
+      return {
+        ...prevState,
+        isLoadPostLoading: true,
+        isLoadPostDone: false,
+      };
+    case LOAD_POSTS_SUCCESS:
+      tempMainPosts = [...prevState.mainPosts];
+      tempMainPosts = data.concat(tempMainPosts);
+      const isHasMorePost = tempMainPosts.length < 30;
+      return {
+        ...prevState,
+        mainPosts: tempMainPosts,
+        isLoadPostLoading: false,
+        isLoadPostDone: true,
+        isHasMorePost,
+      };
+    case LOAD_POSTS_FAILURE:
+      return {
+        ...prevState,
+        isLoadPostLoading: false,
+        isLoadPostDone: true,
+      };
+
     // 게시글추가
     case ADD_POST_REQUEST:
       return {
@@ -127,12 +162,12 @@ function postReducer(prevState = initState, { type, data }) {
       };
     case REMOVE_POST_SUCCESS:
       // 지금은 임시로 여기서 게시글 삭제
-      mainPosts = [...prevState.mainPosts];
-      const tempPosts = mainPosts.filter(post => post.id !== data.postId);
+      tempMainPosts = [...prevState.mainPosts];
+      tempMainPosts = tempMainPosts.filter(post => post.id !== data.postId);
 
       return {
         ...prevState,
-        mainPosts: [...tempPosts],
+        mainPosts: tempMainPosts,
         isRemovePostLoading: false,
         isRemovePostDone: true,
       };
@@ -152,7 +187,7 @@ function postReducer(prevState = initState, { type, data }) {
       };
     case ADD_COMMENT_SUCCESS:
       // 메인게시글리스트 복사
-      mainPosts = [...prevState.mainPosts];
+      tempMainPosts = [...prevState.mainPosts];
       // 변경할 게시글의 index찾고
       const targetPostIndex = prevState.mainPosts.findIndex(post => post.id === data.postId);
       // 댓글을 등록할 게시글 찾고
@@ -160,11 +195,11 @@ function postReducer(prevState = initState, { type, data }) {
       // 해당 게시글에 유저정보, 댓글내용을 넣음
       targetPost.Comments = [dummyComment(data), ...targetPost.Comments];
       // 해당 게시글을 게시글리스트에 넣음
-      mainPosts[targetPostIndex] = targetPost;
+      tempMainPosts[targetPostIndex] = targetPost;
 
       return {
         ...prevState,
-        mainPosts,
+        mainPosts: tempMainPosts,
         isAddCommentLoading: false,
         isAddCommentDone: true,
       };
