@@ -10,16 +10,22 @@ import {
   SIGNUP_FAILURE,
   ADD_POST_TO_ME,
   REMOVE_POST_OF_ME,
+  FOLLOW_REQUEST,
+  FOLLOW_SUCCESS,
+  FOLLOW_FAILURE,
+  UNFOLLOW_REQUEST,
+  UNFOLLOW_SUCCESS,
+  UNFOLLOW_FAILURE,
 } from "../types";
 
 const initState = {
-  me: {
-    isLoggedIn: false,
-    data: null,
-  },
+  me: null,
+  isLoggedIn: false,
   isLogginLoading: false,
   isLogoutLoading: false,
   isSignupLoading: false,
+  isFollowLoading: false,
+  isUnfollowLoading: false,
 };
 
 const dummyUser = data => ({
@@ -107,6 +113,48 @@ function userReducer(prevState = initState, { type, data }) {
           Posts: prevState.me.Posts.filter(post => post.id !== data.postId),
         },
       };
+
+    // 팔로우
+    case FOLLOW_REQUEST:
+      return {
+        ...prevState,
+        isFollowLoading: true,
+      };
+    case FOLLOW_SUCCESS:
+      return {
+        ...prevState,
+        me: {
+          ...prevState.me,
+          Followings: [...prevState.me.Followings, { id: data }],
+        },
+        isFollowLoading: false,
+      };
+    case FOLLOW_FAILURE:
+      return {
+        ...prevState,
+        isFollowLoading: false,
+      };
+    // 언팔로우
+    case UNFOLLOW_REQUEST:
+      return {
+        ...prevState,
+        isUnfollowLoading: true,
+      };
+    case UNFOLLOW_SUCCESS:
+      return {
+        ...prevState,
+        me: {
+          ...prevState.me,
+          Followings: prevState.me.Followings.filter(follow => follow.id !== data),
+        },
+        isUnfollowLoading: false,
+      };
+    case UNFOLLOW_FAILURE:
+      return {
+        ...prevState,
+        isUnfollowLoading: false,
+      };
+
     default:
       return prevState;
   }
