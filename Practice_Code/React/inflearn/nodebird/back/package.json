@@ -1,0 +1,21 @@
+{
+  "name": "node-bird-back",
+  "version": "1.0.0",
+  "description": "clone-twittwer-back",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1-blue/Practice.git"
+  },
+  "author": "1-blue",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0"
+  }
+}
