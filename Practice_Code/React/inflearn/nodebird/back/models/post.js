@@ -15,9 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      timestemps: true,
-      charset: "utf8mb4",
-      collate: "utf8mb4_general_ci",
+      sequelize,
+      timestamps: true,
+      paranoid: false,
+      underscored: false,
+      modelName: "Post",
+      tableName: "posts",
+      charset: "utf8",
+      collate: "utf8_general_ci",
     },
   );
 

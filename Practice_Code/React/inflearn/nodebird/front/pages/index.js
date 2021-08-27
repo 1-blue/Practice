@@ -22,7 +22,7 @@ const Home = () => {
   useEffect(() => {
     // 스크롤이벤트에 등록할 함수
     function scrollToLoad() {
-      // console.log(window.scrollY, document.documentElement.clientHeight, document.documentElement.scrollHeight);
+      console.log(window.scrollY, document.documentElement.clientHeight, document.documentElement.scrollHeight);
       if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
         if (isLoadPostLoading) return;
         if (!isHasMorePost) return;

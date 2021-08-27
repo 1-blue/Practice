@@ -1,1 +1,1 @@
-export { apiLogin, apiLogout } from "./user";
+export { apiSignUp, apiLogIn, apiLogOut } from "./user";

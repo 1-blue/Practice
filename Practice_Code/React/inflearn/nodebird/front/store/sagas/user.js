@@ -18,7 +18,23 @@ import {
   UNFOLLOW_FAILURE,
 } from "../types";
 
-// import { apiLogin, apiLogout } from "../../api";
+import { apiSignUp } from "../../api";
+
+function* signup(action) {
+  try {
+    const { data } = yield call(apiSignUp, action.data);
+
+    yield put({
+      type: SIGNUP_SUCCESS,
+      data: data.message,
+    });
+  } catch (error) {
+    yield put({
+      type: SIGNUP_FAILURE,
+      data: error.response.data.message,
+    });
+  }
+}
 
 function* login(action) {
   try {
@@ -53,25 +69,6 @@ function* logout() {
   } catch (error) {
     yield put({
       type: LOGOUT_FAILURE,
-      // data: error.response.data,
-    });
-  }
-}
-
-function* signup() {
-  try {
-    // const { data } = yield call(apiLogout);
-
-    // 임시로 1초대기
-    yield delay(1000);
-
-    yield put({
-      type: SIGNUP_SUCCESS,
-      // data,
-    });
-  } catch (error) {
-    yield put({
-      type: SIGNUP_FAILURE,
       // data: error.response.data,
     });
   }
@@ -114,16 +111,16 @@ function* unfollow(action) {
   }
 }
 
+function* watchSignup() {
+  yield takeLatest(SIGNUP_REQUEST, signup);
+}
+
 function* watchLogin() {
   yield takeLatest(LOGIN_REQUEST, login);
 }
 
 function* watchLogout() {
   yield takeLatest(LOGOUT_REQUEST, logout);
-}
-
-function* watchSignup() {
-  yield takeLatest(SIGNUP_REQUEST, signup);
 }
 
 function* watchFollow() {
@@ -135,5 +132,5 @@ function* watchUnfollow() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchLogout), fork(watchSignup), fork(watchFollow), fork(watchUnfollow)]);
+  yield all([fork(watchSignup), fork(watchLogin), fork(watchLogout), fork(watchFollow), fork(watchUnfollow)]);
 }

@@ -21,9 +21,13 @@ import {
 const initState = {
   me: null,
   isLoggedIn: false,
+  // 회원가입
+  isSignupLoading: false,
+  isSignupDone: null,
+  isSignupError: null,
+
   isLogginLoading: false,
   isLogoutLoading: false,
-  isSignupLoading: false,
   isFollowLoading: false,
   isUnfollowLoading: false,
 };
@@ -39,6 +43,27 @@ const dummyUser = data => ({
 
 function userReducer(prevState = initState, { type, data }) {
   switch (type) {
+    // 회원가입
+    case SIGNUP_REQUEST:
+      return {
+        ...prevState,
+        isSignupLoading: true,
+        isSignupDone: null,
+        isSignupError: null,
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...prevState,
+        isSignupLoading: false,
+        isSignupDone: data,
+      };
+    case SIGNUP_FAILURE:
+      return {
+        ...prevState,
+        isSignupLoading: false,
+        isSignupError: data,
+      };
+
     // 로그인
     case LOGIN_REQUEST:
       return {
@@ -77,23 +102,6 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         isLoggedIn: false,
         isLogoutLoading: false,
-      };
-
-    // 회원가입
-    case SIGNUP_REQUEST:
-      return {
-        ...prevState,
-        isSignupLoading: true,
-      };
-    case SIGNUP_SUCCESS:
-      return {
-        ...prevState,
-        isSignupLoading: false,
-      };
-    case SIGNUP_FAILURE:
-      return {
-        ...prevState,
-        isSignupLoading: false,
       };
 
     // 유저와 게시글 관련

@@ -10,6 +10,7 @@ React-Node로 만드는 클론 트위터
 6. 6일차 : faker패키지를 이용해서 더미데이터크리에이터 생성 및 무한 스크롤링 구현
 7. 7일차 : follow, unfollow기능 구현
 8. 8일차 : sequelize를 이용한 테이블 생성 및 관계설정 + server측 eslint설정
+9. 9일차 : front-back 연동, 회원가입구현
 
 ## 해야할것
 1. follow버튼 전부 동일한 변수사용하는것 개별적으로 사용하도록 변경

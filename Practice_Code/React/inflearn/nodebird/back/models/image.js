@@ -15,7 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      timestemps: true,
+      sequelize,
+      timestamps: true,
+      paranoid: false,
+      underscored: false,
+      modelName: "Image",
+      tableName: "images",
       charset: "utf8",
       collate: "utf8_general_ci",
     },

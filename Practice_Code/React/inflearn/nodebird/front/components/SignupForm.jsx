@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Router from "next/router";
 import { Form, Input, Button, Checkbox } from "antd";
 import styled from "styled-components";
 
@@ -14,7 +15,7 @@ const SignupBtnWrapper = styled(Button)`
 
 function SignupForm() {
   const dispatch = useDispatch();
-  const { isSignupLoading } = useSelector(state => state.userReducer);
+  const { isSignupLoading, isSignupDone, isSignupError } = useSelector(state => state.userReducer);
 
   // 닉네임, 아이디, 비밀번호, 비밀번호체크, 약관동의
   const [nickname, setNickname] = useState("");
@@ -23,6 +24,21 @@ function SignupForm() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [termAgree, setTermAgree] = useState(false);
+
+  // 회원가입완료시 메인페이지로 강제이동
+  useEffect(() => {
+    if (isSignupDone) {
+      alert(isSignupDone);
+      Router.push("/");
+    }
+  }, [isSignupDone]);
+
+  // 회원가입완료시 메인페이지로 강제이동
+  useEffect(() => {
+    if (isSignupError) {
+      alert(isSignupError);
+    }
+  }, [isSignupError]);
 
   // 회원가입
   const onSubmitSignup = useCallback(() => {
@@ -41,8 +57,13 @@ function SignupForm() {
     // 약관동의 체크
     if (termAgree === false) return alert("약관에 동의하셔야 회원가입을 할 수 있습니다.");
 
-    // trim붙여서 서버로 전송
-    dispatch(userSignup({ nickname, id, password }));
+    dispatch(
+      userSignup({
+        nickname: nickname.trim(),
+        id: id.trim(),
+        password: password.trim(),
+      }),
+    );
   }, [nickname, id, password, passwordCheck, termAgree]);
 
   // input변경이벤트
