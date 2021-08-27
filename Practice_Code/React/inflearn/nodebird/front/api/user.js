@@ -10,10 +10,11 @@ export function apiSignUp(body) {
   return instance.post("/", body);
 }
 
+// 로그인
 export function apiLogIn(body) {
-  return instance.post("/", body);
+  return instance.post("/login", body);
 }
 
 export function apiLogOut(body) {
-  return axios.post("/", body);
+  return instance.post("/logout", body);
 }

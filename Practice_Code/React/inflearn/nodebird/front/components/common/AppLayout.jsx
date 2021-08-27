@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Col, Row } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
@@ -27,7 +27,21 @@ const Global = createGlobalStyle`
 `;
 
 const AppLayout = ({ children }) => {
-  const { isLoggedIn } = useSelector(state => state.userReducer);
+  const { isLoggedIn, isLogginDone, isLogginError, isLogoutDone, isLogoutError } = useSelector(
+    state => state.userReducer,
+  );
+
+  // 로그인 실패시 메시지
+  useEffect(() => (isLogginError ? alert(isLogginError) : null), [isLogginError]);
+
+  // 로그인 성공시 메시지
+  useEffect(() => (isLogginDone ? alert(isLogginDone) : null), [isLogginDone]);
+
+  // 로그아웃 성공시 메시지
+  useEffect(() => (isLogoutDone ? alert(isLogoutDone) : null), [isLogoutDone]);
+
+  // 로그아웃 성공시 메시지
+  useEffect(() => (isLogoutError ? alert(isLogoutError) : null), [isLogoutError]);
 
   return (
     <>

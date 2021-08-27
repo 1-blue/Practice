@@ -26,20 +26,19 @@ const initState = {
   isSignupDone: null,
   isSignupError: null,
 
+  // 로그인
   isLogginLoading: false,
+  isLogginDone: null,
+  isLogginError: null,
+
+  // 로그아웃
   isLogoutLoading: false,
+  isLogoutDone: null,
+  isLogoutError: null,
+
   isFollowLoading: false,
   isUnfollowLoading: false,
 };
-
-const dummyUser = data => ({
-  ...data,
-  nickname: "임시유저",
-  id: 9999,
-  Posts: [],
-  Followings: [{ nickname: "apple" }, { nickname: "blue" }, { nickname: "color" }, { nickname: "delete" }],
-  Followers: [{ nickname: "egg" }, { nickname: "fox" }, { nickname: "gray" }, { nickname: "delete" }],
-});
 
 function userReducer(prevState = initState, { type, data }) {
   switch (type) {
@@ -55,13 +54,13 @@ function userReducer(prevState = initState, { type, data }) {
       return {
         ...prevState,
         isSignupLoading: false,
-        isSignupDone: data,
+        isSignupDone: data.message,
       };
     case SIGNUP_FAILURE:
       return {
         ...prevState,
         isSignupLoading: false,
-        isSignupError: data,
+        isSignupError: data.message,
       };
 
     // 로그인
@@ -69,19 +68,23 @@ function userReducer(prevState = initState, { type, data }) {
       return {
         ...prevState,
         isLogginLoading: true,
+        isLogginDone: null,
+        isLogginError: null,
       };
     case LOGIN_SUCCESS:
       return {
         ...prevState,
-        me: dummyUser(data),
+        me: data.user,
         isLoggedIn: true,
         isLogginLoading: false,
+        isLogginDone: data.message,
       };
     case LOGIN_FAILURE:
       return {
         ...prevState,
         isLoggedIn: false,
         isLogginLoading: false,
+        isLogginError: data.message,
       };
 
     // 로그아웃
@@ -89,6 +92,8 @@ function userReducer(prevState = initState, { type, data }) {
       return {
         ...prevState,
         isLogoutLoading: true,
+        isLogoutDone: null,
+        isLogoutError: null,
       };
     case LOGOUT_SUCCESS:
       return {
@@ -96,12 +101,14 @@ function userReducer(prevState = initState, { type, data }) {
         me: null,
         isLoggedIn: false,
         isLogoutLoading: false,
+        isLogoutDone: data.message,
       };
     case LOGOUT_FAILURE:
       return {
         ...prevState,
-        isLoggedIn: false,
+        isLoggedIn: true,
         isLogoutLoading: false,
+        isLogoutError: data.message,
       };
 
     // 유저와 게시글 관련

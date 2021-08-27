@@ -1,6 +1,11 @@
 const express = require("express");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { sequelize } = require("./models");
+const passportConfig = require("./passport");
+const passport = require("passport");
+require("dotenv").config();
 
 const app = express();
 
@@ -8,13 +13,26 @@ const app = express();
 app.use(
   cors({
     origin: "*",
-    credentials: false,
+    credentials: true,
   }),
 );
 
-// 바디파서장착
+// passport
+passportConfig();
+
+// 미들웨어장착
 app.use(express.json()); // 나머지 처리
 app.use(express.urlencoded({ extended: true })); // from데이터 처리
+app.use(
+  session({
+    saveUninitialized: false,
+    resave: false,
+    secret: process.env.COOKIE_SECRET,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // sequelize로 DB연결
 sequelize

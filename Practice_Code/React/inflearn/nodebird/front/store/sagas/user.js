@@ -18,7 +18,7 @@ import {
   UNFOLLOW_FAILURE,
 } from "../types";
 
-import { apiSignUp } from "../../api";
+import { apiSignUp, apiLogIn, apiLogOut } from "../../api";
 
 function* signup(action) {
   try {
@@ -26,50 +26,44 @@ function* signup(action) {
 
     yield put({
       type: SIGNUP_SUCCESS,
-      data: data.message,
+      data: data,
     });
   } catch (error) {
     yield put({
       type: SIGNUP_FAILURE,
-      data: error.response.data.message,
+      data: error.response.data,
     });
   }
 }
 
 function* login(action) {
   try {
-    // const { data } = yield call(apiLogin, action.data);
-
-    // 임시로 1초대기
-    yield delay(1000);
+    const { data } = yield call(apiLogIn, action.data);
 
     yield put({
       type: LOGIN_SUCCESS,
-      // data,
+      data,
     });
   } catch (error) {
     yield put({
       type: LOGIN_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }
 
 function* logout() {
   try {
-    // const { data } = yield call(apiLogout);
-
-    // 임시로 1초대기
-    yield delay(1000);
+    const { data } = yield call(apiLogOut);
 
     yield put({
       type: LOGOUT_SUCCESS,
-      // data,
+      data,
     });
   } catch (error) {
     yield put({
       type: LOGOUT_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }
