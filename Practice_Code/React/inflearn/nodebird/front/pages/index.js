@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Head from "next/head";
 
+import { loadPostRequest, loadMeRequest } from "../store/actions";
+
 // component
 import AppLayout from "../components/common/AppLayout";
 import PostForm from "../components/PostForm";
@@ -13,9 +15,14 @@ const Home = () => {
   const { isLoggedIn } = useSelector(state => state.userReducer);
   const { mainPosts } = useSelector(state => state.postReducer);
 
+  // 로그인유지
+  useEffect(() => {
+    dispatch(loadMeRequest());
+  }, []);
+
   // 최초 게시글 로드
   useEffect(() => {
-    dispatch({ type: "LOAD_POSTS_REQUEST" });
+    dispatch(loadPostRequest({ page: 1 }));
   }, []);
 
   // 무한 스크롤링처리
@@ -25,7 +32,7 @@ const Home = () => {
       if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
         if (isLoadPostLoading) return;
         if (!isHasMorePost) return;
-        dispatch({ type: "LOAD_POSTS_REQUEST" });
+        // dispatch({ type: "LOAD_POSTS_REQUEST" });
       }
     }
 

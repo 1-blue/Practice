@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Input } from "antd";
 import styled from "styled-components";
 
-import { userLogin } from "../store/actions";
+import { userLoginRequest } from "../store/actions";
 
 const LoginFormWrapper = styled(Form)`
   padding: 10px;
@@ -22,7 +22,7 @@ function LoginForm() {
 
   // 로그인
   const onSubmitLogin = useCallback(() => {
-    dispatch(userLogin({ id, password }));
+    dispatch(userLoginRequest({ id, password }));
   }, [id, password]);
 
   // input변화

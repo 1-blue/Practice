@@ -1,3 +1,7 @@
+export const LOAD_ME_REQUEST = "LOAD_ME_REQUEST";
+export const LOAD_ME_SUCCESS = "LOAD_ME_SUCCESS";
+export const LOAD_ME_FAILURE = "LOAD_ME_FAILURE";
+
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";

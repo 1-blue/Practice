@@ -133,7 +133,7 @@ function PostCard({ post }) {
       </Card>
 
       {/* 게시글의 댓글 */}
-      {commentsToggle && <CommentContainer postId={post.id} comments={post.Comments} />}
+      {commentsToggle && <CommentContainer postId={post._id} comments={post.Comments} />}
     </>
   );
 }

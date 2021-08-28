@@ -10,7 +10,7 @@ const UploadBtnWrapper = styled(Button)`
 
 function PostForm() {
   const dispatch = useDispatch();
-  const { id: userId } = useSelector(state => state.userReducer.me);
+  const { _id: userId } = useSelector(state => state.userReducer.me);
   const { isAddPostLoading, isAddPostDone } = useSelector(state => state.postReducer);
   const imageInput = useRef(null);
   const [content, setContent] = useState("");
@@ -37,7 +37,7 @@ function PostForm() {
     // 전달할것: 이미지들, 게시글내용
     // console.log(imageInput.current); //임시
     dispatch(addPostRequest({ userId, content }));
-  }, [imageInput.current, content]);
+  }, [imageInput.current, content, userId]);
 
   return (
     <Form encType="multipart/form-data" onFinish={onClickPostUploadBtn}>

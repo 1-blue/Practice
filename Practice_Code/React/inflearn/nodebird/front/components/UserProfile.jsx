@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Avatar, Button } from "antd";
 
-import { userLogout } from "../store/actions";
+import { userLogoutRequest } from "../store/actions";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ function UserProfile() {
   const { isLogoutLoading } = useSelector(state => state.userReducer);
 
   const onLogout = useCallback(() => {
-    dispatch(userLogout());
+    dispatch(userLogoutRequest());
   });
 
   // 유저프로필 보여줄 카드 ( 트윗, 팔로잉, 팔로워, 유저이미지, 로그아웃 )

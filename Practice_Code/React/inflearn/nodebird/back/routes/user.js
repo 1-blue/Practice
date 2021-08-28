@@ -4,6 +4,28 @@ const { User, Post } = require("../models");
 const passport = require("passport");
 const { isLoggedIn, isNotLoggedIn } = require("../middleware");
 
+// 로그인 유지
+router.get("/", async (req, res) => {
+  if (!req.user) return res.send({ user: null });
+
+  // 유저와 유저와 관련된 정보까지 모아서 찾음
+  try {
+    const fullUser = await User.findOne({
+      attributes: ["_id", "nickname", "createdAt"],
+      where: { _id: req.user._id },
+      include: [
+        { model: Post, attributes: ["_id"] },
+        { model: User, as: "Followers", attributes: ["_id"] },
+        { model: User, as: "Followings", attributes: ["_id"] },
+      ],
+    });
+
+    return res.status(200).json({ result: true, user: fullUser });
+  } catch (error) {
+    console.error("GET /user error >> ", error);
+  }
+});
+
 // 회원가입
 router.post("/", isNotLoggedIn, async (req, res) => {
   const { id, password, nickname } = req.body;

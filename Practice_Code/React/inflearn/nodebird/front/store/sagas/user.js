@@ -1,6 +1,9 @@
 import { all, call, fork, put, takeLatest, delay } from "redux-saga/effects";
 
 import {
+  LOAD_ME_REQUEST,
+  LOAD_ME_SUCCESS,
+  LOAD_ME_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -18,7 +21,30 @@ import {
   UNFOLLOW_FAILURE,
 } from "../types";
 
-import { apiSignUp, apiLogIn, apiLogOut } from "../../api";
+import { apiLoadMe, apiSignUp, apiLogIn, apiLogOut } from "../../api";
+
+function* loadMe() {
+  try {
+    const { data } = yield call(apiLoadMe);
+
+    if (data && data.user) {
+      yield put({
+        type: LOAD_ME_SUCCESS,
+        data,
+      });
+    } else {
+      yield put({
+        type: LOAD_ME_FAILURE,
+        data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: LOAD_ME_FAILURE,
+      data: error.response.data,
+    });
+  }
+}
 
 function* signup(action) {
   try {
@@ -105,6 +131,10 @@ function* unfollow(action) {
   }
 }
 
+function* watchLoadMe() {
+  yield takeLatest(LOAD_ME_REQUEST, loadMe);
+}
+
 function* watchSignup() {
   yield takeLatest(SIGNUP_REQUEST, signup);
 }
@@ -126,5 +156,12 @@ function* watchUnfollow() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchSignup), fork(watchLogin), fork(watchLogout), fork(watchFollow), fork(watchUnfollow)]);
+  yield all([
+    fork(watchLoadMe),
+    fork(watchSignup),
+    fork(watchLogin),
+    fork(watchLogout),
+    fork(watchFollow),
+    fork(watchUnfollow),
+  ]);
 }

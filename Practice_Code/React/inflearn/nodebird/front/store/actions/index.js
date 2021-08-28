@@ -1,5 +1,5 @@
-export { userLogin, userLogout, userSignup } from "./userAction";
+export { loadMeRequest, userLoginRequest, userLogoutRequest, userSignupRequest } from "./userAction";
 
-export { addPostRequest, removePostRequest, addCommentRequest } from "./postAction";
+export { loadPostRequest, addPostRequest, removePostRequest, addCommentRequest } from "./postAction";
 
 export { followRequest, unfollowRequest } from "./followAction";

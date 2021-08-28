@@ -39,6 +39,9 @@ module.exports = (sequelize, DataTypes) => {
     // 유저와 게시글 좋아요 ( N : M )
     db.Post.belongsToMany(db.User, { through: "Like", as: "Liked" });
 
+    // 게시글과 이미지 ( 1 : N )
+    db.Post.hasMany(db.Image);
+
     // 리트윗
     db.Post.belongsTo(db.Post, { as: "RetweetId" });
   };

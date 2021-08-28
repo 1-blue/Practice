@@ -4,7 +4,7 @@ import Router from "next/router";
 import { Form, Input, Button, Checkbox } from "antd";
 import styled from "styled-components";
 
-import { userSignup } from "../store/actions";
+import { userSignupRequest } from "../store/actions";
 
 const PasswordErrorTextWrapper = styled.div`
   color: red;
@@ -58,7 +58,7 @@ function SignupForm() {
     if (termAgree === false) return alert("약관에 동의하셔야 회원가입을 할 수 있습니다.");
 
     dispatch(
-      userSignup({
+      userSignupRequest({
         nickname: nickname.trim(),
         id: id.trim(),
         password: password.trim(),

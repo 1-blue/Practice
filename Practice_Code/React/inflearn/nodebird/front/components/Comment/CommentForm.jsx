@@ -6,7 +6,7 @@ import { addCommentRequest } from "../../store/actions";
 
 function CommentForm({ postId }) {
   const dispatch = useDispatch();
-  const { id: userId } = useSelector(state => state.userReducer.me);
+  const { _id: userId } = useSelector(state => state.userReducer.me);
   const { isAddCommentLoading, isAddCommentDone } = useSelector(state => state.postReducer);
   const [content, setContent] = useState("");
 
@@ -24,7 +24,8 @@ function CommentForm({ postId }) {
   // 댓글등록이벤트
   const onSubmitComment = useCallback(() => {
     dispatch(addCommentRequest({ userId, postId, content }));
-  }, [content]);
+    console.log("댓글전송", userId, postId);
+  }, [userId, postId, content]);
 
   return (
     <Form onFinish={onSubmitComment}>

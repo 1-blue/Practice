@@ -1,4 +1,7 @@
 import {
+  LOAD_ME_REQUEST,
+  LOAD_ME_SUCCESS,
+  LOAD_ME_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -42,6 +45,25 @@ const initState = {
 
 function userReducer(prevState = initState, { type, data }) {
   switch (type) {
+    // 내 정보 불러오기
+    case LOAD_ME_REQUEST:
+      return {
+        ...prevState,
+        isLoggedIn: false,
+      };
+    case LOAD_ME_SUCCESS:
+      return {
+        ...prevState,
+        me: data.user,
+        isLoggedIn: true,
+      };
+    case LOAD_ME_FAILURE:
+      return {
+        ...prevState,
+        me: data.user,
+        isLoggedIn: false,
+      };
+
     // 회원가입
     case SIGNUP_REQUEST:
       return {
@@ -117,7 +139,7 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         me: {
           ...prevState.me,
-          Posts: [...prevState.me.Posts, { id: data.postId }],
+          Posts: [...prevState.me.Posts, { id: data.post._id }],
         },
       };
     case REMOVE_POST_OF_ME:

@@ -26,7 +26,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Image.associate = db => {};
+  Image.associate = db => {
+    // 게시글과 이미지 ( 1 : N )
+    db.Image.belongsTo(db.Post);
+  };
 
   return Image;
 };

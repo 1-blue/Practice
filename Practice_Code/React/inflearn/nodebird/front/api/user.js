@@ -3,7 +3,13 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: "http://localhost:3000/user",
   timeout: 1000,
+  withCredentials: true,
 });
+
+// 회원가입
+export function apiLoadMe() {
+  return instance.get("/");
+}
 
 // 회원가입
 export function apiSignUp(body) {

@@ -9,10 +9,10 @@ require("dotenv").config();
 
 const app = express();
 
-// cors처리 req.
+// cors처리
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:8080",
     credentials: true,
   }),
 );

@@ -1,6 +1,4 @@
 import { all, call, fork, put, takeLatest, delay } from "redux-saga/effects";
-import shortId from "shortid";
-import faker from "faker";
 
 import {
   ADD_POST_REQUEST,
@@ -19,47 +17,44 @@ import {
   LOAD_POSTS_FAILURE,
 } from "../types";
 
-// import { apiLogin, apiLogout } from "../../api";
+import { apiLoadPost, apiAddPost, apiAddComment } from "../../api";
 
-// 임의의 게시글 10개 추가
-const generateDummyPost = number =>
-  Array(10)
-    .fill()
-    .map((v, i) => ({
-      id: shortId.generate(),
-      content: faker.lorem.paragraph(),
-      User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName(),
-      },
-      Images: [{ src: faker.image.image() }, { src: faker.image.image() }],
-      Comments: [
-        {
-          User: {
-            id: shortId.generate(),
-            nickname: faker.name.findName(),
-          },
-          content: faker.lorem.sentence(),
-        },
-      ],
-    }));
+// 임의의 게시글 10개 추가 ( npm i shortid faker )
+// const generateDummyPost = number =>
+//   Array(10)
+//     .fill()
+//     .map((v, i) => ({
+//       id: shortId.generate(),
+//       content: faker.lorem.paragraph(),
+//       User: {
+//         id: shortId.generate(),
+//         nickname: faker.name.findName(),
+//       },
+//       Images: [{ src: faker.image.image() }, { src: faker.image.image() }],
+//       Comments: [
+//         {
+//           User: {
+//             id: shortId.generate(),
+//             nickname: faker.name.findName(),
+//           },
+//           content: faker.lorem.sentence(),
+//         },
+//       ],
+//     }));
 
 // 게시글 로드
 function* loadPost(action) {
   try {
-    // const { data } = yield call(apiLogin, action.data);
-
-    // 임시로 1초대기
-    yield delay(1000);
+    const { data } = yield call(apiLoadPost, action.data);
 
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: generateDummyPost(10),
+      data,
     });
   } catch (error) {
     yield put({
       type: LOAD_POSTS_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }
@@ -67,31 +62,20 @@ function* loadPost(action) {
 // 게시글 추가
 function* addPost(action) {
   try {
-    // const { data } = yield call(apiLogin, action.data);
-
-    // 임시로 1초대기
-    yield delay(1000);
-
-    const postId = shortId.generate();
+    const { data } = yield call(apiAddPost, action.data);
 
     yield put({
       type: ADD_POST_SUCCESS,
-      data: {
-        ...action.data,
-        postId,
-      },
+      data,
     });
     yield put({
       type: ADD_POST_TO_ME,
-      data: {
-        ...action.data,
-        postId,
-      },
+      data,
     });
   } catch (error) {
     yield put({
       type: ADD_POST_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }
@@ -124,20 +108,17 @@ function* removePost(action) {
 // 댓글 추가
 function* addComment(action) {
   try {
-    // const { data } = yield call(apiLogin, action.data);
-
-    // 임시로 1초대기
-    yield delay(1000);
+    const { data } = yield call(apiAddComment, action.data);
 
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: action.data,
+      data,
     });
   } catch (error) {
     console.error(error);
     yield put({
       type: ADD_COMMENT_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }
