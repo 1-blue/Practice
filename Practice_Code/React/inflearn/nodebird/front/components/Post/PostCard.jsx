@@ -14,7 +14,13 @@ import PropTypes from "prop-types";
 import PostImagePreview from "./PostImagePreview";
 import CommentContainer from "../Comment/CommentContainer";
 
-import { removePostRequest, followRequest, unfollowRequest } from "../../store/actions";
+import {
+  removePostRequest,
+  followRequest,
+  unfollowRequest,
+  addLikeRequest,
+  removeLikeRequest,
+} from "../../store/actions";
 
 function PostCard({ post }) {
   const dispatch = useDispatch();
@@ -26,10 +32,10 @@ function PostCard({ post }) {
   const { isFollowLoading, isUnfollowLoading } = useSelector(state => state.userReducer);
   // 삭제버튼로딩
   const { isRemovePostLoading } = useSelector(state => state.postReducer);
-  // 좋아요 토글
-  const [likeToggle, setLikeToggle] = useState(false);
   // 댓글 토글
   const [commentsToggle, setCommentsToggle] = useState(false);
+
+  const isLike = me && post.Likers.find(v => v._id === me._id);
 
   // 팝오버할 버튼들
   const getPopoverBtns = useCallback(() => {
@@ -63,15 +69,15 @@ function PostCard({ post }) {
         <EllipsisOutlined />
       </Popover>,
     ];
-  }, [likeToggle, commentsToggle, isRemovePostLoading]);
+  }, [isLike, commentsToggle, isRemovePostLoading]);
 
   // 좋아요버튼 상태에 따른 컴포넌트반환
   const getLikeBtn = useCallback(() => {
-    if (likeToggle) {
+    if (isLike) {
       return <HeartTwoTone key="heart" onClick={onClickLikeBtn} twoToneColor="#eb2f96" />;
     }
     return <HeartOutlined key="heart" onClick={onClickLikeBtn} />;
-  }, [likeToggle]);
+  }, [isLike]);
 
   // 댓글버튼 상태에 따른 컴포넌트반환
   const getCommmentBtn = useCallback(() => {
@@ -83,9 +89,12 @@ function PostCard({ post }) {
 
   // 좋아요클릭
   const onClickLikeBtn = useCallback(() => {
-    // 서버로 비동기처리할 부분
-    setLikeToggle(prev => !prev);
-  }, []);
+    if (isLike) {
+      dispatch(removeLikeRequest({ PostId: post._id }));
+    } else {
+      dispatch(addLikeRequest({ PostId: post._id }));
+    }
+  }, [isLike]);
 
   // 댓글클릭
   const onClickCommentBtn = useCallback(() => {

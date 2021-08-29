@@ -16,6 +16,17 @@ export function apiAddPost(body) {
   return instance.post("/", body);
 }
 
+// 게시글에 댓글 추가
 export function apiAddComment(body) {
   return instance.post("/comment", body);
+}
+
+// 게시글에 좋아요 추가
+export function apiAddPostLike({ PostId }) {
+  return instance.patch(`/like/${PostId}`);
+}
+
+// 게시글에 좋아요 삭제
+export function apiRemovePostLike({ PostId }) {
+  return instance.delete(`/like/${PostId}`);
 }

@@ -1,4 +1,11 @@
-import { LOAD_POSTS_REQUEST, ADD_POST_REQUEST, REMOVE_POST_REQUEST, ADD_COMMENT_REQUEST } from "../types";
+import {
+  LOAD_POSTS_REQUEST,
+  ADD_POST_REQUEST,
+  REMOVE_POST_REQUEST,
+  ADD_COMMENT_REQUEST,
+  POST_LIKE_REQUEST,
+  POST_UNLIKE_REQUEST,
+} from "../types";
 
 export function loadPostRequest(data) {
   return {
@@ -23,6 +30,20 @@ export function removePostRequest(data) {
 export function addCommentRequest(data) {
   return {
     type: ADD_COMMENT_REQUEST,
+    data,
+  };
+}
+
+export function addLikeRequest(data) {
+  return {
+    type: POST_LIKE_REQUEST,
+    data,
+  };
+}
+
+export function removeLikeRequest(data) {
+  return {
+    type: POST_UNLIKE_REQUEST,
     data,
   };
 }

@@ -15,32 +15,15 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
+  POST_LIKE_REQUEST,
+  POST_LIKE_SUCCESS,
+  POST_LIKE_FAILURE,
+  POST_UNLIKE_REQUEST,
+  POST_UNLIKE_SUCCESS,
+  POST_UNLIKE_FAILURE,
 } from "../types";
 
-import { apiLoadPost, apiAddPost, apiAddComment } from "../../api";
-
-// 임의의 게시글 10개 추가 ( npm i shortid faker )
-// const generateDummyPost = number =>
-//   Array(10)
-//     .fill()
-//     .map((v, i) => ({
-//       id: shortId.generate(),
-//       content: faker.lorem.paragraph(),
-//       User: {
-//         id: shortId.generate(),
-//         nickname: faker.name.findName(),
-//       },
-//       Images: [{ src: faker.image.image() }, { src: faker.image.image() }],
-//       Comments: [
-//         {
-//           User: {
-//             id: shortId.generate(),
-//             nickname: faker.name.findName(),
-//           },
-//           content: faker.lorem.sentence(),
-//         },
-//       ],
-//     }));
+import { apiLoadPost, apiAddPost, apiAddComment, apiAddPostLike, apiRemovePostLike } from "../../api";
 
 // 게시글 로드
 function* loadPost(action) {
@@ -123,6 +106,42 @@ function* addComment(action) {
   }
 }
 
+// 좋아요추가
+function* addPostLike(action) {
+  try {
+    const { data } = yield call(apiAddPostLike, action.data);
+
+    yield put({
+      type: POST_LIKE_SUCCESS,
+      data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: POST_LIKE_FAILURE,
+      data: error.response.data,
+    });
+  }
+}
+
+// 좋아요삭제
+function* removePostLike(action) {
+  try {
+    const { data } = yield call(apiRemovePostLike, action.data);
+
+    yield put({
+      type: POST_UNLIKE_SUCCESS,
+      data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: POST_UNLIKE_FAILURE,
+      data: error.response.data,
+    });
+  }
+}
+
 function* watchLoadPost() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPost);
 }
@@ -139,6 +158,21 @@ function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
+function* watchAddPostLike() {
+  yield takeLatest(POST_LIKE_REQUEST, addPostLike);
+}
+
+function* watchRemovePostLike() {
+  yield takeLatest(POST_UNLIKE_REQUEST, removePostLike);
+}
+
 export default function* postSaga() {
-  yield all([fork(watchLoadPost), fork(watchAddPost), fork(watchRemovePost), fork(watchAddComment)]);
+  yield all([
+    fork(watchLoadPost),
+    fork(watchAddPost),
+    fork(watchRemovePost),
+    fork(watchAddComment),
+    fork(watchAddPostLike),
+    fork(watchRemovePostLike),
+  ]);
 }

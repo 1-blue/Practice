@@ -11,6 +11,12 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
+  POST_LIKE_REQUEST,
+  POST_LIKE_SUCCESS,
+  POST_LIKE_FAILURE,
+  POST_UNLIKE_REQUEST,
+  POST_UNLIKE_SUCCESS,
+  POST_UNLIKE_FAILURE,
 } from "../types";
 
 const initState = {
@@ -38,6 +44,9 @@ const initState = {
 
 // 불변성 유지를 위해 임시로 게시글들의 정보를 넣을 변수
 let tempMainPosts = null;
+let targetPostIndex = null;
+let targetPost = null;
+let targetPostLiker = null;
 
 function postReducer(prevState = initState, { type, data }) {
   switch (type) {
@@ -120,12 +129,12 @@ function postReducer(prevState = initState, { type, data }) {
         isAddCommentDone: false,
       };
     case ADD_COMMENT_SUCCESS:
-      // // 메인게시글리스트 복사
+      // 메인게시글리스트 복사
       tempMainPosts = [...prevState.mainPosts];
       // 변경할 게시글의 index찾고
-      const targetPostIndex = prevState.mainPosts.findIndex(post => post._id === data.comment.PostId);
+      targetPostIndex = prevState.mainPosts.findIndex(post => post._id === data.comment.PostId);
       // 댓글을 등록할 게시글 찾고
-      const targetPost = prevState.mainPosts[targetPostIndex];
+      targetPost = prevState.mainPosts[targetPostIndex];
       // 해당 게시글에 유저정보, 댓글내용을 넣음
       targetPost.Comments.unshift(data.comment);
       // 해당 게시글을 게시글리스트에 넣음
@@ -142,6 +151,55 @@ function postReducer(prevState = initState, { type, data }) {
         ...prevState,
         isAddCommentLoading: false,
         isAddCommentDone: true,
+      };
+
+    // 좋아요
+    case POST_LIKE_REQUEST:
+      return {
+        ...prevState,
+      };
+    case POST_LIKE_SUCCESS:
+      // 메인게시글리스트 복사
+      tempMainPosts = [...prevState.mainPosts];
+      // 변경할 게시글의 index찾고
+      targetPostIndex = prevState.mainPosts.findIndex(post => post._id === data.PostId);
+      // 댓글을 등록할 게시글 찾고
+      targetPost = prevState.mainPosts[targetPostIndex];
+      // 해당 게시글에 유저정보, 댓글내용을 넣음
+      targetPost.Likers.push({ _id: data.UserId });
+      // 해당 게시글을 게시글리스트에 넣음
+      tempMainPosts[targetPostIndex] = targetPost;
+      return {
+        ...prevState,
+        mainPosts: tempMainPosts,
+      };
+    case POST_LIKE_FAILURE:
+      return {
+        ...prevState,
+      };
+    case POST_UNLIKE_REQUEST:
+      return {
+        ...prevState,
+      };
+    case POST_UNLIKE_SUCCESS:
+      // 메인게시글리스트 복사
+      tempMainPosts = [...prevState.mainPosts];
+      // 변경할 게시글의 index찾고
+      targetPostIndex = prevState.mainPosts.findIndex(post => post._id === data.PostId);
+      // 댓글을 등록할 게시글 찾고
+      targetPost = prevState.mainPosts[targetPostIndex];
+      // 해당 게시글에 유저정보, 댓글내용을 넣음
+      targetPostLiker = targetPost.Likers.filter(liker => liker._id !== data.UserId);
+      targetPost.Likers = targetPostLiker;
+      // 해당 게시글을 게시글리스트에 넣음
+      tempMainPosts[targetPostIndex] = targetPost;
+      return {
+        ...prevState,
+        mainPosts: tempMainPosts,
+      };
+    case POST_UNLIKE_FAILURE:
+      return {
+        ...prevState,
       };
 
     default:

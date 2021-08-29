@@ -11,7 +11,12 @@ router.get("/:page", async (req, res) => {
       ["createdAt", "DESC"],
       [Comment, "createdAt", "DESC"],
     ],
-    include: [{ model: User }, { model: Comment, include: [{ model: User }] }, { model: Image }],
+    include: [
+      { model: User },
+      { model: Comment, include: [{ model: User }] },
+      { model: Image },
+      { model: User, as: "Likers", attributes: ["_id"] },
+    ],
   });
 
   res.json({ result: true, post });
@@ -38,6 +43,7 @@ router.post("/", isLoggedIn, async (req, res) => {
   res.json({ result: true, post: fullPost });
 });
 
+// 게시글에 댓글 업로드
 router.post("/comment", isLoggedIn, async (req, res) => {
   const { userId: UserId, postId: PostId, content } = req.body;
 
@@ -53,6 +59,36 @@ router.post("/comment", isLoggedIn, async (req, res) => {
   });
 
   res.send({ result: true, comment: fullComment });
+});
+
+// 게시글에 좋아요 추가
+router.patch("/like/:_id", isLoggedIn, async (req, res) => {
+  const { _id } = req.params;
+
+  try {
+    const post = await Post.findOne({ where: { _id } });
+    await post.addLikers(req.user._id);
+
+    res.json({ result: true, UserId: req.user._id, PostId: +_id });
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false, error });
+  }
+});
+
+// 게시글에 좋아요 삭제
+router.delete("/like/:_id", isLoggedIn, async (req, res) => {
+  const { _id } = req.params;
+
+  try {
+    const post = await Post.findOne({ where: { _id } });
+    await post.removeLikers(req.user._id);
+
+    res.json({ result: true, UserId: req.user._id, PostId: +_id });
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false, error });
+  }
 });
 
 module.exports = router;
