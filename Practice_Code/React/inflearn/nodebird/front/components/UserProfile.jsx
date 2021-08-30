@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Avatar, Button } from "antd";
 
@@ -7,7 +7,13 @@ import { userLogoutRequest } from "../store/actions";
 function UserProfile() {
   const dispatch = useDispatch();
   const { nickname, Posts, Followings, Followers } = useSelector(state => state.userReducer.me);
-  const { isLogoutLoading } = useSelector(state => state.userReducer);
+  const { isLogoutLoading, isLogginDone, isLogginError } = useSelector(state => state.userReducer);
+
+  // 로그인 실패시 메시지
+  useEffect(() => (isLogginError ? alert(isLogginError) : null), [isLogginError]);
+
+  // 로그인 성공시 메시지
+  useEffect(() => (isLogginDone ? alert(isLogginDone) : null), [isLogginDone]);
 
   const onLogout = useCallback(() => {
     dispatch(userLogoutRequest());

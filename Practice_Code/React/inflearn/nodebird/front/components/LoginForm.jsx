@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Input } from "antd";
 import styled from "styled-components";
@@ -13,12 +13,18 @@ const LoginBtnWrapper = styled(Button)`
 `;
 
 function LoginForm() {
-  // 아이디, 비밀번호
+  const dispatch = useDispatch();
+
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-
-  const dispatch = useDispatch();
   const { isLogginLoading } = useSelector(state => state.userReducer);
+  const { isLogoutDone, isLogoutError } = useSelector(state => state.userReducer);
+
+  // 로그아웃 성공시 메시지
+  useEffect(() => (isLogoutDone ? alert(isLogoutDone) : null), [isLogoutDone]);
+
+  // 로그아웃 실패시 메시지
+  useEffect(() => (isLogoutError ? alert(isLogoutError) : null), [isLogoutError]);
 
   // 로그인
   const onSubmitLogin = useCallback(() => {

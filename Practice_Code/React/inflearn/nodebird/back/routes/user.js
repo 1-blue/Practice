@@ -86,6 +86,7 @@ router.post("/logout", isLoggedIn, (req, res) => {
   res.json({ result: true, message: "로그아웃에 성공했습니다." });
 });
 
+// 닉네임 변경
 router.patch("/nickname/:nickname", isLoggedIn, async (req, res) => {
   const { nickname } = req.params;
 
