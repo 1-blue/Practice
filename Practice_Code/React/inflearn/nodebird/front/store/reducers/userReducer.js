@@ -13,6 +13,9 @@ import {
   SIGNUP_FAILURE,
   ADD_POST_TO_ME,
   REMOVE_POST_OF_ME,
+  CHANGE_NICKNAME_REQUEST,
+  CHANGE_NICKNAME_SUCCESS,
+  CHANGE_NICKNAME_FAILURE,
   FOLLOW_REQUEST,
   FOLLOW_SUCCESS,
   FOLLOW_FAILURE,
@@ -38,6 +41,11 @@ const initState = {
   isLogoutLoading: false,
   isLogoutDone: null,
   isLogoutError: null,
+
+  // 닉네임 변경
+  isChangeNicknameLoading: false,
+  isChangeNicknameDone: null,
+  isChangeNicknameError: null,
 
   isFollowLoading: false,
   isUnfollowLoading: false,
@@ -131,6 +139,31 @@ function userReducer(prevState = initState, { type, data }) {
         isLoggedIn: true,
         isLogoutLoading: false,
         isLogoutError: data.message,
+      };
+
+    // 닉네임 변경
+    case CHANGE_NICKNAME_REQUEST:
+      return {
+        ...prevState,
+        isChangeNicknameLoading: true,
+        isChangeNicknameDone: null,
+        isChangeNicknameError: null,
+      };
+    case CHANGE_NICKNAME_SUCCESS:
+      return {
+        ...prevState,
+        me: {
+          ...prevState.me,
+          nickname: data.nickname,
+        },
+        isChangeNicknameLoading: false,
+        isChangeNicknameDone: data.message,
+      };
+    case CHANGE_NICKNAME_FAILURE:
+      return {
+        ...prevState,
+        isChangeNicknameLoading: false,
+        isChangeNicknameError: data.message,
       };
 
     // 유저와 게시글 관련

@@ -1,4 +1,10 @@
-export { loadMeRequest, userLoginRequest, userLogoutRequest, userSignupRequest } from "./userAction";
+export {
+  loadMeRequest,
+  userLoginRequest,
+  userLogoutRequest,
+  userSignupRequest,
+  userChangeNicknameRequest,
+} from "./userAction";
 
 export {
   loadPostRequest,

@@ -21,6 +21,12 @@ export function apiLogIn(body) {
   return instance.post("/login", body);
 }
 
+// 로그아웃
 export function apiLogOut(body) {
   return instance.post("/logout", body);
+}
+
+// 로그아웃
+export function apiChangeNickname(nickname) {
+  return instance.patch(`/nickname/${nickname}`);
 }

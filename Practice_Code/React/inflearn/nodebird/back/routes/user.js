@@ -86,4 +86,16 @@ router.post("/logout", isLoggedIn, (req, res) => {
   res.json({ result: true, message: "로그아웃에 성공했습니다." });
 });
 
+router.patch("/nickname/:nickname", isLoggedIn, async (req, res) => {
+  const { nickname } = req.params;
+
+  try {
+    const me = await User.findOne({ where: { _id: req.user._id } });
+    await me.update({ nickname });
+    res.json({ result: true, nickname });
+  } catch (error) {
+    res.json({ result: false, error });
+  }
+});
+
 module.exports = router;

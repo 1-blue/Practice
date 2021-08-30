@@ -1,8 +1,17 @@
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { Form, Input } from "antd";
 
+import { userChangeNicknameRequest } from "../store/actions";
+
 function NicknameChageForm() {
-  const onSearch = useCallback(value => console.log(value), []);
+  const dispatch = useDispatch();
+  const [content, setContent] = useState("");
+  const onChangeContent = useCallback(e => setContent(e.target.value), []);
+
+  const onSubmit = useCallback(() => {
+    dispatch(userChangeNicknameRequest(content));
+  }, [content]);
 
   // UserProfile에서 닉네임변경폼
   return (
@@ -13,7 +22,9 @@ function NicknameChageForm() {
         addonBefore="닉네임"
         enterButton="수정"
         size="large"
-        onSearch={onSearch}
+        onChange={onChangeContent}
+        onSearch={onSubmit}
+        value={content}
       />
     </Form>
   );

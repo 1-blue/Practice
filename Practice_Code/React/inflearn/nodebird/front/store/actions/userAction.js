@@ -1,4 +1,4 @@
-import { LOAD_ME_REQUEST, LOGIN_REQUEST, LOGOUT_REQUEST, SIGNUP_REQUEST } from "../types";
+import { LOAD_ME_REQUEST, LOGIN_REQUEST, LOGOUT_REQUEST, SIGNUP_REQUEST, CHANGE_NICKNAME_REQUEST } from "../types";
 
 export function loadMeRequest(data) {
   return {
@@ -24,6 +24,13 @@ export function userLogoutRequest() {
 export function userSignupRequest(data) {
   return {
     type: SIGNUP_REQUEST,
+    data,
+  };
+}
+
+export function userChangeNicknameRequest(data) {
+  return {
+    type: CHANGE_NICKNAME_REQUEST,
     data,
   };
 }

@@ -13,6 +13,9 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
+  CHANGE_NICKNAME_REQUEST,
+  CHANGE_NICKNAME_SUCCESS,
+  CHANGE_NICKNAME_FAILURE,
   FOLLOW_REQUEST,
   FOLLOW_SUCCESS,
   FOLLOW_FAILURE,
@@ -21,7 +24,7 @@ import {
   UNFOLLOW_FAILURE,
 } from "../types";
 
-import { apiLoadMe, apiSignUp, apiLogIn, apiLogOut } from "../../api";
+import { apiLoadMe, apiSignUp, apiLogIn, apiLogOut, apiChangeNickname } from "../../api";
 
 function* loadMe() {
   try {
@@ -94,6 +97,22 @@ function* logout() {
   }
 }
 
+function* changeNickname(action) {
+  try {
+    const { data } = yield call(apiChangeNickname, action.data);
+
+    yield put({
+      type: CHANGE_NICKNAME_SUCCESS,
+      data,
+    });
+  } catch (error) {
+    yield put({
+      type: CHANGE_NICKNAME_FAILURE,
+      data: error.response.data,
+    });
+  }
+}
+
 function* follow(action) {
   try {
     // const { data } = yield call(apiLogout);
@@ -147,6 +166,10 @@ function* watchLogout() {
   yield takeLatest(LOGOUT_REQUEST, logout);
 }
 
+function* watchChangeNickname() {
+  yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
+}
+
 function* watchFollow() {
   yield takeLatest(FOLLOW_REQUEST, follow);
 }
@@ -161,6 +184,7 @@ export default function* userSaga() {
     fork(watchSignup),
     fork(watchLogin),
     fork(watchLogout),
+    fork(watchChangeNickname),
     fork(watchFollow),
     fork(watchUnfollow),
   ]);
