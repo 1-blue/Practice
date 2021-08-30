@@ -139,7 +139,7 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         me: {
           ...prevState.me,
-          Posts: [...prevState.me.Posts, { id: data.post._id }],
+          Posts: [...prevState.me.Posts, { _id: data.post._id }],
         },
       };
     case REMOVE_POST_OF_ME:
@@ -147,7 +147,7 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         me: {
           ...prevState.me,
-          Posts: prevState.me.Posts.filter(post => post.id !== data.postId),
+          Posts: prevState.me.Posts.filter(post => post._id !== data.PostId),
         },
       };
 

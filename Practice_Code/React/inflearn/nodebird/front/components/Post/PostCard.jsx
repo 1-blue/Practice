@@ -104,8 +104,8 @@ function PostCard({ post }) {
 
   // 게시글 삭제 클릭
   const onClickPostRemoveBtn = useCallback(() => {
-    dispatch(removePostRequest({ postId: post.id }));
-  }, []);
+    dispatch(removePostRequest({ PostId: post._id }));
+  }, [post._id]);
 
   // 팔로우 버튼
   const getFollowBtn = useCallback(() => {

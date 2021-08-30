@@ -83,9 +83,11 @@ function postReducer(prevState = initState, { type, data }) {
         isAddPostDone: false,
       };
     case ADD_POST_SUCCESS:
+      tempMainPosts = [...prevState.mainPosts];
+      tempMainPosts.unshift(data.post);
       return {
         ...prevState,
-        mainPosts: [...prevState.mainPosts, data.post],
+        mainPosts: tempMainPosts,
         isAddPostLoading: false,
         isAddPostDone: true,
       };
@@ -104,9 +106,8 @@ function postReducer(prevState = initState, { type, data }) {
         isRemovePostDone: false,
       };
     case REMOVE_POST_SUCCESS:
-      // 지금은 임시로 여기서 게시글 삭제
       tempMainPosts = [...prevState.mainPosts];
-      tempMainPosts = tempMainPosts.filter(post => post.id !== data.postId);
+      tempMainPosts = tempMainPosts.filter(post => post._id !== data.PostId);
 
       return {
         ...prevState,

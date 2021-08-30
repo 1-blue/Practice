@@ -16,6 +16,11 @@ export function apiAddPost(body) {
   return instance.post("/", body);
 }
 
+// 게시글 삭제
+export function apiRemovePost({ PostId }) {
+  return instance.delete(`/${PostId}`);
+}
+
 // 게시글에 댓글 추가
 export function apiAddComment(body) {
   return instance.post("/comment", body);

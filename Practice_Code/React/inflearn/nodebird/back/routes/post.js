@@ -22,6 +22,19 @@ router.get("/:page", async (req, res) => {
   res.json({ result: true, post });
 });
 
+// 게시글 삭제
+router.delete("/:PostId", isLoggedIn, async (req, res) => {
+  const { PostId } = req.params;
+
+  try {
+    await Post.destroy({ where: { _id: PostId } });
+  } catch (error) {
+    res.json({ result: false, error });
+  }
+
+  res.json({ PostId: +PostId });
+});
+
 // 게시글 업로드
 router.post("/", isLoggedIn, async (req, res) => {
   const { content, userId: UserId } = req.body;
@@ -37,7 +50,16 @@ router.post("/", isLoggedIn, async (req, res) => {
 
   const fullPost = await Post.findOne({
     where: { _id: post._id },
-    include: [{ model: User }, { model: Comment }, { model: Image }],
+    order: [
+      ["createdAt", "DESC"],
+      [Comment, "createdAt", "DESC"],
+    ],
+    include: [
+      { model: User },
+      { model: Comment },
+      { model: Image },
+      { model: User, as: "Likers", attributes: ["_id"] },
+    ],
   });
 
   res.json({ result: true, post: fullPost });

@@ -1,4 +1,4 @@
-import { all, call, fork, put, takeLatest, delay } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 
 import {
   ADD_POST_REQUEST,
@@ -23,7 +23,7 @@ import {
   POST_UNLIKE_FAILURE,
 } from "../types";
 
-import { apiLoadPost, apiAddPost, apiAddComment, apiAddPostLike, apiRemovePostLike } from "../../api";
+import { apiLoadPost, apiAddPost, apiRemovePost, apiAddComment, apiAddPostLike, apiRemovePostLike } from "../../api";
 
 // 게시글 로드
 function* loadPost(action) {
@@ -66,24 +66,21 @@ function* addPost(action) {
 // 게시글 삭제
 function* removePost(action) {
   try {
-    // 임시로 1초대기
-    yield delay(1000);
-
-    // post삭제 api
-    // const { data } = yield call(apiLogin, action.data);
+    const { data } = yield call(apiRemovePost, action.data);
 
     yield put({
       type: REMOVE_POST_SUCCESS,
-      data: action.data,
+      data: data,
     });
     yield put({
       type: REMOVE_POST_OF_ME,
-      data: action.data,
+      data: data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: REMOVE_POST_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }
