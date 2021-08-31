@@ -25,7 +25,7 @@ function PostImagePreview({ images }) {
         return (
           <Image
             height={"100%"}
-            src={images[0].src}
+            src={`http://localhost:3000/images/${images[0].src}`}
             alt="작성자가 올린 이미지"
             preview={{ mask: "자세히 보기" }}
           ></Image>
@@ -39,7 +39,7 @@ function PostImagePreview({ images }) {
               <Image
                 key={image.src + index}
                 height={"100%"}
-                src={image.src}
+                src={`http://localhost:3000/images/${image.src}`}
                 alt="작성자가 올린 이미지"
                 preview={{ mask: "자세히 보기" }}
               ></Image>
@@ -57,7 +57,7 @@ function PostImagePreview({ images }) {
                   <Image
                     key={image.src + index}
                     height={"200px"}
-                    src={image.src}
+                    src={`http://localhost:3000/images/${image.src}`}
                     alt="작성자가 올린 이미지"
                     hidden
                   ></Image>
@@ -70,7 +70,7 @@ function PostImagePreview({ images }) {
                   <Image
                     key={image.src + index}
                     height={"100%"}
-                    src={image.src}
+                    src={`http://localhost:3000/images/${image.src}`}
                     alt="작성자가 올린 이미지"
                     preview={{ mask: `${images.length - 4}개 더보기` }}
                   ></Image>
@@ -82,7 +82,7 @@ function PostImagePreview({ images }) {
                 <Image
                   key={image.src + index}
                   height={"100%"}
-                  src={image.src}
+                  src={`http://localhost:3000/images/${image.src}`}
                   alt="작성자가 올린 이미지"
                   preview={{ mask: "자세히 보기" }}
                 ></Image>

@@ -15,8 +15,8 @@ router.get("/", async (req, res) => {
       where: { _id: req.user._id },
       include: [
         { model: Post, attributes: ["_id"] },
-        { model: User, as: "Followers", attributes: ["_id"] },
-        { model: User, as: "Followings", attributes: ["_id"] },
+        { model: User, as: "Followers", attributes: ["_id", "nickname"] },
+        { model: User, as: "Followings", attributes: ["_id", "nickname"] },
       ],
     });
 
@@ -72,7 +72,11 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
       const fullUser = await User.findOne({
         attributes: ["_id", "nickname", "createdAt"],
         where: { _id: user._id },
-        include: [{ model: Post }, { model: User, as: "Followers" }, { model: User, as: "Followings" }],
+        include: [
+          { model: Post },
+          { model: User, as: "Followers", attributes: ["_id", "nickname"] },
+          { model: User, as: "Followings", attributes: ["_id", "nickname"] },
+        ],
       });
       return res.status(200).json({ result: true, message: "로그인에 성공했습니다.", user: fullUser });
     });
@@ -94,6 +98,32 @@ router.patch("/nickname/:nickname", isLoggedIn, async (req, res) => {
     const me = await User.findOne({ where: { _id: req.user._id } });
     await me.update({ nickname });
     res.json({ result: true, nickname });
+  } catch (error) {
+    res.json({ result: false, error });
+  }
+});
+
+// 팔로워 추가
+router.patch("/follow/:UserId", isLoggedIn, async (req, res) => {
+  const { UserId } = req.params;
+
+  try {
+    const me = await User.findOne({ where: { _id: req.user._id } });
+    await me.addFollowings(UserId);
+    res.json({ result: true, FollowingId: +UserId });
+  } catch (error) {
+    res.json({ result: false, error });
+  }
+});
+
+// 팔로워 삭제
+router.delete("/follow/:UserId", isLoggedIn, async (req, res) => {
+  const { UserId } = req.params;
+
+  try {
+    const me = await User.findOne({ where: { _id: req.user._id } });
+    await me.removeFollowings(UserId);
+    res.json({ result: true, FollowingId: +UserId });
   } catch (error) {
     res.json({ result: false, error });
   }

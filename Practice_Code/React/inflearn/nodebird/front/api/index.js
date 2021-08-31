@@ -1,3 +1,11 @@
-export { apiLoadMe, apiSignUp, apiLogIn, apiLogOut, apiChangeNickname } from "./user";
+export { apiLoadMe, apiSignUp, apiLogIn, apiLogOut, apiChangeNickname, apiFollow, apiUnfollow } from "./user";
 
-export { apiLoadPost, apiAddPost, apiRemovePost, apiAddComment, apiAddPostLike, apiRemovePostLike } from "./post";
+export {
+  apiLoadPost,
+  apiAddPost,
+  apiRemovePost,
+  apiAddComment,
+  apiAddPostLike,
+  apiRemovePostLike,
+  apiUploadImages,
+} from "./post";

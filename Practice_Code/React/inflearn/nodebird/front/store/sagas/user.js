@@ -24,7 +24,7 @@ import {
   UNFOLLOW_FAILURE,
 } from "../types";
 
-import { apiLoadMe, apiSignUp, apiLogIn, apiLogOut, apiChangeNickname } from "../../api";
+import { apiLoadMe, apiSignUp, apiLogIn, apiLogOut, apiChangeNickname, apiFollow, apiUnfollow } from "../../api";
 
 function* loadMe() {
   try {
@@ -115,37 +115,31 @@ function* changeNickname(action) {
 
 function* follow(action) {
   try {
-    // const { data } = yield call(apiLogout);
-
-    // 임시로 1초대기
-    yield delay(1000);
+    const { data } = yield call(apiFollow, action.data);
 
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data,
+      data,
     });
   } catch (error) {
     yield put({
       type: FOLLOW_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }
 function* unfollow(action) {
   try {
-    // const { data } = yield call(apiLogout);
-
-    // 임시로 1초대기
-    yield delay(1000);
+    const { data } = yield call(apiUnfollow, action.data);
 
     yield put({
       type: UNFOLLOW_SUCCESS,
-      data: action.data,
+      data,
     });
   } catch (error) {
     yield put({
       type: UNFOLLOW_FAILURE,
-      // data: error.response.data,
+      data: error.response.data,
     });
   }
 }

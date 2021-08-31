@@ -35,3 +35,8 @@ export function apiAddPostLike({ PostId }) {
 export function apiRemovePostLike({ PostId }) {
   return instance.delete(`/like/${PostId}`);
 }
+
+// 이미지 추가
+export function apiUploadImages(images) {
+  return instance.post("/images", images);
+}

@@ -30,3 +30,13 @@ export function apiLogOut(body) {
 export function apiChangeNickname(nickname) {
   return instance.patch(`/nickname/${nickname}`);
 }
+
+// 팔로우
+export function apiFollow(UserId) {
+  return instance.patch(`/follow/${UserId}`);
+}
+
+// 팔로우
+export function apiUnfollow(UserId) {
+  return instance.delete(`/follow/${UserId}`);
+}

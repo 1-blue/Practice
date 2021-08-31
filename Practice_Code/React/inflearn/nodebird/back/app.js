@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -6,6 +8,13 @@ const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 const passport = require("passport");
 require("dotenv").config();
+
+try {
+  fs.accessSync("uploads");
+} catch (error) {
+  // uploads폴더생성
+  fs.mkdirSync("uploads");
+}
 
 const app = express();
 
@@ -23,6 +32,7 @@ passportConfig();
 // 미들웨어장착
 app.use(express.json()); // 나머지 처리
 app.use(express.urlencoded({ extended: true })); // from데이터 처리
+app.use("/images", express.static(path.join(__dirname, "uploads")));
 app.use(
   session({
     saveUninitialized: false,

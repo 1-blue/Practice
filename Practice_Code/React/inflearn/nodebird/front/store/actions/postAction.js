@@ -5,6 +5,7 @@ import {
   ADD_COMMENT_REQUEST,
   POST_LIKE_REQUEST,
   POST_UNLIKE_REQUEST,
+  UPLOAD_IMAGES_REQUEST,
 } from "../types";
 
 export function loadPostRequest(data) {
@@ -44,6 +45,13 @@ export function addLikeRequest(data) {
 export function removeLikeRequest(data) {
   return {
     type: POST_UNLIKE_REQUEST,
+    data,
+  };
+}
+
+export function uploadImagesRequest(data) {
+  return {
+    type: UPLOAD_IMAGES_REQUEST,
     data,
   };
 }

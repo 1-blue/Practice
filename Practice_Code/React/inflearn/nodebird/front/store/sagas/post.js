@@ -21,9 +21,20 @@ import {
   POST_UNLIKE_REQUEST,
   POST_UNLIKE_SUCCESS,
   POST_UNLIKE_FAILURE,
+  UPLOAD_IMAGES_REQUEST,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_FAILURE,
 } from "../types";
 
-import { apiLoadPost, apiAddPost, apiRemovePost, apiAddComment, apiAddPostLike, apiRemovePostLike } from "../../api";
+import {
+  apiLoadPost,
+  apiAddPost,
+  apiRemovePost,
+  apiAddComment,
+  apiAddPostLike,
+  apiRemovePostLike,
+  apiUploadImages,
+} from "../../api";
 
 // 게시글 로드
 function* loadPost(action) {
@@ -139,6 +150,24 @@ function* removePostLike(action) {
   }
 }
 
+// 이미지 추가
+function* uploadImages(action) {
+  try {
+    const { data } = yield call(apiUploadImages, action.data);
+
+    yield put({
+      type: UPLOAD_IMAGES_SUCCESS,
+      data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: UPLOAD_IMAGES_FAILURE,
+      data: error.response.data,
+    });
+  }
+}
+
 function* watchLoadPost() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPost);
 }
@@ -163,6 +192,10 @@ function* watchRemovePostLike() {
   yield takeLatest(POST_UNLIKE_REQUEST, removePostLike);
 }
 
+function* watchUploadImages() {
+  yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPost),
@@ -171,5 +204,6 @@ export default function* postSaga() {
     fork(watchAddComment),
     fork(watchAddPostLike),
     fork(watchRemovePostLike),
+    fork(watchUploadImages),
   ]);
 }

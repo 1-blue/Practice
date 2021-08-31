@@ -191,11 +191,12 @@ function userReducer(prevState = initState, { type, data }) {
         isFollowLoading: true,
       };
     case FOLLOW_SUCCESS:
+      console.log("Follow success data >> ", data);
       return {
         ...prevState,
         me: {
           ...prevState.me,
-          Followings: [...prevState.me.Followings, { id: data }],
+          Followings: [...prevState.me.Followings, { _id: data.FollowingId }],
         },
         isFollowLoading: false,
       };
@@ -215,7 +216,7 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         me: {
           ...prevState.me,
-          Followings: prevState.me.Followings.filter(follow => follow.id !== data),
+          Followings: prevState.me.Followings.filter(follow => follow._id !== data.FollowingId),
         },
         isUnfollowLoading: false,
       };

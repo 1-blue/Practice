@@ -17,6 +17,9 @@ import {
   POST_UNLIKE_REQUEST,
   POST_UNLIKE_SUCCESS,
   POST_UNLIKE_FAILURE,
+  UPLOAD_IMAGES_REQUEST,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_FAILURE,
 } from "../types";
 
 const initState = {
@@ -88,6 +91,7 @@ function postReducer(prevState = initState, { type, data }) {
       return {
         ...prevState,
         mainPosts: tempMainPosts,
+        imagePaths: [],
         isAddPostLoading: false,
         isAddPostDone: true,
       };
@@ -199,6 +203,21 @@ function postReducer(prevState = initState, { type, data }) {
         mainPosts: tempMainPosts,
       };
     case POST_UNLIKE_FAILURE:
+      return {
+        ...prevState,
+      };
+
+    // 이미지 업로드
+    case UPLOAD_IMAGES_REQUEST:
+      return {
+        ...prevState,
+      };
+    case UPLOAD_IMAGES_SUCCESS:
+      return {
+        ...prevState,
+        imagePaths: data.imagePaths,
+      };
+    case UPLOAD_IMAGES_FAILURE:
       return {
         ...prevState,
       };

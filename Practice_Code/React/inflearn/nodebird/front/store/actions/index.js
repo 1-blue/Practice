@@ -13,6 +13,7 @@ export {
   addCommentRequest,
   addLikeRequest,
   removeLikeRequest,
+  uploadImagesRequest,
 } from "./postAction";
 
 export { followRequest, unfollowRequest } from "./followAction";

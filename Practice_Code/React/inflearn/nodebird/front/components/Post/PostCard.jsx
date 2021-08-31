@@ -118,7 +118,7 @@ function PostCard({ post }) {
     );
   }, [me, post.User, isFollow, isFollowLoading, isUnfollowLoading]);
 
-  // 팔로우버튼클릭
+  // 팔로우/언팔로우 버튼클릭
   const onClickFollowBtn = useCallback(() => {
     if (isFollow) return dispatch(unfollowRequest(post.User._id));
     return dispatch(followRequest(post.User._id));

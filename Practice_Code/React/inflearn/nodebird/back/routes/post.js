@@ -1,6 +1,23 @@
 const router = require("express").Router();
+const path = require("path");
+const multer = require("multer");
 const { isLoggedIn } = require("../middleware");
 const { Post, User, Comment, Image } = require("../models");
+
+// multer
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext);
+      done(null, basename + new Date().getTime() + ext);
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 },
+});
 
 // 게시글 로드
 router.get("/:page", async (req, res) => {
@@ -37,7 +54,7 @@ router.delete("/:PostId", isLoggedIn, async (req, res) => {
 
 // 게시글 업로드
 router.post("/", isLoggedIn, async (req, res) => {
-  const { content, userId: UserId } = req.body;
+  const { content, userId: UserId, imagePaths } = req.body;
 
   // 작성자와 로그인유저 같은지 이중체크
   if (req.user._id !== UserId) return res.status(403).json({ result: false, message: "접근권한이 없습니다." });
@@ -47,6 +64,14 @@ router.post("/", isLoggedIn, async (req, res) => {
     content,
     UserId,
   });
+
+  // 게시글에 추가한 이미지들 생성
+  for (let imagePath of imagePaths) {
+    await Image.create({
+      src: imagePath,
+      PostId: post._id,
+    });
+  }
 
   const fullPost = await Post.findOne({
     where: { _id: post._id },
@@ -111,6 +136,11 @@ router.delete("/like/:_id", isLoggedIn, async (req, res) => {
     console.error(error);
     res.json({ result: false, error });
   }
+});
+
+// 이미지 업로드
+router.post("/images", isLoggedIn, upload.array("image"), async (req, res) => {
+  res.json({ result: true, imagePaths: req.files.map(file => file.filename) });
 });
 
 module.exports = router;
