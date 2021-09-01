@@ -14,6 +14,7 @@ export {
   addLikeRequest,
   removeLikeRequest,
   uploadImagesRequest,
+  reteewRequest,
 } from "./postAction";
 
 export { followRequest, unfollowRequest } from "./followAction";

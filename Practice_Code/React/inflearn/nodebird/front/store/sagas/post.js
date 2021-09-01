@@ -24,6 +24,9 @@ import {
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
+  RETEEW_REQUEST,
+  RETEEW_SUCCESS,
+  RETEEW_FAILURE,
 } from "../types";
 
 import {
@@ -34,6 +37,7 @@ import {
   apiAddPostLike,
   apiRemovePostLike,
   apiUploadImages,
+  apiReteew,
 } from "../../api";
 
 // 게시글 로드
@@ -46,6 +50,7 @@ function* loadPost(action) {
       data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOAD_POSTS_FAILURE,
       data: error.response.data,
@@ -168,6 +173,24 @@ function* uploadImages(action) {
   }
 }
 
+// 리트윗
+function* reteew(action) {
+  try {
+    const { data } = yield call(apiReteew, action.data);
+
+    yield put({
+      type: RETEEW_SUCCESS,
+      data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: RETEEW_FAILURE,
+      data: error.response.data,
+    });
+  }
+}
+
 function* watchLoadPost() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPost);
 }
@@ -196,6 +219,10 @@ function* watchUploadImages() {
   yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 
+function* watchReteew() {
+  yield takeLatest(RETEEW_REQUEST, reteew);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPost),
@@ -205,5 +232,6 @@ export default function* postSaga() {
     fork(watchAddPostLike),
     fork(watchRemovePostLike),
     fork(watchUploadImages),
+    fork(watchReteew),
   ]);
 }

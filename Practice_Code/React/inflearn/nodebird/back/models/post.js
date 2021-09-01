@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     db.Post.hasMany(db.Image);
 
     // 리트윗
-    db.Post.belongsTo(db.Post, { as: "RetweetId" });
+    db.Post.belongsTo(db.Post, { as: "Retweet" });
   };
 
   return Post;

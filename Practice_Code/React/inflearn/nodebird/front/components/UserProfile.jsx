@@ -7,13 +7,13 @@ import { userLogoutRequest } from "../store/actions";
 function UserProfile() {
   const dispatch = useDispatch();
   const { nickname, Posts, Followings, Followers } = useSelector(state => state.userReducer.me);
-  const { isLogoutLoading, isLogginDone, isLogginError } = useSelector(state => state.userReducer);
-
-  // 로그인 실패시 메시지
-  useEffect(() => (isLogginError ? alert(isLogginError) : null), [isLogginError]);
+  const { isLogoutLoading, isLogginDone, isLogoutError } = useSelector(state => state.userReducer);
 
   // 로그인 성공시 메시지
   useEffect(() => (isLogginDone ? alert(isLogginDone) : null), [isLogginDone]);
+
+  // 로그아웃 실패시 메시지
+  useEffect(() => (isLogoutError ? alert(isLogoutError) : null), [isLogoutError]);
 
   const onLogout = useCallback(() => {
     dispatch(userLogoutRequest());

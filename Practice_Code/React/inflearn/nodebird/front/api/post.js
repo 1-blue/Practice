@@ -7,8 +7,8 @@ const instance = axios.create({
 });
 
 // 게시글 로드
-export function apiLoadPost({ page }) {
-  return instance.get(`/${page}`);
+export function apiLoadPost({ lastId }) {
+  return instance.get(`/?lastId=${lastId}`);
 }
 
 // 게시글 업로드
@@ -39,4 +39,9 @@ export function apiRemovePostLike({ PostId }) {
 // 이미지 추가
 export function apiUploadImages(images) {
   return instance.post("/images", images);
+}
+
+// 리트윗
+export function apiReteew(body) {
+  return instance.post("/reteew", body);
 }

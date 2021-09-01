@@ -20,6 +20,9 @@ import {
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
+  RETEEW_REQUEST,
+  RETEEW_SUCCESS,
+  RETEEW_FAILURE,
 } from "../types";
 
 const initState = {
@@ -43,6 +46,11 @@ const initState = {
   // 댓글
   isAddCommentLoading: false,
   isAddCommentDone: false,
+
+  // 리트윗
+  isRetweetLoading: false,
+  isRetweetDone: false,
+  isRetweetError: null,
 };
 
 // 불변성 유지를 위해 임시로 게시글들의 정보를 넣을 변수
@@ -61,12 +69,12 @@ function postReducer(prevState = initState, { type, data }) {
         isLoadPostDone: false,
       };
     case LOAD_POSTS_SUCCESS:
-      tempMainPosts = [...prevState.mainPosts];
-      tempMainPosts = data.post.concat(tempMainPosts);
-      const isHasMorePost = tempMainPosts.length < 30;
+      // tempMainPosts = [...prevState.mainPosts];
+      // tempMainPosts = data.post.concat(tempMainPosts);
+      const isHasMorePost = data.post.length === 10;
       return {
         ...prevState,
-        mainPosts: tempMainPosts,
+        mainPosts: [...prevState.mainPosts, ...data.post],
         isLoadPostLoading: false,
         isLoadPostDone: true,
         isHasMorePost,
@@ -220,6 +228,29 @@ function postReducer(prevState = initState, { type, data }) {
     case UPLOAD_IMAGES_FAILURE:
       return {
         ...prevState,
+      };
+
+    // 리트윗
+    case RETEEW_REQUEST:
+      return {
+        ...prevState,
+        isRetweetLoading: true,
+        isRetweetDone: false,
+        isRetweetError: null,
+      };
+    case RETEEW_SUCCESS:
+      return {
+        ...prevState,
+        mainPosts: [data.retweetPost, ...prevState.mainPosts],
+        isRetweetLoading: false,
+        isRetweetDone: true,
+      };
+    case RETEEW_FAILURE:
+      console.error("리트윗 실패", data);
+      return {
+        ...prevState,
+        isRetweetLoading: false,
+        isRetweetError: data.message,
       };
 
     default:

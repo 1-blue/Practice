@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Avatar, Popover, Button } from "antd";
 import {
@@ -20,6 +20,7 @@ import {
   unfollowRequest,
   addLikeRequest,
   removeLikeRequest,
+  reteewRequest,
 } from "../../store/actions";
 
 function PostCard({ post }) {
@@ -30,17 +31,23 @@ function PostCard({ post }) {
   const isFollow = me && me.Followings.find(follow => follow._id === post.User._id);
   // 팔로우 or 언팔로우버튼 로딩
   const { isFollowLoading, isUnfollowLoading } = useSelector(state => state.userReducer);
-  // 삭제버튼로딩
-  const { isRemovePostLoading } = useSelector(state => state.postReducer);
+  // 삭제버튼로딩, 리트윗
+  const { isRemovePostLoading, isRetweetError } = useSelector(state => state.postReducer);
   // 댓글 토글
   const [commentsToggle, setCommentsToggle] = useState(false);
   // 내가 좋아요 눌렀는지 판단하는 변수
   const isLike = me && post.Likers.find(liker => liker._id === me._id);
 
+  useEffect(() => {
+    if (isRetweetError) {
+      alert(isRetweetError);
+    }
+  }, [isRetweetError]);
+
   // 카드의 버튼들
   const getCardBtns = useCallback(() => {
     return [
-      <RetweetOutlined key="retweet" />,
+      <RetweetOutlined key="retweet" onClick={onClickReteew} />,
       getLikeBtn(),
       getCommmentBtn(),
       <Popover content={getPopoverBtns()} key="ellipsis">
@@ -124,21 +131,40 @@ function PostCard({ post }) {
     return dispatch(followRequest(post.User._id));
   }, [post.User, isFollow]);
 
+  // 리트윗버튼 클릭
+  const onClickReteew = useCallback(() => {
+    if (!me) return alert("로그인후에 접근해주세요");
+    dispatch(reteewRequest({ PostId: post._id }));
+  }, [me, post._id]);
+
   return (
     <>
       {/* 하나의 게시글 */}
-      <Card style={{ marginTop: 10 }} actions={getCardBtns()} extra={getFollowBtn()}>
-        {/* 게시글작성자, 내용 */}
-        {post.User && (
-          <Card.Meta
-            avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-            title={post.User.nickname}
-            description={post.content}
-          />
+      <Card
+        style={{ marginTop: 10 }}
+        actions={getCardBtns()}
+        extra={getFollowBtn()}
+        title={post.Retweet ? `${post.User.nickname}님이 리트윗하셧습니다.` : null}
+      >
+        {post.RetweetId && post.Retweet ? (
+          <Card>
+            <Card.Meta
+              avatar={<Avatar>{post.Retweet.User.nickname[0]}</Avatar>}
+              title={post.Retweet.User.nickname}
+              description={post.Retweet.content}
+            />
+            <PostImagePreview images={post.Retweet.Images} />
+          </Card>
+        ) : (
+          <>
+            <Card.Meta
+              avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+              title={post.User.nickname}
+              description={post.content}
+            />
+            <PostImagePreview images={post.Images} />
+          </>
         )}
-
-        {/* 게시글에 올린 이미지 */}
-        {post.Images && <PostImagePreview images={post.Images} />}
       </Card>
 
       {/* 게시글의 댓글 */}

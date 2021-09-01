@@ -22,7 +22,7 @@ const Home = () => {
 
   // 최초 게시글 로드
   useEffect(() => {
-    dispatch(loadPostRequest({ page: 1 }));
+    dispatch(loadPostRequest({ lastId: 0 }));
   }, []);
 
   // 무한 스크롤링처리
@@ -32,7 +32,8 @@ const Home = () => {
       if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
         if (isLoadPostLoading) return;
         if (!isHasMorePost) return;
-        // dispatch({ type: "LOAD_POSTS_REQUEST" });
+        const lastId = mainPosts[mainPosts.length - 1]._id;
+        dispatch(loadPostRequest({ lastId }));
       }
     }
 

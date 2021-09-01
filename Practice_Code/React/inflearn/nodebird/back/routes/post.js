@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { Op } = require("sequelize");
 const path = require("path");
 const multer = require("multer");
 const { isLoggedIn } = require("../middleware");
@@ -20,23 +21,35 @@ const upload = multer({
 });
 
 // 게시글 로드
-router.get("/:page", async (req, res) => {
-  const { page } = req.params;
+router.get("/", async (req, res) => {
+  const { lastId } = req.query;
+  const where = {};
 
-  const post = await Post.findAll({
-    order: [
-      ["createdAt", "DESC"],
-      [Comment, "createdAt", "DESC"],
-    ],
-    include: [
-      { model: User },
-      { model: Comment, include: [{ model: User }] },
-      { model: Image },
-      { model: User, as: "Likers", attributes: ["_id"] },
-    ],
-  });
+  if (+lastId) {
+    where._id = { [Op.lt]: +lastId };
+  }
 
-  res.json({ result: true, post });
+  try {
+    const post = await Post.findAll({
+      where,
+      limit: 10,
+      order: [
+        ["createdAt", "DESC"],
+        [Comment, "createdAt", "DESC"],
+      ],
+      include: [
+        { model: User },
+        { model: Comment, include: [{ model: User }] },
+        { model: Image },
+        { model: User, as: "Likers", attributes: ["_id"] },
+        { model: Post, as: "Retweet", include: [{ model: User, attributes: ["_id", "nickname"] }, { model: Image }] },
+      ],
+    });
+    return res.json({ result: true, post });
+  } catch (error) {
+    console.error(error);
+    return res.json({ result: false, error });
+  }
 });
 
 // 게시글 삭제
@@ -141,6 +154,77 @@ router.delete("/like/:_id", isLoggedIn, async (req, res) => {
 // 이미지 업로드
 router.post("/images", isLoggedIn, upload.array("image"), async (req, res) => {
   res.json({ result: true, imagePaths: req.files.map(file => file.filename) });
+});
+
+// 리트윗
+router.post("/reteew", isLoggedIn, async (req, res) => {
+  const { PostId } = req.body;
+
+  try {
+    const post = await Post.findOne({
+      where: { _id: PostId },
+      include: [
+        { model: Post, as: "Retweet" },
+        { model: User, attributes: ["nickname"] },
+      ],
+    });
+
+    // 게시글 존재 체크
+    if (!post) return res.status(400).json({ result: false, message: "존재하지 않는 게시글입니다." });
+
+    // 자신의 게시글인지 체크
+    if (post.UserId === req.user._id || (post.Retweet && post.Retweet.UserId === req.user._id))
+      return res.status(400).json({ result: false, message: "자기의 게시글은 리트윗할 수 없습니다." });
+
+    const retweetTargetId = post.RetweetId || post._id;
+
+    // 이미 리트윗했는지
+    const exPost = await Post.findOne({
+      where: {
+        UserId: req.user._id,
+        RetweetId: retweetTargetId,
+      },
+    });
+    if (exPost) return res.status(400).json({ result: false, message: "이미 리트윗한 게시글입니다." });
+
+    const retweetPost = await Post.create({
+      content: `retweet한 ${post.User.nickname}님의 게시글이 삭제되었습니다.`,
+      UserId: req.user._id,
+      RetweetId: retweetTargetId,
+    });
+
+    const retweetPostWithPost = await Post.findOne({
+      where: { _id: retweetPost._id },
+      include: [
+        {
+          model: Post,
+          as: "Retweet",
+          include: [{ model: User, attributes: ["_id", "nickname"] }, { model: Image }],
+        },
+        {
+          model: User,
+          attributes: ["_id", "nickname"],
+        },
+        {
+          model: Image,
+        },
+        {
+          model: Comment,
+          include: [{ model: User, attributes: ["_id", "nickname"] }],
+        },
+        {
+          model: User,
+          as: "Likers",
+          attributes: ["_id"],
+        },
+      ],
+    });
+
+    return res.json({ result: false, retweetPost: retweetPostWithPost });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false, error });
+  }
 });
 
 module.exports = router;

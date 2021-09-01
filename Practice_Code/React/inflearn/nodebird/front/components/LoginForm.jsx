@@ -18,13 +18,13 @@ function LoginForm() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const { isLogginLoading } = useSelector(state => state.userReducer);
-  const { isLogoutDone, isLogoutError } = useSelector(state => state.userReducer);
+  const { isLogoutDone, isLogginError } = useSelector(state => state.userReducer);
 
   // 로그아웃 성공시 메시지
   useEffect(() => (isLogoutDone ? alert(isLogoutDone) : null), [isLogoutDone]);
 
-  // 로그아웃 실패시 메시지
-  useEffect(() => (isLogoutError ? alert(isLogoutError) : null), [isLogoutError]);
+  // 로그인 실패시 메시지
+  useEffect(() => (isLogginError ? alert(isLogginError) : null), [isLogginError]);
 
   // 로그인
   const onSubmitLogin = useCallback(() => {
