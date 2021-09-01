@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Input } from "antd";
 
 import { userChangeNicknameRequest } from "../store/actions";
@@ -8,6 +8,14 @@ function NicknameChageForm() {
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
   const onChangeContent = useCallback(e => setContent(e.target.value), []);
+  const { isChangeNicknameDone } = useSelector(state => state.userReducer);
+
+  // 닉네임 변경완료 alert
+  useEffect(() => {
+    if (isChangeNicknameDone) {
+      alert(isChangeNicknameDone);
+    }
+  }, [isChangeNicknameDone]);
 
   const onSubmit = useCallback(() => {
     dispatch(userChangeNicknameRequest(content));

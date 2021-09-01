@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Head from "next/head";
@@ -14,6 +15,23 @@ const Home = () => {
   const { isLoadPostLoading, isHasMorePost } = useSelector(state => state.postReducer);
   const { isLoggedIn } = useSelector(state => state.userReducer);
   const { mainPosts } = useSelector(state => state.postReducer);
+
+  // 이친구들 위치를 어디다 둘지 생각해봐야할것같음
+  // 지금 페이지 이동할 때 마다 메시지 울림
+  // 생각되는건 message값을 null로 만드는 액션을 만드는건데 액션안만들고 하는법 있는지 생각중
+  const { isFollowDone, isUnfollowDone } = useSelector(state => state.userReducer);
+  const { isAddPostDone, isRemovePostDone, isAddCommentDone, isPostLikeDone, isPostUnlikeDone, isRetweetDone, isRetweetError} = useSelector(state => state.postReducer);
+  
+  useEffect(() => (isFollowDone ? alert(isFollowDone) : null), [isFollowDone]);
+  useEffect(() => (isUnfollowDone ? alert(isUnfollowDone) : null), [isUnfollowDone]);
+
+  useEffect(() => (isAddPostDone ? alert(isAddPostDone) : null), [isAddPostDone]);
+  useEffect(() => (isRemovePostDone ? alert(isRemovePostDone) : null), [isRemovePostDone]);
+  useEffect(() => (isAddCommentDone ? alert(isAddCommentDone) : null), [isAddCommentDone]);
+  useEffect(() => (isPostLikeDone ? alert(isPostLikeDone) : null), [isPostLikeDone]);
+  useEffect(() => (isPostUnlikeDone ? alert(isPostUnlikeDone) : null), [isPostUnlikeDone]);
+  useEffect(() => (isRetweetDone ? alert(isRetweetDone) : null), [isRetweetDone]);
+  useEffect(() => (isRetweetError ? alert(isRetweetError) : null), [isRetweetError]);
 
   // 로그인유지
   useEffect(() => {

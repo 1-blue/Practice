@@ -45,10 +45,54 @@ router.get("/", async (req, res) => {
         { model: Post, as: "Retweet", include: [{ model: User, attributes: ["_id", "nickname"] }, { model: Image }] },
       ],
     });
-    return res.json({ result: true, post });
+    return res.json({ result: true, post, message: "게시글 로드 완료" });
   } catch (error) {
-    console.error(error);
-    return res.json({ result: false, error });
+    console.error("GET / >> ", error);
+    return res.json({ result: false, message: "게시글 로드 서버측 에러", error });
+  }
+});
+
+// 게시글 추가
+router.post("/", isLoggedIn, async (req, res) => {
+  const { content, userId: UserId, imagePaths } = req.body;
+
+  // 작성자와 로그인유저 같은지 이중체크
+  if (req.user._id !== UserId) return res.status(400).json({ result: false, message: "접근권한이 없습니다." });
+
+  try {
+    // 게시글생성
+    const post = await Post.create({
+      content,
+      UserId,
+    });
+
+    // 게시글에 추가한 이미지들 생성
+    for (let imagePath of imagePaths) {
+      await Image.create({
+        src: imagePath,
+        PostId: post._id,
+      });
+    }
+
+    // 게시글에 필요한 정보 추가
+    const fullPost = await Post.findOne({
+      where: { _id: post._id },
+      order: [
+        ["createdAt", "DESC"],
+        [Comment, "createdAt", "DESC"],
+      ],
+      include: [
+        { model: User },
+        { model: Comment },
+        { model: Image },
+        { model: User, as: "Likers", attributes: ["_id"] },
+      ],
+    });
+
+    res.json({ result: true, post: fullPost, message: "게시글 생성 성공" });
+  } catch (error) {
+    console.error("Post /post >> ", error);
+    res.status(500).json({ result: false, post: fullPost, message: "게시글 생성 서버측 에러", error });
   }
 });
 
@@ -58,96 +102,72 @@ router.delete("/:PostId", isLoggedIn, async (req, res) => {
 
   try {
     await Post.destroy({ where: { _id: PostId } });
+    res.json({ result: true, PostId: +PostId, message: "게시글 삭제 완료" });
   } catch (error) {
-    res.json({ result: false, error });
+    console.error("DELETE /:PostId >> ", error);
+    res.status(500).json({ result: false, message: "게시글 삭제 서버측 에러", error });
   }
-
-  res.json({ PostId: +PostId });
-});
-
-// 게시글 업로드
-router.post("/", isLoggedIn, async (req, res) => {
-  const { content, userId: UserId, imagePaths } = req.body;
-
-  // 작성자와 로그인유저 같은지 이중체크
-  if (req.user._id !== UserId) return res.status(403).json({ result: false, message: "접근권한이 없습니다." });
-
-  // 게시글생성
-  const post = await Post.create({
-    content,
-    UserId,
-  });
-
-  // 게시글에 추가한 이미지들 생성
-  for (let imagePath of imagePaths) {
-    await Image.create({
-      src: imagePath,
-      PostId: post._id,
-    });
-  }
-
-  const fullPost = await Post.findOne({
-    where: { _id: post._id },
-    order: [
-      ["createdAt", "DESC"],
-      [Comment, "createdAt", "DESC"],
-    ],
-    include: [
-      { model: User },
-      { model: Comment },
-      { model: Image },
-      { model: User, as: "Likers", attributes: ["_id"] },
-    ],
-  });
-
-  res.json({ result: true, post: fullPost });
 });
 
 // 게시글에 댓글 업로드
 router.post("/comment", isLoggedIn, async (req, res) => {
   const { userId: UserId, postId: PostId, content } = req.body;
 
-  const comment = await Comment.create({
-    UserId,
-    PostId,
-    content,
-  });
+  try {
+    const comment = await Comment.create({
+      UserId,
+      PostId,
+      content,
+    });
 
-  const fullComment = await Comment.findOne({
-    where: { _id: comment._id },
-    include: [{ model: User, attributes: ["_id", "nickname"] }],
-  });
+    const fullComment = await Comment.findOne({
+      where: { _id: comment._id },
+      include: [{ model: User, attributes: ["_id", "nickname"] }],
+    });
 
-  res.send({ result: true, comment: fullComment });
+    res.json({ result: true, comment: fullComment, message: "댓글 생성 완료" });
+  } catch (error) {
+    console.error("POST /comment >> ", error);
+    res.json({ result: false, message: "댓글 생성 서버측 에러", error });
+  }
 });
 
 // 게시글에 좋아요 추가
-router.patch("/like/:_id", isLoggedIn, async (req, res) => {
-  const { _id } = req.params;
+router.patch("/like/:PostId", isLoggedIn, async (req, res) => {
+  const { PostId } = req.params;
 
   try {
-    const post = await Post.findOne({ where: { _id } });
+    const post = await Post.findOne({ where: { _id: PostId }, include: [{ model: User, attributes: ["nickname"] }] });
     await post.addLikers(req.user._id);
-
-    res.json({ result: true, UserId: req.user._id, PostId: +_id });
+    res.json({
+      result: true,
+      UserId: req.user._id,
+      PostId: +PostId,
+      message: `"${post.User.nickname}"님의 게시글에 좋아요를 눌렀습니다.`,
+    });
   } catch (error) {
-    console.error(error);
-    res.json({ result: false, error });
+    console.error("PATCH /like/PostId >> ", error);
+    res.status(500).json({ result: false, message: "게시글 좋아요 추가 서버측 에러", error });
   }
 });
 
 // 게시글에 좋아요 삭제
-router.delete("/like/:_id", isLoggedIn, async (req, res) => {
-  const { _id } = req.params;
+router.delete("/like/:PostId", isLoggedIn, async (req, res) => {
+  const { PostId } = req.params;
 
   try {
-    const post = await Post.findOne({ where: { _id } });
+    const post = await Post.findOne({ where: { _id: PostId }, include: [{ model: User, attributes: ["nickname"] }] });
     await post.removeLikers(req.user._id);
 
-    res.json({ result: true, UserId: req.user._id, PostId: +_id });
+    res.json({
+      result: true,
+      UserId: req.user._id,
+      PostId: +PostId,
+      message: `"${post.User.nickname}"님의 게시글에 좋아요를 취소했습니다.`,
+    });
   } catch (error) {
-    console.error(error);
-    res.json({ result: false, error });
+    console.error("DELETE /like/:PostId >> ", error);
+    res.status(500).json({ result: false, message: "좋아요 취소 서버측 에러", error });
   }
 });
 
@@ -157,7 +177,7 @@ router.post("/images", isLoggedIn, upload.array("image"), async (req, res) => {
 });
 
 // 리트윗
-router.post("/reteew", isLoggedIn, async (req, res) => {
+router.post("/retweet", isLoggedIn, async (req, res) => {
   const { PostId } = req.body;
 
   try {
@@ -178,7 +198,7 @@ router.post("/reteew", isLoggedIn, async (req, res) => {
 
     const retweetTargetId = post.RetweetId || post._id;
 
-    // 이미 리트윗했는지
+    // 이미 리트윗했는지 체크
     const exPost = await Post.findOne({
       where: {
         UserId: req.user._id,
@@ -220,10 +240,14 @@ router.post("/reteew", isLoggedIn, async (req, res) => {
       ],
     });
 
-    return res.json({ result: false, retweetPost: retweetPostWithPost });
+    return res.json({
+      result: false,
+      retweetPost: retweetPostWithPost,
+      message: `"${post.User.nickname}"님의 게시글을 리트윗합니다.`,
+    });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ result: false, error });
+    console.log("POST /retweet >> ", error);
+    return res.status(500).json({ result: false, message: "리트윗 서버측 에러", error });
   }
 });
 

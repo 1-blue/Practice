@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Avatar, Popover, Button } from "antd";
@@ -20,7 +21,7 @@ import {
   unfollowRequest,
   addLikeRequest,
   removeLikeRequest,
-  reteewRequest,
+  retweetRequest,
 } from "../../store/actions";
 
 function PostCard({ post }) {
@@ -31,18 +32,12 @@ function PostCard({ post }) {
   const isFollow = me && me.Followings.find(follow => follow._id === post.User._id);
   // 팔로우 or 언팔로우버튼 로딩
   const { isFollowLoading, isUnfollowLoading } = useSelector(state => state.userReducer);
-  // 삭제버튼로딩, 리트윗
-  const { isRemovePostLoading, isRetweetError } = useSelector(state => state.postReducer);
+  // 삭제버튼로딩
+  const { isRemovePostLoading } = useSelector(state => state.postReducer);
   // 댓글 토글
   const [commentsToggle, setCommentsToggle] = useState(false);
   // 내가 좋아요 눌렀는지 판단하는 변수
   const isLike = me && post.Likers.find(liker => liker._id === me._id);
-
-  useEffect(() => {
-    if (isRetweetError) {
-      alert(isRetweetError);
-    }
-  }, [isRetweetError]);
 
   // 카드의 버튼들
   const getCardBtns = useCallback(() => {
@@ -95,24 +90,13 @@ function PostCard({ post }) {
   }, [commentsToggle]);
 
   // 좋아요클릭
-  const onClickLikeBtn = useCallback(() => {
-    if (isLike) {
-      dispatch(removeLikeRequest({ PostId: post._id }));
-    } else {
-      dispatch(addLikeRequest({ PostId: post._id }));
-    }
-  }, [isLike]);
+  const onClickLikeBtn = useCallback(() => isLike ? dispatch(removeLikeRequest({ PostId: post._id })) : dispatch(addLikeRequest({ PostId: post._id })), [isLike]);
 
   // 댓글클릭
-  const onClickCommentBtn = useCallback(() => {
-    // 서버로 비동기처리할 부분
-    setCommentsToggle(prev => !prev);
-  }, []);
+  const onClickCommentBtn = useCallback(() => setCommentsToggle(prev => !prev), []);
 
   // 게시글 삭제 클릭
-  const onClickPostRemoveBtn = useCallback(() => {
-    dispatch(removePostRequest({ PostId: post._id }));
-  }, [post._id]);
+  const onClickPostRemoveBtn = useCallback(() => dispatch(removePostRequest({ PostId: post._id })), [post._id]);
 
   // 팔로우 버튼
   const getFollowBtn = useCallback(() => {
@@ -126,16 +110,10 @@ function PostCard({ post }) {
   }, [me, post.User, isFollow, isFollowLoading, isUnfollowLoading]);
 
   // 팔로우/언팔로우 버튼클릭
-  const onClickFollowBtn = useCallback(() => {
-    if (isFollow) return dispatch(unfollowRequest(post.User._id));
-    return dispatch(followRequest(post.User._id));
-  }, [post.User, isFollow]);
+  const onClickFollowBtn = useCallback(() => isFollow ? dispatch(unfollowRequest(post.User._id)) : dispatch(followRequest(post.User._id)), [post.User, isFollow]);
 
   // 리트윗버튼 클릭
-  const onClickReteew = useCallback(() => {
-    if (!me) return alert("로그인후에 접근해주세요");
-    dispatch(reteewRequest({ PostId: post._id }));
-  }, [me, post._id]);
+  const onClickReteew = useCallback(() => me ? dispatch(retweetRequest({ PostId: post._id })) : alert("로그인후에 접근해주세요"), [me, post._id]);
 
   return (
     <>
@@ -147,6 +125,7 @@ function PostCard({ post }) {
         title={post.Retweet ? `${post.User.nickname}님이 리트윗하셧습니다.` : null}
       >
         {post.RetweetId && post.Retweet ? (
+          // 리트윗한 게시글일경우
           <Card>
             <Card.Meta
               avatar={<Avatar>{post.Retweet.User.nickname[0]}</Avatar>}
@@ -156,6 +135,7 @@ function PostCard({ post }) {
             <PostImagePreview images={post.Retweet.Images} />
           </Card>
         ) : (
+          // 일반 게시글일경우
           <>
             <Card.Meta
               avatar={<Avatar>{post.User.nickname[0]}</Avatar>}

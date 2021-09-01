@@ -6,7 +6,8 @@ const { isLoggedIn, isNotLoggedIn } = require("../middleware");
 
 // 로그인 유지
 router.get("/", async (req, res) => {
-  if (!req.user) return res.send({ user: null });
+  // 로그인중인지 체크
+  if (!req.user) return res.json({ user: null });
 
   // 유저와 유저와 관련된 정보까지 모아서 찾음
   try {
@@ -22,7 +23,8 @@ router.get("/", async (req, res) => {
 
     return res.status(200).json({ result: true, user: fullUser });
   } catch (error) {
-    console.error("GET /user error >> ", error);
+    console.error("GET /user >> ", error);
+    return res.status(500).json({ result: true, error });
   }
 });
 
@@ -44,8 +46,8 @@ router.post("/", isNotLoggedIn, async (req, res) => {
     });
     return res.status(200).json({ result: true, message: "회원가입이 완료되었습니다. 메인페이지로 이동합니다" });
   } catch (error) {
-    console.error("POST /user error >> ", error);
-    return res.status(500).json({ result: false, message: error });
+    console.error("POST /user >> ", error);
+    return res.status(500).json({ result: false, message: "회원가입측 서버오류", error });
   }
 });
 
@@ -55,7 +57,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
     // 서버측 에러 ( 조건검사 도중에 에러 )
     if (error) {
       console.error("POST /user/login >> ", error);
-      return res.status(500).json({ result: false, message: error });
+      return res.status(500).json({ result: false, message: "로그인 서버측 에러", error });
     }
 
     // 클라이언트측 에러 ( 아이디 or 비밀번호 불일치 )
@@ -96,10 +98,11 @@ router.patch("/nickname/:nickname", isLoggedIn, async (req, res) => {
 
   try {
     const me = await User.findOne({ where: { _id: req.user._id } });
+    const prevNickname = me.nickname;
     await me.update({ nickname });
-    res.json({ result: true, nickname });
+    res.json({ result: true, nickname, message: `닉네임을 "${prevNickname}"에서 "${nickname}"으로 변경했습니다.` });
   } catch (error) {
-    res.json({ result: false, error });
+    res.status(500).json({ result: false, error, message: "닉네임 변경 서버측 에러" });
   }
 });
 
@@ -110,9 +113,10 @@ router.patch("/follow/:UserId", isLoggedIn, async (req, res) => {
   try {
     const me = await User.findOne({ where: { _id: req.user._id } });
     await me.addFollowings(UserId);
-    res.json({ result: true, FollowingId: +UserId });
+    const followUser = await User.findOne({ where: { _id: UserId }, attributes: ["nickname"] });
+    res.json({ result: true, FollowingId: +UserId, message: `${followUser.nickname}님을 팔로우합니다.` });
   } catch (error) {
-    res.json({ result: false, error });
+    res.status(500).json({ result: false, message: "팔로우 서버측 에러", error });
   }
 });
 
@@ -123,9 +127,10 @@ router.delete("/follow/:UserId", isLoggedIn, async (req, res) => {
   try {
     const me = await User.findOne({ where: { _id: req.user._id } });
     await me.removeFollowings(UserId);
-    res.json({ result: true, FollowingId: +UserId });
+    const unfollowUser = await User.findOne({ where: { _id: UserId }, attributes: ["nickname"] });
+    res.json({ result: true, FollowingId: +UserId, message: `${unfollowUser.nickname}님의 팔로우를 끊습니다.` });
   } catch (error) {
-    res.json({ result: false, error });
+    res.status(500).json({ result: false, message: "언팔로우 서버측 에러", error });
   }
 });
 

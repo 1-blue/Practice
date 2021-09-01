@@ -25,8 +25,15 @@ import {
 } from "../types";
 
 const initState = {
+  // 나의 정보를 넣을 변수
   me: null,
+
+  // 현재 로그인중인지 판단할 변수
   isLoggedIn: false,
+
+  // 에러났을 때 에러객체를 넣을 변수
+  error: null,
+
   // 회원가입
   isSignupLoading: false,
   isSignupDone: null,
@@ -47,8 +54,15 @@ const initState = {
   isChangeNicknameDone: null,
   isChangeNicknameError: null,
 
+  // 팔로우
   isFollowLoading: false,
+  isFollowDone: null,
+  isFollowError: null,
+
+  // 언팔로우
   isUnfollowLoading: false,
+  isUnfollowDone: null,
+  isUnfollowError: null,
 };
 
 function userReducer(prevState = initState, { type, data }) {
@@ -68,8 +82,9 @@ function userReducer(prevState = initState, { type, data }) {
     case LOAD_ME_FAILURE:
       return {
         ...prevState,
-        me: data.user,
+        me: null,
         isLoggedIn: false,
+        error: data.error,
       };
 
     // 회원가입
@@ -91,6 +106,7 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         isSignupLoading: false,
         isSignupError: data.message,
+        error: data.error,
       };
 
     // 로그인
@@ -112,6 +128,7 @@ function userReducer(prevState = initState, { type, data }) {
     case LOGIN_FAILURE:
       return {
         ...prevState,
+        me: null,
         isLoggedIn: false,
         isLogginLoading: false,
         isLogginError: data.message,
@@ -164,6 +181,7 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         isChangeNicknameLoading: false,
         isChangeNicknameError: data.message,
+        error: data.error,
       };
 
     // 유저와 게시글 관련
@@ -189,9 +207,10 @@ function userReducer(prevState = initState, { type, data }) {
       return {
         ...prevState,
         isFollowLoading: true,
+        isFollowDone: null,
+        isFollowError: null,
       };
     case FOLLOW_SUCCESS:
-      console.log("Follow success data >> ", data);
       return {
         ...prevState,
         me: {
@@ -199,17 +218,23 @@ function userReducer(prevState = initState, { type, data }) {
           Followings: [...prevState.me.Followings, { _id: data.FollowingId }],
         },
         isFollowLoading: false,
+        isFollowDone: data.message,
       };
     case FOLLOW_FAILURE:
       return {
         ...prevState,
         isFollowLoading: false,
+        isFollowError: data.message,
+        error: data.error,
       };
+
     // 언팔로우
     case UNFOLLOW_REQUEST:
       return {
         ...prevState,
         isUnfollowLoading: true,
+        isUnfollowDone: null,
+        isUnfollowError: null,
       };
     case UNFOLLOW_SUCCESS:
       return {
@@ -219,11 +244,14 @@ function userReducer(prevState = initState, { type, data }) {
           Followings: prevState.me.Followings.filter(follow => follow._id !== data.FollowingId),
         },
         isUnfollowLoading: false,
+        isUnfollowDone: data.message,
       };
     case UNFOLLOW_FAILURE:
       return {
         ...prevState,
         isUnfollowLoading: false,
+        isUnfollowError: data.message,
+        error: data.error,
       };
 
     default:

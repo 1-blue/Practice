@@ -8,5 +8,5 @@ export {
   apiAddPostLike,
   apiRemovePostLike,
   apiUploadImages,
-  apiReteew,
+  apiRetweet,
 } from "./post";

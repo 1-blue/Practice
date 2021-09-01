@@ -6,7 +6,7 @@ import {
   POST_LIKE_REQUEST,
   POST_UNLIKE_REQUEST,
   UPLOAD_IMAGES_REQUEST,
-  RETEEW_REQUEST,
+  RETWEET_REQUEST,
 } from "../types";
 
 export function loadPostRequest(data) {
@@ -57,9 +57,9 @@ export function uploadImagesRequest(data) {
   };
 }
 
-export function reteewRequest(data) {
+export function retweetRequest(data) {
   return {
-    type: RETEEW_REQUEST,
+    type: RETWEET_REQUEST,
     data,
   };
 }

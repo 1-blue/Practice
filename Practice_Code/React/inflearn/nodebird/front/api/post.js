@@ -42,6 +42,6 @@ export function apiUploadImages(images) {
 }
 
 // 리트윗
-export function apiReteew(body) {
-  return instance.post("/reteew", body);
+export function apiRetweet(body) {
+  return instance.post("/retweet", body);
 }

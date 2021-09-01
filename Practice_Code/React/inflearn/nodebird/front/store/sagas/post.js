@@ -24,9 +24,9 @@ import {
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
-  RETEEW_REQUEST,
-  RETEEW_SUCCESS,
-  RETEEW_FAILURE,
+  RETWEET_REQUEST,
+  RETWEET_SUCCESS,
+  RETWEET_FAILURE,
 } from "../types";
 
 import {
@@ -37,7 +37,7 @@ import {
   apiAddPostLike,
   apiRemovePostLike,
   apiUploadImages,
-  apiReteew,
+  apiRetweet,
 } from "../../api";
 
 // 게시글 로드
@@ -174,18 +174,18 @@ function* uploadImages(action) {
 }
 
 // 리트윗
-function* reteew(action) {
+function* retweet(action) {
   try {
-    const { data } = yield call(apiReteew, action.data);
+    const { data } = yield call(apiRetweet, action.data);
 
     yield put({
-      type: RETEEW_SUCCESS,
+      type: RETWEET_SUCCESS,
       data,
     });
   } catch (error) {
     console.error(error);
     yield put({
-      type: RETEEW_FAILURE,
+      type: RETWEET_FAILURE,
       data: error.response.data,
     });
   }
@@ -219,8 +219,8 @@ function* watchUploadImages() {
   yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 
-function* watchReteew() {
-  yield takeLatest(RETEEW_REQUEST, reteew);
+function* watchRetweet() {
+  yield takeLatest(RETWEET_REQUEST, retweet);
 }
 
 export default function* postSaga() {
@@ -232,6 +232,6 @@ export default function* postSaga() {
     fork(watchAddPostLike),
     fork(watchRemovePostLike),
     fork(watchUploadImages),
-    fork(watchReteew),
+    fork(watchRetweet),
   ]);
 }
