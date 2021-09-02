@@ -1,4 +1,4 @@
-import { all, call, fork, put, takeLatest, delay } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 
 import {
   LOAD_ME_REQUEST,
@@ -42,9 +42,10 @@ function* loadMe() {
       });
     }
   } catch (error) {
+    console.error("error >> ", error);
     yield put({
       type: LOAD_ME_FAILURE,
-      data: error.response.data,
+      data: null, //error.response.data,
     });
   }
 }

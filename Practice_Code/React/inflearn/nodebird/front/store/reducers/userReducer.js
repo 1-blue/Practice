@@ -31,9 +31,6 @@ const initState = {
   // 현재 로그인중인지 판단할 변수
   isLoggedIn: false,
 
-  // 에러났을 때 에러객체를 넣을 변수
-  error: null,
-
   // 회원가입
   isSignupLoading: false,
   isSignupDone: null,
@@ -84,7 +81,6 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         me: null,
         isLoggedIn: false,
-        error: data.error,
       };
 
     // 회원가입
@@ -106,7 +102,6 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         isSignupLoading: false,
         isSignupError: data.message,
-        error: data.error,
       };
 
     // 로그인
@@ -181,7 +176,6 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         isChangeNicknameLoading: false,
         isChangeNicknameError: data.message,
-        error: data.error,
       };
 
     // 유저와 게시글 관련
@@ -225,7 +219,6 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         isFollowLoading: false,
         isFollowError: data.message,
-        error: data.error,
       };
 
     // 언팔로우
@@ -251,7 +244,6 @@ function userReducer(prevState = initState, { type, data }) {
         ...prevState,
         isUnfollowLoading: false,
         isUnfollowError: data.message,
-        error: data.error,
       };
 
     default:

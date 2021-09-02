@@ -1,7 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Head from "next/head";
-import Router from "next/router";
+// import Router from "next/router";
+
+import { loadMeRequest } from "../store/actions";
+
+import wrapper from "../store/configureStore";
+import { END } from "redux-saga";
+import { userInstance } from "../api";
 
 // component
 import AppLayout from "../components/common/AppLayout";
@@ -11,10 +17,10 @@ import FollowList from "../components/common/FollowList";
 const Profile = () => {
   const { me } = useSelector(state => state.userReducer);
 
-  if (!me) {
-    alert("로그인후에 접근해주세요!");
-    Router.push("/");
-  }
+  // if (!me) {
+  //   alert("로그인후에 접근해주세요!");
+  //   Router.push("/");
+  // }
 
   return (
     <>
@@ -38,5 +44,18 @@ const Profile = () => {
     </>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ req, res, ...etc }) => {
+  const cookie = req ? req.headers.cookie : "";
+  userInstance.defaults.headers.Cookie = cookie;
+
+  // 로그인유지
+  store.dispatch(loadMeRequest());
+
+  store.dispatch(END);
+  await store.sagaTask.toPromise();
+
+  userInstance.defaults.headers.Cookie = "";
+});
 
 export default Profile;

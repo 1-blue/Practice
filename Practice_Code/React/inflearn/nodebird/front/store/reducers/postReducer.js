@@ -32,9 +32,6 @@ const initState = {
   // 이미지 업로드시 이미지 프리뷰보여주기위한 이미지경로 임시저장변수
   imagePaths: [],
 
-  // 에러메시지 넣을 변수
-  error: null,
-
   // 게시글 로드 개수제한
   isHasMorePost: true,
 
@@ -108,7 +105,6 @@ function postReducer(prevState = initState, { type, data }) {
         ...prevState,
         isLoadPostLoading: false,
         isLoadPostError: data.message,
-        error: data.error,
       };
 
     // 게시글추가
@@ -134,7 +130,6 @@ function postReducer(prevState = initState, { type, data }) {
         ...prevState,
         isAddPostLoading: false,
         isAddPostError: data.message,
-        error: data.error,
       };
 
     // 게시글 삭제
@@ -160,7 +155,6 @@ function postReducer(prevState = initState, { type, data }) {
         ...prevState,
         isRemovePostLoading: false,
         isAddPostError: data.message,
-        error: data.error,
       };
 
     // 댓글추가
@@ -226,7 +220,6 @@ function postReducer(prevState = initState, { type, data }) {
         ...prevState,
         isPostLikeLoading: true,
         isPostLikeError: data.message,
-        error: data.error,
       };
 
     // 좋아요 삭제
@@ -260,7 +253,6 @@ function postReducer(prevState = initState, { type, data }) {
         ...prevState,
         isPostUnlikeLoading: true,
         isPostUnlikeError: data.message,
-        error: data.error,
       };
 
     // 이미지 업로드
@@ -305,7 +297,6 @@ function postReducer(prevState = initState, { type, data }) {
         ...prevState,
         isRetweetLoading: false,
         isRetweetError: data.message,
-        error: data.error,
       };
 
     default:

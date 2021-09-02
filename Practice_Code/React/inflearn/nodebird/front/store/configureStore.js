@@ -19,7 +19,7 @@ const configureStore = () => {
   // store생성
   const store = createStore(reducer, enhancer);
 
-  // saga실행(?)
+  // SSR적용할 때 SUCCESS기다리게 해주는데 사용
   store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };

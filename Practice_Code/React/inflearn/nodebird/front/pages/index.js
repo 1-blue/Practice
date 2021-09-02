@@ -3,7 +3,11 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Head from "next/head";
 
+import wrapper from "../store/configureStore";
+import { END } from "redux-saga"
+
 import { loadPostRequest, loadMeRequest } from "../store/actions";
+import { userInstance } from "../api"
 
 // component
 import AppLayout from "../components/common/AppLayout";
@@ -32,16 +36,6 @@ const Home = () => {
   useEffect(() => (isPostUnlikeDone ? alert(isPostUnlikeDone) : null), [isPostUnlikeDone]);
   useEffect(() => (isRetweetDone ? alert(isRetweetDone) : null), [isRetweetDone]);
   useEffect(() => (isRetweetError ? alert(isRetweetError) : null), [isRetweetError]);
-
-  // 로그인유지
-  useEffect(() => {
-    dispatch(loadMeRequest());
-  }, []);
-
-  // 최초 게시글 로드
-  useEffect(() => {
-    dispatch(loadPostRequest({ lastId: 0 }));
-  }, []);
 
   // 무한 스크롤링처리
   useEffect(() => {
@@ -72,11 +66,39 @@ const Home = () => {
       <AppLayout>
         {isLoggedIn && <PostForm />}
         {mainPosts.map(post => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post._id} post={post} />
         ))}
       </AppLayout>
     </>
   );
 };
+
+// 서버 사이드 랜더링 적용 ( 화면에 필요한 데이터를 서버측에서 미리 redux로 불러와서 적용시킨후 완성된 html을 클라이언트로 전달 )
+// 이부분이 Home컴포넌트보다 먼저 실행됨
+// 첫번째 인수인 store은 configureStore.js에서 wrapper에 넣어준 store과 같음
+// 두번째 req, res는 전달값, 전송값(?)이 들어가 있음
+export const getServerSideProps = wrapper.getServerSideProps(
+  store => 
+  async ({req, res, ...etc}) => {
+    // front-server와 backend-server가 서로 다르기때문에 쿠키를 직접 넣어줌
+    let cookie = req?.headers?.cookie;
+    cookie = cookie ? cookie : "";
+    userInstance.defaults.headers.Cookie = cookie;
+
+    // 로그인유지
+    store.dispatch(loadMeRequest());
+    
+    // 최초 게시글 로드
+    store.dispatch(loadPostRequest({ lastId: 0 }));
+
+    // 위 두개의 dispatch()가 호출되고나서 HYDRATE에 결과가 전달됨
+  
+    // 밑에 두개는 REQUEST이후 SUCCESS가 될 때 까지 기다려주게 해주는 코드
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
+
+    userInstance.defaults.headers.Cookie = "";
+  }
+);
 
 export default Home;
